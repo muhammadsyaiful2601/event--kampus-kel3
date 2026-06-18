@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <p>Apo yang akan di ambiak</p>
+    <p>Hello, World!</p>
 </body>
 
 </html>
