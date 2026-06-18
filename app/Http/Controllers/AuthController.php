@@ -59,4 +59,9 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('status', 'Akun berhasil dibuat. Silakan login.');
     }
+
+    public function showForgotPassword()
+    {
+        return view('auth.lupa_password');
+    }
 }
