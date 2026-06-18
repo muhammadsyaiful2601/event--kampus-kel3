@@ -32,8 +32,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            }
 
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/peserta/dashboard');
         }
 
 
@@ -55,6 +58,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'role' => 'peserta',
         ]);
 
         return redirect()->route('login')->with('status', 'Akun berhasil dibuat. Silakan login.');

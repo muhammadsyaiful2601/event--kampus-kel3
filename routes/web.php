@@ -17,3 +17,13 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/lupa_password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('dashboard_admin.index');
+    })->name('admin.dashboard');
+
+    Route::get('/peserta/dashboard', function () {
+        return view('dashboard_peserta.index');
+    })->name('peserta.dashboard');
+});
