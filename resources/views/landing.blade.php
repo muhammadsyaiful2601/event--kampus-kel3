@@ -61,39 +61,179 @@
     </div>
 
     <div class="container my-5">
-        <h2 class="text-center mb-5 fw-bold">Event Mendatang</h2>
-        <div class="row g-4">
-            @forelse($events as $event)
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <h2 class="text-center mb-5 fw-bold">Event Sedang Berlangsung</h2>
+        <div class="row g-4 mb-5">
+            @forelse($ongoingEvents as $event)
                 <div class="col-md-4">
-                    <div class="card h-100 event-card shadow-sm border-0">
-                        <img src="{{ $event->image ?? 'https://source.unsplash.com/random/800x600/?event' }}" class="card-img-top" alt="{{ $event->title }}">
+                    <div class="card h-100 event-card shadow-sm border-0 border-top border-4 border-primary">
+                        <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://source.unsplash.com/random/800x600/?event' }}" class="card-img-top" alt="{{ $event->title }}" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-primary">Berlangsung</span>
+                                <span class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
+                                <span class="badge bg-label-primary">Kuota: {{ $event->quota ?? 'Unlimited' }}</span>
+                            </div>
                             <h5 class="card-title fw-bold">{{ $event->title }}</h5>
                             <p class="card-text text-muted small"><i class='bx bx-calendar'></i> {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}</p>
                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-label-primary">Kuota: {{ $event->quota ?? 'Unlimited' }}</span>
-                                @auth
-                                    <form action="{{ route('events.register', $event->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-premium">Daftar</button>
-                                    </form>
-                                @else
-                                    <a href="{{ route('login') }}" class="btn btn-premium">Login untuk Daftar</a>
-                                @endauth
+                                <span class="text-muted small italic">Pendaftaran ditutup untuk event yang sedang berlangsung</span>
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col-12 text-center">
-                    <p class="text-muted">Belum ada event tersedia.</p>
+                    <p class="text-muted">Tidak ada event yang sedang berlangsung.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <h2 class="text-center mb-5 fw-bold">Event Mendatang</h2>
+        <div class="row g-4">
+            @forelse($upcomingEvents as $event)
+                <div class="col-md-4">
+                    <div class="card h-100 event-card shadow-sm border-0">
+                        <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://source.unsplash.com/random/800x600/?event' }}" class="card-img-top" alt="{{ $event->title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-label-secondary">Mendatang</span>
+                                <span class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
+                                <span class="badge bg-label-primary">Kuota: {{ $event->quota ?? 'Unlimited' }}</span>
+                            </div>
+                            <h5 class="card-title fw-bold">{{ $event->title }}</h5>
+                            <p class="card-text text-muted small"><i class='bx bx-calendar'></i> {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}</p>
+                            <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                @if(!$event->is_registration_open)
+                                    <span class="badge bg-secondary">Pendaftaran Ditutup</span>
+                                @elseif($event->is_full)
+                                    <span class="badge bg-danger">Penuh</span>
+                                @else
+                                    @auth
+                                        <button type="button" 
+                                            class="btn btn-premium register-btn" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#registrationModal"
+                                            data-event-id="{{ $event->id }}"
+                                            data-event-title="{{ $event->title }}"
+                                            data-event-type="{{ $event->type }}"
+                                            data-url="{{ route('events.register', $event->id) }}">
+                                            Daftar
+                                        </button>
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-premium">Login untuk Daftar</a>
+                                    @endauth
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">Belum ada event mendatang.</p>
                 </div>
             @endforelse
         </div>
     </div>
 
     @include('components.footer')
+
+    <!-- Registration Modal -->
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="registrationForm" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registrationModalLabel">Daftar Event</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="eventTitleDisplay" class="fw-bold mb-3"></p>
+                        
+                        <div id="teamFields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="team_name" class="form-label">Nama Tim <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="team_name" name="team_name" placeholder="Masukkan nama tim">
+                            </div>
+                            <div class="mb-3">
+                                <label for="substitutes" class="form-label">Cadangan (Opsional)</label>
+                                <textarea class="form-control" id="substitutes" name="substitutes" rows="3" placeholder="Nama-nama pemain cadangan"></textarea>
+                                <div class="form-text">Pisahkan dengan koma atau baris baru.</div>
+                            </div>
+                        </div>
+
+                        <p id="confirmationText">Apakah kamu yakin ingin mendaftar di event ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-premium">Konfirmasi Pendaftaran</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @include('components.scripts')
+    
+    <script>
+        $(document).ready(function() {
+            var registrationModal = document.getElementById('registrationModal');
+            registrationModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var eventId = button.getAttribute('data-event-id');
+                var eventTitle = button.getAttribute('data-event-title');
+                var eventType = button.getAttribute('data-event-type');
+                var url = button.getAttribute('data-url');
+
+                var modalTitle = registrationModal.querySelector('.modal-title');
+                var eventTitleDisplay = registrationModal.querySelector('#eventTitleDisplay');
+                var form = registrationModal.querySelector('#registrationForm');
+                var teamFields = registrationModal.querySelector('#teamFields');
+                var teamNameInput = registrationModal.querySelector('#team_name');
+                var confirmationText = registrationModal.querySelector('#confirmationText');
+
+                modalTitle.textContent = 'Daftar ' + (eventType.charAt(0).toUpperCase() + eventType.slice(1)) + ' Event';
+                eventTitleDisplay.textContent = eventTitle;
+                form.setAttribute('action', url);
+
+                if (eventType === 'tim') {
+                    teamFields.style.display = 'block';
+                    teamNameInput.setAttribute('required', 'required');
+                    confirmationText.style.display = 'none';
+                } else {
+                    teamFields.style.display = 'none';
+                    teamNameInput.removeAttribute('required');
+                    confirmationText.style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

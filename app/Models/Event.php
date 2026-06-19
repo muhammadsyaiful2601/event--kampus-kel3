@@ -13,10 +13,21 @@ class Event extends Model
         'location',
         'image',
         'quota',
+        'status',
+        'type',
+        'is_registration_open',
     ];
 
     public function registrations()
     {
         return $this->hasMany(Registration::class);
+    }
+
+    public function getIsFullAttribute()
+    {
+        if (!$this->quota) {
+            return false;
+        }
+        return $this->registrations()->count() >= $this->quota;
     }
 }
