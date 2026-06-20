@@ -6,7 +6,7 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                , made with ❤️
+                , made By kelompok 3
             </div>
         </div>
     </div>

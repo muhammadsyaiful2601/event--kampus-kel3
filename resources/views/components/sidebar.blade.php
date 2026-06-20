@@ -12,7 +12,7 @@
             <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('peserta.dashboard') }}"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
+                <div data-i18n="Analytics">{{ __('messages.dashboard') }}</div>
             </a>
         </li>
 
@@ -20,17 +20,39 @@
             <li class="menu-item {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.events.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-calendar-event"></i>
-                    <div data-i18n="Layouts">Manajemen Event</div>
+                    <div data-i18n="Layouts">{{ __('messages.event_management') }}</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.registrations.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user-check"></i>
+                    <div data-i18n="Layouts">{{ __('messages.registration_verification') }}</div>
                 </a>
             </li>
             <li class="menu-item {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.admins.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-user-check"></i>
-                    <div data-i18n="Layouts">Manajemen Admin</div>
+                    <div data-i18n="Layouts">{{ __('messages.admin_management') }}</div>
                 </a>
             </li>
         @endif
 
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">{{ __('messages.select_language') }}</span>
+        </li>
+        <li class="menu-item {{ app()->getLocale() == 'id' ? 'active' : '' }}">
+            <a href="{{ route('lang.switch', 'id') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-globe"></i>
+                <div>Bahasa Indonesia</div>
+            </a>
+        </li>
+        <li class="menu-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
+            <a href="{{ route('lang.switch', 'en') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-globe"></i>
+                <div>English</div>
+            </a>
+        </li>
 
         <li class="menu-item">
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -39,7 +61,7 @@
             <a href="javascript:void(0);" class="menu-link"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
-                <div>Logout</div>
+                <div>{{ __('messages.logout') }}</div>
             </a>
         </li>
 

@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/"
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide" data-assets-path="../assets/"
     data-template="vertical-menu-template-free">
 
 <head>
@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Halaman pendaftaran</title>
+    <title>{{ __('messages.landing_title') }} | {{ __('messages.register') }}</title>
 
     <meta name="description" content="" />
 
@@ -57,6 +57,11 @@
                 <!-- Register Card -->
                 <div class="card px-sm-6 px-0">
                     <div class="card-body">
+                        <div class="text-end mb-2">
+                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}" class="text-decoration-none small">
+                                <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
+                            </a>
+                        </div>
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-6">
 
@@ -69,7 +74,7 @@
                             @csrf
 
                             <div class="mb-6">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">{{ __('messages.name') }}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                     id="name" name="name" value="{{ old('name') }}"
                                     placeholder="Enter your name" autofocus />
@@ -79,7 +84,7 @@
                             </div>
 
                             <div class="mb-6">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">{{ __('messages.email') }}</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email" value="{{ old('email') }}"
                                     placeholder="Enter your email" />
@@ -89,7 +94,7 @@
                             </div>
 
                             <div class="form-password-toggle">
-                                <label class="form-label" for="password">Password</label>
+                                <label class="form-label" for="password">{{ __('messages.password') }}</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
@@ -103,17 +108,17 @@
                             </div>
 
                             <div class="mb-6">
-                                <label class="form-label" for="password_confirmation">Confirm Password</label>
+                                <label class="form-label" for="password_confirmation">{{ __('messages.confirm_password') }}</label>
                                 <input type="password" id="password_confirmation" class="form-control"
                                     name="password_confirmation" placeholder="Repeat your password" />
                             </div>
-                            <button class="btn btn-primary d-grid w-100">Sign up</button>
+                            <button class="btn btn-primary d-grid w-100">{{ __('messages.sign_up') }}</button>
                         </form>
 
                         <p class="text-center">
-                            <span>Already have an account?</span>
+                            <span>{{ __('messages.already_have_account') }}</span>
                             <a href="{{ route('login') }}">
-                                <span>Login here</span>
+                                <span>{{ __('messages.login_here') }}</span>
                             </a>
                         </p>
                     </div>

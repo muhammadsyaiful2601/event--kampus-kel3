@@ -25,6 +25,33 @@ class EventController extends Controller
         return view('dashboard_admin.events.index', compact('events'));
     }
 
+    // Admin registration list
+    public function adminRegistrations()
+    {
+        $registrations = Registration::with(['user', 'event'])->latest()->get();
+        return view('dashboard_admin.registrations.index', compact('registrations'));
+    }
+
+    // Admin verify registration
+    public function verifyRegistration(Request $request, Registration $registration)
+    {
+        $request->validate([
+            'status' => 'required|in:verified,rejected',
+        ]);
+
+        $registration->update([
+            'status' => $request->status,
+        ]);
+
+        if ($request->status === 'verified') {
+            // Send email to participant
+            \Illuminate\Support\Facades\Mail::to($registration->user->email)
+                ->send(new \App\Mail\RegistrationVerifiedMail($registration));
+        }
+
+        return back()->with('success', 'Status pendaftaran berhasil diperbarui.');
+    }
+
     public function show(Event $event)
     {
         return view('events.show', compact('event'));

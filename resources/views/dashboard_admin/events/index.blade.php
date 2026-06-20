@@ -12,10 +12,10 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="fw-bold py-3 mb-0">Manajemen Event</h4>
+                            <h4 class="fw-bold py-3 mb-0">{{ __('messages.event_management') }}</h4>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addEventModal">
-                                Tambah Event
+                                {{ __('messages.add_event') }}
                             </button>
                         </div>
 
@@ -24,16 +24,16 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Gambar</th>
-                                            <th>Judul</th>
-                                            <th>Tanggal</th>
-                                            <th>Lokasi</th>
-                                            <th>Kuota</th>
-                                            <th>Sisa</th>
-                                            <th>Status</th>
-                                            <th>Tipe</th>
-                                            <th>Pendaftaran</th>
-                                            <th>Aksi</th>
+                                            <th>{{ __('messages.image') }}</th>
+                                            <th>{{ __('messages.event_title') }}</th>
+                                            <th>{{ __('messages.date') }}</th>
+                                            <th>{{ __('messages.location') }}</th>
+                                            <th>{{ __('messages.quota') }}</th>
+                                            <th>{{ __('messages.remaining') }}</th>
+                                            <th>{{ __('messages.status') }}</th>
+                                            <th>{{ __('messages.type') }}</th>
+                                            <th>{{ __('messages.registration') }}</th>
+                                            <th>{{ __('messages.action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -55,9 +55,9 @@
                                                 </td>
                                                 <td>
                                                     @if($event->status === 'berlangsung')
-                                                        <span class="badge bg-primary">Berlangsung</span>
+                                                        <span class="badge bg-primary">{{ __('messages.ongoing') }}</span>
                                                     @else
-                                                        <span class="badge bg-secondary">Mendatang</span>
+                                                        <span class="badge bg-secondary">{{ __('messages.upcoming') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -65,9 +65,9 @@
                                                 </td>
                                                 <td>
                                                     @if($event->is_registration_open)
-                                                        <span class="badge bg-success">Terbuka</span>
+                                                        <span class="badge bg-success">{{ __('messages.open') }}</span>
                                                     @else
-                                                        <span class="badge bg-danger">Tertutup</span>
+                                                        <span class="badge bg-danger">{{ __('messages.closed') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -79,15 +79,15 @@
                                                         <div class="dropdown-menu">
                                                             <button class="dropdown-item" data-bs-toggle="modal"
                                                                 data-bs-target="#editEventModal{{ $event->id }}">
-                                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                                                <i class="bx bx-edit-alt me-1"></i> {{ __('messages.edit') }}
                                                             </button>
                                                             <form action="{{ route('admin.events.destroy', $event->id) }}"
                                                                 method="POST"
-                                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?')">
+                                                                onsubmit="return confirm('{{ __('messages.delete_confirm') }}')">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="dropdown-item text-danger">
-                                                                    <i class="bx bx-trash me-1"></i> Delete
+                                                                    <i class="bx bx-trash me-1"></i> {{ __('messages.delete') }}
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -104,7 +104,7 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title">Edit Event</h5>
+                                                                        <h5 class="modal-title">{{ __('messages.edit') }} Event</h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Close"></button>
@@ -113,7 +113,7 @@
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="title{{ $event->id }}"
-                                                                                    class="form-label">Judul Event</label>
+                                                                                    class="form-label">{{ __('messages.event_title') }}</label>
                                                                                 <input type="text"
                                                                                     id="title{{ $event->id }}" name="title"
                                                                                     class="form-control"
@@ -123,7 +123,7 @@
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="date{{ $event->id }}"
-                                                                                    class="form-label">Tanggal</label>
+                                                                                    class="form-label">{{ __('messages.date') }}</label>
                                                                                 <input type="date" id="date{{ $event->id }}"
                                                                                     name="date" class="form-control"
                                                                                     value="{{ $event->date }}" required>
@@ -132,7 +132,7 @@
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="location{{ $event->id }}"
-                                                                                    class="form-label">Lokasi</label>
+                                                                                    class="form-label">{{ __('messages.location') }}</label>
                                                                                 <input type="text"
                                                                                     id="location{{ $event->id }}"
                                                                                     name="location" class="form-control"
@@ -142,20 +142,19 @@
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="status{{ $event->id }}"
-                                                                                    class="form-label">Status</label>
+                                                                                    class="form-label">{{ __('messages.status') }}</label>
                                                                                 <select id="status{{ $event->id }}"
                                                                                     name="status" class="form-select"
                                                                                     required>
-                                                                                    <option value="berlangsung" {{ $event->status === 'berlangsung' ? 'selected' : '' }}>Sedang
-                                                                                        Berlangsung</option>
-                                                                                    <option value="mendatang" {{ $event->status === 'mendatang' ? 'selected' : '' }}>Akan Datang
+                                                                                    <option value="berlangsung" {{ $event->status === 'berlangsung' ? 'selected' : '' }}>{{ __('messages.ongoing') }}</option>
+                                                                                    <option value="mendatang" {{ $event->status === 'mendatang' ? 'selected' : '' }}>{{ __('messages.upcoming') }}
                                                                                     </option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
-                                                                                <label for="type{{ $event->id }}" class="form-label">Tipe Event</label>
+                                                                                <label for="type{{ $event->id }}" class="form-label">{{ __('messages.type') }}</label>
                                                                                 <select id="type{{ $event->id }}" name="type" class="form-select" required>
                                                                                     <option value="solo" {{ $event->type === 'solo' ? 'selected' : '' }}>Solo</option>
                                                                                     <option value="duo" {{ $event->type === 'duo' ? 'selected' : '' }}>Duo</option>
@@ -165,17 +164,17 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
-                                                                                <label for="reg_status{{ $event->id }}" class="form-label">Status Pendaftaran</label>
+                                                                                <label for="reg_status{{ $event->id }}" class="form-label">{{ __('messages.registration') }}</label>
                                                                                 <select id="reg_status{{ $event->id }}" name="is_registration_open" class="form-select" required>
-                                                                                    <option value="1" {{ $event->is_registration_open ? 'selected' : '' }}>Buka</option>
-                                                                                    <option value="0" {{ !$event->is_registration_open ? 'selected' : '' }}>Tutup</option>
+                                                                                    <option value="1" {{ $event->is_registration_open ? 'selected' : '' }}>{{ __('messages.open') }}</option>
+                                                                                    <option value="0" {{ !$event->is_registration_open ? 'selected' : '' }}>{{ __('messages.closed') }}</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="quota{{ $event->id }}"
-                                                                                    class="form-label">Kuota</label>
+                                                                                    class="form-label">{{ __('messages.quota') }}</label>
                                                                                 <input type="number"
                                                                                     id="quota{{ $event->id }}" name="quota"
                                                                                     class="form-control"
@@ -185,19 +184,18 @@
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="image{{ $event->id }}"
-                                                                                    class="form-label">Foto
-                                                                                    (Opsional)</label>
+                                                                                    class="form-label">{{ __('messages.image') }}
+                                                                                    ({{ __('messages.optional') }})</label>
                                                                                 <input type="file"
                                                                                     id="image{{ $event->id }}" name="image"
                                                                                     class="form-control">
-                                                                                <small class="text-muted">Biarkan kosong
-                                                                                    jika tidak ingin mengubah foto.</small>
+                                                                                <small class="text-muted">{{ __('messages.leave_blank_if_no_change') }}</small>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="description{{ $event->id }}"
-                                                                                    class="form-label">Deskripsi</label>
+                                                                                    class="form-label">{{ __('messages.description') }}</label>
                                                                                 <textarea id="description{{ $event->id }}"
                                                                                     name="description" class="form-control"
                                                                                     rows="3"
@@ -208,9 +206,8 @@
                                                                     <div class="modal-footer">
                                                                         <button type="button"
                                                                             class="btn btn-outline-secondary"
-                                                                            data-bs-dismiss="modal">Batal</button>
-                                                                        <button type="submit" class="btn btn-primary">Simpan
-                                                                            Perubahan</button>
+                                                                            data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                                                                        <button type="submit" class="btn btn-primary">{{ __('messages.save_changes') }}</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -220,7 +217,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="8" class="text-center">Belum ada event.</td>
+                                                <td colspan="10" class="text-center">{{ __('messages.no_events') }}</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -237,43 +234,43 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Tambah Event Baru</h5>
+                                        <h5 class="modal-title">{{ __('messages.add_new_event') }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="title" class="form-label">Judul Event</label>
+                                                <label for="title" class="form-label">{{ __('messages.event_title') }}</label>
                                                 <input type="text" id="title" name="title" class="form-control"
                                                     required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="date" class="form-label">Tanggal</label>
+                                                <label for="date" class="form-label">{{ __('messages.date') }}</label>
                                                 <input type="date" id="date" name="date" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="location" class="form-label">Lokasi</label>
+                                                <label for="location" class="form-label">{{ __('messages.location') }}</label>
                                                 <input type="text" id="location" name="location" class="form-control"
                                                     required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="status" class="form-label">Status</label>
+                                                <label for="status" class="form-label">{{ __('messages.status') }}</label>
                                                 <select id="status" name="status" class="form-select" required>
-                                                    <option value="mendatang" selected>Akan Datang</option>
-                                                    <option value="berlangsung">Sedang Berlangsung</option>
+                                                    <option value="mendatang" selected>{{ __('messages.upcoming') }}</option>
+                                                    <option value="berlangsung">{{ __('messages.ongoing') }}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="type" class="form-label">Tipe Event</label>
+                                                <label for="type" class="form-label">{{ __('messages.type') }}</label>
                                                 <select id="type" name="type" class="form-select" required>
                                                     <option value="solo" selected>Solo</option>
                                                     <option value="duo">Duo</option>
@@ -283,28 +280,28 @@
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="is_registration_open" class="form-label">Status Pendaftaran</label>
+                                                <label for="is_registration_open" class="form-label">{{ __('messages.registration') }}</label>
                                                 <select id="is_registration_open" name="is_registration_open" class="form-select" required>
-                                                    <option value="1" selected>Buka</option>
-                                                    <option value="0">Tutup</option>
+                                                    <option value="1" selected>{{ __('messages.open') }}</option>
+                                                    <option value="0">{{ __('messages.closed') }}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="quota" class="form-label">Kuota</label>
+                                                <label for="quota" class="form-label">{{ __('messages.quota') }}</label>
                                                 <input type="number" id="quota" name="quota" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="image" class="form-label">Foto (Opsional)</label>
+                                                <label for="image" class="form-label">{{ __('messages.image') }} ({{ __('messages.optional') }})</label>
                                                 <input type="file" id="image" name="image" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="description" class="form-label">Deskripsi</label>
+                                                <label for="description" class="form-label">{{ __('messages.description') }}</label>
                                                 <textarea id="description" name="description" class="form-control"
                                                     rows="3" required></textarea>
                                             </div>
@@ -312,8 +309,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                            data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('messages.save') }}</button>
                                     </div>
                                 </form>
                             </div>

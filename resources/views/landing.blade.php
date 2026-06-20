@@ -2,7 +2,7 @@
 <html lang="en">
 @include('components.header')
 <head>
-    <title>Event Kampus - Landing Page</title>
+    <title>{{ __('messages.landing_title') }} - Landing Page</title>
     <style>
         .hero-section {
             background: linear_gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/random/1600x900/?campus,event');
@@ -30,7 +30,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">Event Kampus</a>
+            <a class="navbar-brand fw-bold" href="#">{{ __('messages.landing_title') }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,16 +38,25 @@
                 <ul class="navbar-nav ms-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('peserta.dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('peserta.dashboard') }}">{{ __('messages.dashboard') }}</a>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('messages.login') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('messages.register') }}</a>
                         </li>
                     @endauth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class='bx bx-globe'></i> {{ strtoupper(app()->getLocale()) }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-menu-item {{ app()->getLocale() == 'id' ? 'active' : '' }}" href="{{ route('lang.switch', 'id') }}" style="padding: 0.5rem 1rem; display: block; text-decoration: none; color: inherit;">Bahasa Indonesia</a></li>
+                            <li><a class="dropdown-menu-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="{{ route('lang.switch', 'en') }}" style="padding: 0.5rem 1rem; display: block; text-decoration: none; color: inherit;">English</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -55,7 +64,7 @@
 
     <div class="hero-section">
         <div class="container">
-            <h1 class="display-3 fw-bold">Temukan Event Kampus Seru!</h1>
+            <h1 class="display-3 fw-bold">{{ __('messages.welcome') }}</h1>
             <p class="lead">Jelajahi berbagai kegiatan menarik dan tingkatkan skill kamu di sini.</p>
         </div>
     </div>

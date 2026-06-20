@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/"
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide" data-assets-path="../assets/"
     data-template="vertical-menu-template-free">
 
 <head>
@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Event kampus</title>
+    <title>{{ __('messages.landing_title') }} | {{ __('messages.login') }}</title>
 
     <meta name="description" content="" />
 
@@ -58,6 +58,11 @@
                 <!-- Register -->
                 <div class="card px-sm-6 px-0">
                     <div class="card-body">
+                        <div class="text-end mb-2">
+                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}" class="text-decoration-none small">
+                                <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
+                            </a>
+                        </div>
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
                             <defs>
@@ -105,55 +110,59 @@
                             <span class="app-brand-text demo text-heading fw-bold">Event Kampus</span>
                             </a>
                         </div>
-
-                        <form id="formAuthentication" class="mb-6" method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ old('email') }}"
-                                    placeholder="Enter your email" autofocus />
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-6 form-password-toggle">
-                                <label class="form-label" for="password">Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i
-                                            class="icon-base bx bx-hide"></i></span>
-                                </div>
-                                @error('password')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-8">
-                                <div class="d-flex justify-content-between">
-                                    <a href="{{ route('forgot-password') }}">
-                                        <span>Forgot Password?</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
-                            </div>
-                        </form>
-
-                        <p class="text-center">
-                            <span>New on our platform?</span>
-                            <a href="{{ route('register') }}">
-                                <span>Create an account</span>
-                            </a>
-                        </p>
                     </div>
+
+                    <form id="formAuthentication" class="mb-6" method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="mb-6">
+                            <label for="email" class="form-label">{{ __('messages.email') }}</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus />
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-6 form-password-toggle">
+                            <label class="form-label" for="password">{{ __('messages.password') }}</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i
+                                        class="icon-base bx bx-hide"></i></span>
+                            </div>
+                            @error('password')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-8">
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ route('forgot-password') }}">
+                                    <span>{{ __('messages.forgot_password') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <button class="btn btn-primary d-grid w-100" type="submit">{{ __('messages.login') }}</button>
+                        </div>
+                        <a href="{{ url('/') }}" class="btn btn-secondary mb-3"
+                            style="display: block; text-align: center;">
+                            <i class="icon-base bx bx-chevron-left"></i> {{ __('messages.back') }}
+                        </a>
+                    </form>
+
+                    <p class="text-center">
+                        <span>{{ __('messages.new_on_platform') }}</span>
+                        <a href="{{ route('register') }}">
+                            <span>{{ __('messages.create_account') }}</span>
+                        </a>
+                    </p>
                 </div>
-                <!-- /Register -->
             </div>
+
         </div>
+    </div>
     </div>
 
     <!-- / Content -->

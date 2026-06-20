@@ -20,8 +20,8 @@
                         {{-- Isi Konten Halaman Mulai di Sini --}}
                         <div class="card">
                             <div class="card-body">
-                                <h5>Halaman Depan</h5>
-                                <p>Tempat konten dashboard utama kamu.</p>
+                                <h5>{{ __('messages.home_page') }}</h5>
+                                <p>{{ __('messages.dashboard_home_desc') }}</p>
                             </div>
                         </div>
                         {{-- Batas Akhir Konten Halaman --}}
