@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengguna', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('registrations', function (Blueprint $table) {
+            $table->string('team_name')->nullable()->after('event_id');
+            $table->text('substitutes')->nullable()->after('team_name');
         });
     }
 
@@ -22,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengguna');
+        Schema::table('registrations', function (Blueprint $table) {
+            $table->dropColumn(['team_name', 'substitutes']);
+        });
     }
 };
