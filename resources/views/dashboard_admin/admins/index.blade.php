@@ -13,7 +13,8 @@
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="fw-bold py-3 mb-0">Manajemen Admin</h4>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAdminModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addAdminModal">
                                 Tambah Admin
                             </button>
                         </div>
@@ -48,10 +49,13 @@
                                             <tr>
                                                 <td><strong>{{ $admin->name }}</strong></td>
                                                 <td>{{ $admin->email }}</td>
-                                                <td><span class="badge bg-label-primary">{{ ucfirst($admin->role) }}</span></td>
+                                                <td><span class="badge bg-label-primary">{{ ucfirst($admin->role) }}</span>
+                                                </td>
                                                 <td>
                                                     @if(auth()->id() === $admin->id)
-                                                        <form action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun Anda sendiri? Anda akan otomatis logout.')">
+                                                        <form action="{{ route('admin.admins.destroy', $admin->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun Anda sendiri? Anda akan otomatis logout.')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-sm btn-danger">
@@ -78,7 +82,8 @@
                                     @csrf
                                     <div class="modal-header">
                                         <h5 class="modal-title">Tambah Admin Baru</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -90,24 +95,30 @@
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="email" id="email" name="email" class="form-control" required>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" id="password" name="password" class="form-control" required minlength="8">
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control" required minlength="8">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required minlength="8">
+                                                <label for="password_confirmation" class="form-label">Konfirmasi
+                                                    Password</label>
+                                                <input type="password" id="password_confirmation"
+                                                    name="password_confirmation" class="form-control" required
+                                                    minlength="8">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
@@ -123,4 +134,5 @@
     </div>
     @include('components.scripts')
 </body>
+
 </html>
