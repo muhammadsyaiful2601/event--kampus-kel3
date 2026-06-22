@@ -1,7 +1,7 @@
 <!doctype html>
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide" data-assets-path="../assets/"
-    data-template="vertical-menu-template-free">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide"
+    data-assets-path="../assets/" data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
@@ -58,7 +58,8 @@
                 <div class="card px-sm-6 px-0">
                     <div class="card-body">
                         <div class="text-end mb-2">
-                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}" class="text-decoration-none small">
+                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}"
+                                class="text-decoration-none small">
                                 <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
                             </a>
                         </div>
@@ -67,7 +68,7 @@
 
                             </span>
                             </span>
-                            <span class="app-brand-text demo text-heading fw-bold">Sneat</span>
+                            <span class="app-brand-text demo text-heading fw-bold">Daftar Akun</span>
                             </a>
                         </div>
                         <form id="formAuthentication" class="mb-6" method="POST" action="{{ route('register') }}">
@@ -75,9 +76,8 @@
 
                             <div class="mb-6">
                                 <label for="name" class="form-label">{{ __('messages.name') }}</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ old('name') }}"
-                                    placeholder="Enter your name" autofocus />
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                    name="name" value="{{ old('name') }}" placeholder="Enter your name" autofocus />
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -85,9 +85,8 @@
 
                             <div class="mb-6">
                                 <label for="email" class="form-label">{{ __('messages.email') }}</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ old('email') }}"
-                                    placeholder="Enter your email" />
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                    name="email" value="{{ old('email') }}" placeholder="Enter your email" />
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -108,7 +107,8 @@
                             </div>
 
                             <div class="mb-6">
-                                <label class="form-label" for="password_confirmation">{{ __('messages.confirm_password') }}</label>
+                                <label class="form-label"
+                                    for="password_confirmation">{{ __('messages.confirm_password') }}</label>
                                 <input type="password" id="password_confirmation" class="form-control"
                                     name="password_confirmation" placeholder="Repeat your password" />
                             </div>

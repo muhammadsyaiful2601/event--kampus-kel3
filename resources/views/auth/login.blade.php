@@ -1,7 +1,7 @@
 <!doctype html>
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide" data-assets-path="../assets/"
-    data-template="vertical-menu-template-free">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide"
+    data-assets-path="../assets/" data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
@@ -59,7 +59,8 @@
                 <div class="card px-sm-6 px-0">
                     <div class="card-body">
                         <div class="text-end mb-2">
-                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}" class="text-decoration-none small">
+                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}"
+                                class="text-decoration-none small">
                                 <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
                             </a>
                         </div>
@@ -144,7 +145,8 @@
                             </div>
                         </div>
                         <div class="mb-6">
-                            <button class="btn btn-primary d-grid w-100" type="submit">{{ __('messages.login') }}</button>
+                            <button class="btn btn-primary d-grid w-100"
+                                type="submit">{{ __('messages.login') }}</button>
                         </div>
                         <a href="{{ url('/') }}" class="btn btn-secondary mb-3"
                             style="display: block; text-align: center;">
