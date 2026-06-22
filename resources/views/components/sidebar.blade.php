@@ -38,21 +38,6 @@
         @endif
 
 
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __('messages.select_language') }}</span>
-        </li>
-        <li class="menu-item {{ app()->getLocale() == 'id' ? 'active' : '' }}">
-            <a href="{{ route('lang.switch', 'id') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-globe"></i>
-                <div>Bahasa Indonesia</div>
-            </a>
-        </li>
-        <li class="menu-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
-            <a href="{{ route('lang.switch', 'en') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-globe"></i>
-                <div>English</div>
-            </a>
-        </li>
 
         <li class="menu-item">
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

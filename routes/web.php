@@ -51,9 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/admins', [AdminManagementController::class, 'store'])->name('admin.admins.store');
     Route::delete('/admin/admins/{admin}', [AdminManagementController::class, 'destroy'])->name('admin.admins.destroy');
 
-    Route::get('/peserta/dashboard', function () {
-        return view('dashboard_peserta.index');
-    })->name('peserta.dashboard');
+    Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');
 
     // Event Registration
     Route::post('/events/{event}/register', [EventController::class, 'register'])->name('events.register');

@@ -145,16 +145,11 @@
                                     <span class="badge bg-danger">Penuh</span>
                                 @else
                                     @auth
-                                        <button type="button" 
-                                            class="btn btn-premium register-btn" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#registrationModal"
-                                            data-event-id="{{ $event->id }}"
-                                            data-event-title="{{ $event->title }}"
-                                            data-event-type="{{ $event->type }}"
-                                            data-url="{{ route('events.register', $event->id) }}">
-                                            Daftar
-                                        </button>
+                                        @if(Auth::user()->role === 'peserta')
+                                            <a href="{{ route('peserta.dashboard') }}" class="btn btn-premium">Buka Dashboard untuk Daftar</a>
+                                        @else
+                                            <button type="button" class="btn btn-secondary" disabled title="Hanya peserta yang dapat mendaftar">Daftar</button>
+                                        @endif
                                     @else
                                         <a href="{{ route('login') }}" class="btn btn-premium">Login untuk Daftar</a>
                                     @endauth

@@ -18,6 +18,16 @@ class EventController extends Controller
         return view('landing', compact('ongoingEvents', 'upcomingEvents'));
     }
 
+    // Participant dashboard
+    public function pesertaIndex()
+    {
+        $ongoingEvents = Event::where('status', 'berlangsung')->latest()->get();
+        $upcomingEvents = Event::where('status', 'mendatang')->orderBy('date', 'asc')->get();
+        $myRegistrations = Registration::with('event')->where('user_id', Auth::id())->latest()->get();
+
+        return view('dashboard_peserta.index', compact('ongoingEvents', 'upcomingEvents', 'myRegistrations'));
+    }
+
     // Admin event list
     public function adminIndex()
     {
@@ -62,6 +72,10 @@ class EventController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login untuk mendaftar event.');
+        }
+
+        if (Auth::user()->role !== 'peserta') {
+            return back()->with('error', 'Hanya peserta yang dapat mendaftar event.');
         }
 
         if ($event->status !== 'mendatang') {
