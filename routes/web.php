@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 
@@ -43,8 +44,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin Registrations
     Route::get('/admin/registrations', [RegistrationController::class, 'index'])->name('admin.registrations.index');
-    Route::post('/admin/registrations/{registration}/verify', [RegistrationController::class, 'updateStatus'])->name('admin.registrations.verify');
-    Route::delete('/admin/registrations/{registration}', [RegistrationController::class, 'destroy'])->name('admin.registrations.destroy');
+    Route::get('/admin/registrations/scan', [RegistrationController::class, 'scan'])->name('admin.registrations.scan');
+    Route::post('/admin/registrations/scan/verify', [RegistrationController::class, 'verifyScan'])->name('admin.registrations.scan.verify');
+    Route::post('/admin/registrations/{pendaftaran}/verify', [RegistrationController::class, 'updateStatus'])->name('admin.registrations.verify');
+    Route::delete('/admin/registrations/{pendaftaran}', [RegistrationController::class, 'destroy'])->name('admin.registrations.destroy');
     Route::put('/admin/events/{event}', [EventController::class, 'update'])->name('admin.events.update');
     Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])->name('admin.events.destroy');
 
@@ -58,4 +61,15 @@ Route::middleware(['auth'])->group(function () {
     // Pendaftaran Resource Routes
     Route::resource('pendaftaran', RegistrationController::class);
     Route::patch('/pendaftaran/{pendaftaran}/status', [RegistrationController::class, 'updateStatus'])->name('pendaftaran.updateStatus');
+
+    // Download Routes
+    Route::get('/pendaftaran/{pendaftaran}/download-qr', [RegistrationController::class, 'downloadQr'])->name('pendaftaran.download-qr');
+    Route::get('/pendaftaran/{pendaftaran}/download-certificate', [RegistrationController::class, 'downloadCertificate'])->name('pendaftaran.download-certificate');
+
+    // Profile Routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/otp', [ProfileController::class, 'showOtpForm'])->name('profile.otp');
+    Route::post('/profile/otp', [ProfileController::class, 'verifyOtp'])->name('profile.otp.verify');
+    Route::post('/profile/otp/resend', [ProfileController::class, 'resendOtp'])->name('profile.otp.resend');
 });

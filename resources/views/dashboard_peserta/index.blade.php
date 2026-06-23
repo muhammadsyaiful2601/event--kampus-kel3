@@ -17,7 +17,7 @@
 
                     <div class="container-xxl flex-grow-1 container-p-y">
 
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="card mb-4">
@@ -74,6 +74,53 @@
                             </div>
                         </div>
 
+                        {{-- Participant registration history --}}
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Riwayat Pendaftaran Saya</h5>
+                            </div>
+                            <div class="card-body">
+                                @if ($myRegistrations->isEmpty())
+                                    <div class="alert alert-info">Belum ada pendaftaran event yang terdaftar.</div>
+                                @else
+                                    <div class="list-group">
+                                        @foreach ($myRegistrations as $registration)
+                                            <div class="list-group-item border-0 shadow-sm mb-3">
+                                                <div
+                                                    class="d-flex justify-content-between align-items-start flex-column flex-md-row gap-3">
+                                                    <div>
+                                                        <h6 class="mb-1">{{ $registration->event->title }}</h6>
+                                                        <p class="mb-1 text-muted small">
+                                                            {{ \Carbon\Carbon::parse($registration->created_at)->format('d M Y H:i') }}
+                                                        </p>
+                                                        @if ($registration->status === 'diterima')
+                                                            <span class="badge bg-success">Diterima</span>
+                                                        @elseif($registration->status === 'ditolak')
+                                                            <span class="badge bg-danger">Ditolak</span>
+                                                        @else
+                                                            <span class="badge bg-warning text-dark">Pending</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="text-end">
+                                                        @if ($registration->status === 'diterima')
+                                                            <a href="{{ route('pendaftaran.show', $registration->id) }}"
+                                                                class="btn btn-sm btn-success">Lihat Tiket</a>
+                                                        @elseif($registration->status === 'ditolak')
+                                                            <div class="text-danger small">Data kurang atau tidak masuk
+                                                                kategori.</div>
+                                                        @else
+                                                            <div class="text-muted small">Menunggu verifikasi admin.
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                         <hr class="my-5">
                         <h4 class="fw-bold mb-4">Daftar Event Tersedia</h4>
 
@@ -82,25 +129,30 @@
                             @forelse($ongoingEvents as $event)
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card h-100 shadow-sm border-0 border-top border-4 border-primary">
-                                        <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://source.unsplash.com/random/800x600/?event' }}"
-                                            class="card-img-top" alt="{{ $event->title }}"
-                                            style="height: 200px; object-fit: cover;">
+                                        @if ($event->image)
+                                            <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top"
+                                                alt="{{ $event->title }}" style="height: 200px; object-fit: cover;">
+                                        @endif
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-2">
                                                 <span class="badge bg-primary">Berlangsung</span>
-                                                <span class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
+                                                <span
+                                                    class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
                                             </div>
                                             <h5 class="card-title fw-bold">{{ $event->title }}</h5>
                                             <p class="card-text text-muted small"><i class='bx bx-calendar'></i>
-                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}</p>
+                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}
+                                            </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
-                                            <div class="text-muted small italic">Pendaftaran ditutup untuk event ini</div>
+                                            <div class="text-muted small italic">Pendaftaran ditutup untuk event ini
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="col-12">
-                                    <div class="alert alert-secondary text-center">Tidak ada event yang sedang berlangsung.
+                                    <div class="alert alert-secondary text-center">Tidak ada event yang sedang
+                                        berlangsung.
                                     </div>
                                 </div>
                             @endforelse
@@ -111,35 +163,46 @@
                             @forelse($upcomingEvents as $event)
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card h-100 shadow-sm border-0">
-                                        <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://source.unsplash.com/random/800x600/?event' }}"
-                                            class="card-img-top" alt="{{ $event->title }}"
-                                            style="height: 200px; object-fit: cover;">
+                                        @if ($event->image)
+                                            <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top"
+                                                alt="{{ $event->title }}" style="height: 200px; object-fit: cover;">
+                                        @endif
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-2">
                                                 <span class="badge bg-label-secondary">Mendatang</span>
-                                                <span class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
+                                                <span
+                                                    class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
                                                 <span class="badge bg-label-primary">Kuota:
                                                     {{ $event->quota ?? 'Unlimited' }}</span>
                                             </div>
                                             <h5 class="card-title fw-bold">{{ $event->title }}</h5>
                                             <p class="card-text text-muted small"><i class='bx bx-calendar'></i>
-                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}</p>
+                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}
+                                            </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
                                             <div class="mt-3">
-                                                @if(!$event->is_registration_open)
+                                                @if (!$event->is_registration_open)
                                                     <span class="badge bg-secondary">Pendaftaran Ditutup</span>
                                                 @elseif($event->is_full)
                                                     <span class="badge bg-danger">Penuh</span>
                                                 @else
                                                     @php
-                                                        $isRegistered = \App\Models\Registration::where('user_id', Auth::id())->where('event_id', $event->id)->exists();
+                                                        $isRegistered = \App\Models\Registration::where(
+                                                            'user_id',
+                                                            Auth::id(),
+                                                        )
+                                                            ->where('event_id', $event->id)
+                                                            ->exists();
                                                     @endphp
-                                                    @if($isRegistered)
-                                                        <button class="btn btn-success w-100" disabled>Terdaftar</button>
+                                                    @if ($isRegistered)
+                                                        <button class="btn btn-success w-100"
+                                                            disabled>Terdaftar</button>
                                                     @else
-                                                        <button type="button" class="btn btn-primary w-100 register-btn"
+                                                        <button type="button"
+                                                            class="btn btn-primary w-100 register-btn"
                                                             data-bs-toggle="modal" data-bs-target="#registrationModal"
-                                                            data-event-id="{{ $event->id }}" data-event-title="{{ $event->title }}"
+                                                            data-event-id="{{ $event->id }}"
+                                                            data-event-title="{{ $event->title }}"
                                                             data-event-type="{{ $event->type }}"
                                                             data-url="{{ route('pendaftaran.store') }}">
                                                             Daftar Sekarang
@@ -161,7 +224,8 @@
                         <div class="modal fade" id="registrationModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
-                                    <form id="registrationForm" method="POST" action="{{ route('pendaftaran.store') }}">
+                                    <form id="registrationForm" method="POST"
+                                        action="{{ route('pendaftaran.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="event_id" id="event_id_input" value="">
                                         <div class="modal-header">
@@ -172,23 +236,50 @@
                                         <div class="modal-body">
                                             <h6 id="eventTitleDisplay" class="fw-bold mb-3"></h6>
 
-                                            <div id="teamFields" style="display: none;">
-                                                <div class="mb-3">
-                                                    <label for="team_name" class="form-label">Nama Tim <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="team_name"
-                                                        name="team_name" placeholder="Masukkan nama tim">
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="participant_name" class="form-label">Nama Peserta
+                                                        <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="participant_name"
+                                                        name="participant_name" placeholder="Masukkan nama peserta"
+                                                        required>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="substitutes" class="form-label">Cadangan
-                                                        (Opsional)</label>
-                                                    <textarea class="form-control" id="substitutes" name="substitutes"
-                                                        rows="3" placeholder="Nama-nama pemain cadangan"></textarea>
-                                                    <div class="form-text">Pisahkan dengan koma atau baris baru.</div>
+                                                <div class="col-md-6">
+                                                    <label for="department" class="form-label">Jurusan <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="department"
+                                                        name="department" placeholder="Masukkan jurusan" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="year" class="form-label">Angkatan <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="year"
+                                                        name="year" placeholder="Masukkan angkatan" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="age" class="form-label">Umur <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" id="age"
+                                                        name="age" placeholder="Masukkan umur" min="10"
+                                                        max="120" required>
                                                 </div>
                                             </div>
 
-                                            <p id="confirmationText">Apakah kamu yakin ingin mendaftar di event ini?</p>
+                                            <div id="teamFields" style="display: none;" class="mb-3">
+                                                <label for="team_name" class="form-label">Nama Tim</label>
+                                                <input type="text" class="form-control" id="team_name"
+                                                    name="team_name" placeholder="Masukkan nama tim">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="participant_photo_modal" class="form-label">Foto Peserta
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="file" class="form-control"
+                                                    id="participant_photo_modal" name="participant_photo"
+                                                    accept="image/*" required>
+                                            </div>
+
+                                            <p id="confirmationText">Apakah kamu yakin ingin mendaftar di event ini?
+                                            </p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
@@ -213,9 +304,9 @@
                         </style>
 
                         <script>
-                            document.addEventListener('DOMContentLoaded', function () {
+                            document.addEventListener('DOMContentLoaded', function() {
                                 var registrationModal = document.getElementById('registrationModal');
-                                registrationModal.addEventListener('show.bs.modal', function (event) {
+                                registrationModal.addEventListener('show.bs.modal', function(event) {
                                     var button = event.relatedTarget;
                                     var eventTitle = button.getAttribute('data-event-title');
                                     var eventType = button.getAttribute('data-event-type');
@@ -229,7 +320,9 @@
                                     var teamNameInput = registrationModal.querySelector('#team_name');
                                     var confirmationText = registrationModal.querySelector('#confirmationText');
 
-                                    modalTitle.textContent = 'Pendaftaran ' + (eventType.charAt(0).toUpperCase() + eventType.slice(1)) + ' Event';
+                                    var eventTypeLabel = eventType ? (eventType.charAt(0).toUpperCase() + eventType.slice(1)) :
+                                        'Event';
+                                    modalTitle.textContent = 'Pendaftaran ' + eventTypeLabel;
                                     eventTitleDisplay.textContent = eventTitle;
                                     form.setAttribute('action', url);
 

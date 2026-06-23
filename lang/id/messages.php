@@ -56,6 +56,8 @@ return [
     'registration_date' => 'Tanggal Daftar',
     'pending' => 'Tertunda',
     'verified' => 'Terverifikasi',
+    'diterima' => 'Diterima',
+    'ditolak' => 'Ditolak',
     'rejected' => 'Ditolak',
     'reject' => 'Tolak',
     'finished' => 'Selesai',

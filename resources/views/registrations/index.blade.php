@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-menu-fixed layout-compact" data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template-free">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-menu-fixed layout-compact"
+    data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template-free">
 
 @include('components.header')
 
@@ -11,35 +12,48 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <!-- Header Section -->
-                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
                             <div>
                                 <h4 class="fw-bold py-3 mb-2">Daftar Peserta Event</h4>
-                                <p class="text-muted mb-0">Kelola pendaftaran peserta dan ubah status verifikasi dengan mudah.</p>
+                                <p class="text-muted mb-0">Kelola pendaftaran peserta dan ubah status verifikasi dengan
+                                    mudah.</p>
                             </div>
-                            @if(Auth::user()->role !== 'admin')
-                                <a href="{{ route('pendaftaran.create') }}" class="btn btn-primary btn-lg mt-3 mt-md-0">
-                                    <i class="bx bx-plus me-1"></i>Daftar Event Baru
-                                </a>
-                            @endif
+                            <div class="d-flex gap-2">
+                                @if (Auth::user()->role === 'admin')
+                                    <a href="{{ route('admin.registrations.scan') }}"
+                                        class="btn btn-info btn-lg mt-3 mt-md-0">
+                                        <i class="bx bx-qr me-1"></i>Scan QR Peserta
+                                    </a>
+                                @endif
+                                @if (Auth::user()->role !== 'admin')
+                                    <a href="{{ route('pendaftaran.create') }}"
+                                        class="btn btn-primary btn-lg mt-3 mt-md-0">
+                                        <i class="bx bx-plus me-1"></i>Daftar Event Baru
+                                    </a>
+                                @endif
+                            </div>
                         </div>
 
                         <!-- Alert Messages -->
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <div class="d-flex align-items-center">
                                     <i class="bx bx-check-circle me-2"></i>
                                     <div>{{ session('success') }}</div>
                                 </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
-                        @if(session('error'))
+                        @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <div class="d-flex align-items-center">
                                     <i class="bx bx-x-circle me-2"></i>
                                     <div>{{ session('error') }}</div>
                                 </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
 
@@ -113,17 +127,25 @@
                                 <form action="{{ route('pendaftaran.index') }}" method="GET" class="row g-3">
                                     <div class="col-md-6">
                                         <label for="search" class="form-label">Cari</label>
-                                        <input type="text" class="form-control" id="search" name="search" 
-                                               placeholder="Nama peserta, email, atau nama event..." 
-                                               value="{{ request('search') }}">
+                                        <input type="text" class="form-control" id="search" name="search"
+                                            placeholder="Nama peserta, email, atau nama event..."
+                                            value="{{ request('search') }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="status" class="form-label">Filter Status</label>
                                         <select class="form-select" id="status" name="status">
-                                            <option value="semua" {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>Semua Status</option>
-                                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="diterima" {{ request('status') === 'diterima' ? 'selected' : '' }}>Diterima</option>
-                                            <option value="ditolak" {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                            <option value="semua"
+                                                {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>Semua
+                                                Status</option>
+                                            <option value="pending"
+                                                {{ request('status') === 'pending' ? 'selected' : '' }}>Pending
+                                            </option>
+                                            <option value="diterima"
+                                                {{ request('status') === 'diterima' ? 'selected' : '' }}>Diterima
+                                            </option>
+                                            <option value="ditolak"
+                                                {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 d-flex align-items-end">
@@ -158,6 +180,11 @@
                                             <th scope="col" class="fw-semibold">
                                                 <i class="bx bx-info-circle me-1"></i>Status
                                             </th>
+                                            @if (Auth::user()->role === 'admin')
+                                                <th scope="col" class="fw-semibold">
+                                                    <i class="bx bx-check-double me-1"></i>Verifikasi Kehadiran
+                                                </th>
+                                            @endif
                                             <th scope="col" class="fw-semibold">
                                                 <i class="bx bx-time-five me-1"></i>Tanggal Daftar
                                             </th>
@@ -178,9 +205,11 @@
                                                             </span>
                                                         </div>
                                                         <div class="d-flex flex-column">
-                                                            <span class="fw-semibold">{{ $registration->user->name }}</span>
-                                                            @if(Auth::user()->role === 'admin')
-                                                                <small class="text-muted">{{ $registration->user->email }}</small>
+                                                            <span
+                                                                class="fw-semibold">{{ $registration->user->name }}</span>
+                                                            @if (Auth::user()->role === 'admin')
+                                                                <small
+                                                                    class="text-muted">{{ $registration->user->email }}</small>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -189,21 +218,25 @@
                                                 <!-- Nama Event -->
                                                 <td>
                                                     <div class="d-flex flex-column">
-                                                        <span class="fw-semibold">{{ $registration->event->title }}</span>
+                                                        <span
+                                                            class="fw-semibold">{{ $registration->event->title }}</span>
                                                         <small class="text-muted">
-                                                            <i class="bx bx-calendar-alt"></i>{{ $registration->event->date }}
+                                                            <i
+                                                                class="bx bx-calendar-alt"></i>{{ $registration->event->date }}
                                                         </small>
                                                     </div>
                                                 </td>
 
                                                 <!-- Status -->
                                                 <td>
-                                                    @if($registration->status === 'pending')
-                                                        <span class="badge bg-warning text-dark d-inline-flex align-items-center">
+                                                    @if ($registration->status === 'pending')
+                                                        <span
+                                                            class="badge bg-warning text-dark d-inline-flex align-items-center">
                                                             <i class="bx bx-time me-1"></i>Pending
                                                         </span>
                                                     @elseif($registration->status === 'diterima')
-                                                        <span class="badge bg-success d-inline-flex align-items-center">
+                                                        <span
+                                                            class="badge bg-success d-inline-flex align-items-center">
                                                             <i class="bx bx-check-circle me-1"></i>Diterima
                                                         </span>
                                                     @else
@@ -213,102 +246,121 @@
                                                     @endif
                                                 </td>
 
+                                                @if (Auth::user()->role === 'admin')
+                                                    <!-- Verification Status -->
+                                                    <td>
+                                                        @if ($registration->verified_at)
+                                                            <div class="d-flex flex-column">
+                                                                <span
+                                                                    class="badge bg-info d-inline-flex align-items-center w-fit">
+                                                                    <i
+                                                                        class="bx bx-check-double me-1"></i>Terverifikasi
+                                                                </span>
+                                                                <small
+                                                                    class="text-muted mt-1">{{ $registration->verified_at->format('d M Y H:i') }}</small>
+                                                                <small
+                                                                    class="text-muted">{{ $registration->verified_by }}</small>
+                                                            </div>
+                                                        @else
+                                                            <span class="badge bg-secondary">Belum Verifikasi</span>
+                                                        @endif
+                                                    </td>
+                                                @endif
+
                                                 <!-- Tanggal Daftar -->
                                                 <td>
-                                                    <small class="text-muted">{{ $registration->created_at->format('d M Y H:i') }}</small>
+                                                    <small
+                                                        class="text-muted">{{ $registration->created_at->format('d M Y H:i') }}</small>
                                                 </td>
 
                                                 <!-- Aksi -->
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <!-- Detail Button -->
-                                                        <a href="{{ route('pendaftaran.show', $registration->id) }}" 
-                                                           class="btn btn-sm btn-outline-info"
-                                                           data-bs-toggle="tooltip" 
-                                                           data-bs-placement="top" 
-                                                           title="Lihat Detail">
+                                                        <a href="{{ route('pendaftaran.show', $registration->id) }}"
+                                                            class="btn btn-sm btn-outline-info"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Lihat Detail">
                                                             <i class="bx bx-show"></i>
                                                         </a>
 
-                                                        @if(Auth::user()->role === 'admin')
+                                                        @if (Auth::user()->role === 'admin')
                                                             <!-- Approve Button (Set to Diterima) -->
-                                                            <form action="{{ route('pendaftaran.updateStatus', $registration->id) }}" 
-                                                                  method="POST" 
-                                                                  class="d-inline"
-                                                                  onsubmit="return confirm('Setujui pendaftaran ini?');">
+                                                            <form
+                                                                action="{{ route('pendaftaran.updateStatus', $registration->id) }}"
+                                                                method="POST" class="d-inline"
+                                                                onsubmit="return confirm('Setujui pendaftaran ini?');">
                                                                 @csrf
                                                                 @method('PATCH')
-                                                                <input type="hidden" name="status" value="diterima">
-                                                                <button type="submit" 
-                                                                        class="btn btn-sm btn-outline-success"
-                                                                        data-bs-toggle="tooltip" 
-                                                                        data-bs-placement="top" 
-                                                                        title="Setujui"
-                                                                        @if($registration->status === 'diterima') disabled @endif>
+                                                                <input type="hidden" name="status"
+                                                                    value="diterima">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-success"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="Setujui"
+                                                                    @if ($registration->status === 'diterima') disabled @endif>
                                                                     <i class="bx bx-check"></i>
                                                                 </button>
                                                             </form>
 
                                                             <!-- Reject Button (Set to Ditolak) -->
-                                                            <form action="{{ route('pendaftaran.updateStatus', $registration->id) }}" 
-                                                                  method="POST" 
-                                                                  class="d-inline"
-                                                                  onsubmit="return confirm('Tolak pendaftaran ini?');">
+                                                            <form
+                                                                action="{{ route('pendaftaran.updateStatus', $registration->id) }}"
+                                                                method="POST" class="d-inline"
+                                                                onsubmit="return confirm('Tolak pendaftaran ini?');">
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <input type="hidden" name="status" value="ditolak">
-                                                                <button type="submit" 
-                                                                        class="btn btn-sm btn-outline-danger"
-                                                                        data-bs-toggle="tooltip" 
-                                                                        data-bs-placement="top" 
-                                                                        title="Tolak"
-                                                                        @if($registration->status === 'ditolak') disabled @endif>
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-danger"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="Tolak"
+                                                                    @if ($registration->status === 'ditolak') disabled @endif>
                                                                     <i class="bx bx-x"></i>
                                                                 </button>
                                                             </form>
 
                                                             <!-- Return to Pending Button (Set to Pending) -->
-                                                            @if($registration->status !== 'pending')
-                                                                <form action="{{ route('pendaftaran.updateStatus', $registration->id) }}" 
-                                                                      method="POST" 
-                                                                      class="d-inline"
-                                                                      onsubmit="return confirm('Kembalikan ke Pending?');">
+                                                            @if ($registration->status !== 'pending')
+                                                                <form
+                                                                    action="{{ route('pendaftaran.updateStatus', $registration->id) }}"
+                                                                    method="POST" class="d-inline"
+                                                                    onsubmit="return confirm('Kembalikan ke Pending?');">
                                                                     @csrf
                                                                     @method('PATCH')
-                                                                    <input type="hidden" name="status" value="pending">
-                                                                    <button type="submit" 
-                                                                            class="btn btn-sm btn-outline-warning"
-                                                                            data-bs-toggle="tooltip" 
-                                                                            data-bs-placement="top" 
-                                                                            title="Kembalikan ke Pending">
+                                                                    <input type="hidden" name="status"
+                                                                        value="pending">
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-outline-warning"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        title="Kembalikan ke Pending">
                                                                         <i class="bx bx-undo"></i>
                                                                     </button>
                                                                 </form>
                                                             @endif
 
                                                             <!-- Edit Button -->
-                                                            <a href="{{ route('pendaftaran.edit', $registration->id) }}" 
-                                                               class="btn btn-sm btn-outline-primary"
-                                                               data-bs-toggle="tooltip" 
-                                                               data-bs-placement="top" 
-                                                               title="Edit">
+                                                            <a href="{{ route('pendaftaran.edit', $registration->id) }}"
+                                                                class="btn btn-sm btn-outline-primary"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Edit">
                                                                 <i class="bx bx-edit"></i>
                                                             </a>
                                                         @endif
 
-                                                        @if(Auth::user()->role === 'admin' || Auth::id() === $registration->user_id)
+                                                        @if (Auth::user()->role === 'admin' || Auth::id() === $registration->user_id)
                                                             <!-- Delete Button -->
-                                                            <form action="{{ route('pendaftaran.destroy', $registration->id) }}" 
-                                                                  method="POST" 
-                                                                  class="d-inline"
-                                                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus pendaftaran ini?');">
+                                                            <form
+                                                                action="{{ route('pendaftaran.destroy', $registration->id) }}"
+                                                                method="POST" class="d-inline"
+                                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus pendaftaran ini?');">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" 
-                                                                        class="btn btn-sm btn-outline-danger"
-                                                                        data-bs-toggle="tooltip" 
-                                                                        data-bs-placement="top" 
-                                                                        title="Hapus">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-danger"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="Hapus">
                                                                     <i class="bx bx-trash"></i>
                                                                 </button>
                                                             </form>
@@ -322,7 +374,8 @@
                                                     <div class="text-muted">
                                                         <i class="bx bx-inbox" style="font-size: 3rem;"></i>
                                                         <p class="mt-2 fw-semibold">Belum ada pendaftaran</p>
-                                                        <small>Mulai daftar event baru untuk melihat data di sini.</small>
+                                                        <small>Mulai daftar event baru untuk melihat data di
+                                                            sini.</small>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -333,7 +386,7 @@
                         </div>
 
                         <!-- Pagination -->
-                        @if($registrations->hasPages())
+                        @if ($registrations->hasPages())
                             <div class="d-flex justify-content-center mt-4">
                                 {{ $registrations->links() }}
                             </div>
@@ -381,4 +434,5 @@
         });
     </script>
 </body>
+
 </html>

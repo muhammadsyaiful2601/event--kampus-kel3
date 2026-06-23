@@ -45,6 +45,7 @@
             color: var(--sneat-heading) !important;
             transition: transform 0.3s ease;
         }
+
         .navbar-brand:hover {
             transform: scale(1.02);
         }
@@ -67,7 +68,7 @@
             position: absolute;
             inset: 0;
             background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 30px 30px;
             pointer-events: none;
             z-index: 1;
@@ -84,8 +85,20 @@
             z-index: 1;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .shape-1 { width: 450px; height: 450px; top: -150px; right: -100px; }
-        .shape-2 { width: 250px; height: 250px; bottom: -80px; left: -80px; }
+
+        .shape-1 {
+            width: 450px;
+            height: 450px;
+            top: -150px;
+            right: -100px;
+        }
+
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            bottom: -80px;
+            left: -80px;
+        }
 
         /* Konten Hero di Lapisan Atas (z-index: 2) agar teks TIDAK tertutup */
         .hero-content-box {
@@ -108,8 +121,14 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-section { padding: 140px 0 100px 0; min-height: auto; }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-section {
+                padding: 140px 0 100px 0;
+                min-height: auto;
+            }
         }
 
         .hero-subtitle {
@@ -137,6 +156,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
         }
+
         .btn-hero-explore:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
@@ -162,6 +182,7 @@
             transition: all 0.3s;
             background-color: #fcfcfd;
         }
+
         .search-input:focus {
             border-color: var(--sneat-primary);
             background-color: #fff;
@@ -172,6 +193,7 @@
         .search-box-container {
             position: relative;
         }
+
         .search-box-container i {
             position: absolute;
             left: 16px;
@@ -189,7 +211,9 @@
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-filter-tab.active, .btn-filter-tab:hover {
+
+        .btn-filter-tab.active,
+        .btn-filter-tab:hover {
             background: var(--sneat-primary);
             color: #ffffff;
             box-shadow: 0 5px 15px rgba(105, 108, 255, 0.3);
@@ -245,6 +269,7 @@
             background-color: #e7e7ff !important;
             color: #696cff !important;
         }
+
         .bg-label-secondary {
             background-color: #ebeef0 !important;
             color: #8592a3 !important;
@@ -275,6 +300,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -334,17 +360,19 @@
                                 href="{{ route('login') }}">{{ __('messages.login') }}</a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="btn btn-sneat btn-sm px-4" href="{{ route('register') }}">{{ __('messages.register') }}</a>
+                            <a class="btn btn-sneat btn-sm px-4"
+                                href="{{ route('register') }}">{{ __('messages.register') }}</a>
                         </li>
                     @endauth
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark fw-semibold" href="#"
-                            id="langDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark fw-semibold"
+                            href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
                             <i class='bx bx-globe me-1 text-secondary'></i> {{ strtoupper(app()->getLocale()) }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item py-2" href="{{ route('lang.switch', 'id') }}">Bahasa Indonesia</a></li>
+                            <li><a class="dropdown-item py-2" href="{{ route('lang.switch', 'id') }}">Bahasa
+                                    Indonesia</a></li>
                             <li><a class="dropdown-item py-2" href="{{ route('lang.switch', 'en') }}">English</a></li>
                         </ul>
                     </li>
@@ -358,12 +386,13 @@
         <!-- Elemen dekoratif dipaksa berada di lapisan paling belakang (z-index: 1) -->
         <div class="hero-shape shape-1"></div>
         <div class="hero-shape shape-2"></div>
-        
+
         <div class="container px-4 hero-content-box">
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     <h1 class="hero-title">{{ __('messages.welcome') }}</h1>
-                    <p class="hero-subtitle mx-auto">Platform manajemen event terbaik untuk mahasiswa. Temukan, ikuti, dan kelola kegiatan kampusmu dengan lebih mudah, cepat, dan interaktif.</p>
+                    <p class="hero-subtitle mx-auto">Platform manajemen event terbaik untuk mahasiswa. Temukan, ikuti,
+                        dan kelola kegiatan kampusmu dengan lebih mudah, cepat, dan interaktif.</p>
                     <div class="hero-cta">
                         <a href="#events" class="btn btn-hero-explore shadow rounded-3">
                             <i class='bx bx-rocket me-2 animate-bounce'></i>Jelajahi Event Kampus
@@ -376,14 +405,15 @@
 
     <!-- Main Content Container -->
     <div id="events" class="container my-5 py-3">
-        
+
         <!-- Live Smart Interactive Search & Filter Bar -->
         <div class="filter-wrapper mb-5">
             <div class="row g-3 align-items-center">
                 <div class="col-md-4">
                     <div class="search-box-container">
                         <i class='bx bx-search fs-4'></i>
-                        <input type="text" id="eventSearch" class="form-control search-input" placeholder="Cari nama atau lokasi event...">
+                        <input type="text" id="eventSearch" class="form-control search-input"
+                            placeholder="Cari nama atau lokasi event...">
                     </div>
                 </div>
                 <div class="col-md-8 text-md-end">
@@ -397,14 +427,14 @@
             </div>
         </div>
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
                 <i class='bx bx-check-circle me-1'></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
                 <i class='bx bx-error-alt me-1'></i> {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -415,16 +445,21 @@
         <h2 class="text-center section-title fw-bold">Event Sedang Berlangsung</h2>
         <div class="row g-4 mb-5 pb-5 event-container">
             @forelse($ongoingEvents as $event)
-                <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}" data-title="{{ strtolower($event->title) }}" data-location="{{ strtolower($event->location) }}">
+                <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}"
+                    data-title="{{ strtolower($event->title) }}" data-location="{{ strtolower($event->location) }}">
                     <div class="card h-100 event-card border-top border-4 border-primary">
                         <div class="event-img-container">
-                            <span class="badge bg-primary text-white badge-type">{{ ucfirst($event->type ?? 'solo') }}</span>
-                            <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }}"
-                                class="event-img" alt="{{ $event->title }}">
+                            <span
+                                class="badge bg-primary text-white badge-type">{{ ucfirst($event->type ?? 'solo') }}</span>
+                            @if ($event->image)
+                                <img src="{{ asset('storage/' . $event->image) }}" class="event-img"
+                                    alt="{{ $event->title }}">
+                            @endif
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
-                                <span class="badge bg-label-primary px-3 py-2 rounded-3 me-2 fw-semibold">Berlangsung</span>
+                                <span
+                                    class="badge bg-label-primary px-3 py-2 rounded-3 me-2 fw-semibold">Berlangsung</span>
                                 <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-primary'></i>
                                     {{ $event->quota ?? 'Unlimited' }} Kuota</small>
                             </div>
@@ -454,16 +489,21 @@
         <h2 class="text-center section-title fw-bold mt-5">Event Mendatang</h2>
         <div class="row g-4 event-container" id="upcomingSection">
             @forelse($upcomingEvents as $event)
-                <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}" data-title="{{ strtolower($event->title) }}" data-location="{{ strtolower($event->location) }}">
+                <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}"
+                    data-title="{{ strtolower($event->title) }}" data-location="{{ strtolower($event->location) }}">
                     <div class="card h-100 event-card">
                         <div class="event-img-container">
-                            <span class="badge bg-info text-white badge-type">{{ ucfirst($event->type ?? 'solo') }}</span>
-                            <img src="{{ $event->image ? asset('storage/' . $event->image) : 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }}"
-                                class="event-img" alt="{{ $event->title }}">
+                            <span
+                                class="badge bg-info text-white badge-type">{{ ucfirst($event->type ?? 'solo') }}</span>
+                            @if ($event->image)
+                                <img src="{{ asset('storage/' . $event->image) }}" class="event-img"
+                                    alt="{{ $event->title }}">
+                            @endif
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
-                                <span class="badge bg-label-secondary px-3 py-2 rounded-3 me-2 fw-semibold">Mendatang</span>
+                                <span
+                                    class="badge bg-label-secondary px-3 py-2 rounded-3 me-2 fw-semibold">Mendatang</span>
                                 <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-info'></i>
                                     {{ $event->quota ?? 'Unlimited' }} Kuota</small>
                             </div>
@@ -474,20 +514,22 @@
                             </div>
                             <p class="card-text text-secondary mb-4">{{ Str::limit($event->description, 90) }}</p>
                             <div class="d-grid mt-auto">
-                                @if(!$event->is_registration_open)
+                                @if (!$event->is_registration_open)
                                     <button class="btn btn-secondary rounded-3" disabled>Pendaftaran Ditutup</button>
                                 @elseif($event->is_full)
                                     <button class="btn btn-danger rounded-3" disabled>Kuota Penuh</button>
                                 @else
                                     @auth
-                                        @if(Auth::user()->role === 'peserta')
-                                            <a href="{{ route('peserta.dashboard') }}" class="btn btn-sneat rounded-3">Daftar di Dashboard</a>
+                                        @if (Auth::user()->role === 'peserta')
+                                            <a href="{{ route('peserta.dashboard') }}"
+                                                class="btn btn-sneat rounded-3">Daftar di Dashboard</a>
                                         @else
                                             <button type="button" class="btn btn-outline-secondary rounded-3" disabled
                                                 title="Hanya peserta yang dapat mendaftar">Role Terbatas</button>
                                         @endif
                                     @else
-                                        <a href="{{ route('login') }}" class="btn btn-sneat rounded-3">Login untuk Daftar</a>
+                                        <a href="{{ route('login') }}" class="btn btn-sneat rounded-3">Login untuk
+                                            Daftar</a>
                                     @endauth
                                 @endif
                             </div>
@@ -511,7 +553,7 @@
     <!-- Interactive JavaScript Logic -->
     <script>
         // Navbar dynamic scroll background
-        window.addEventListener('scroll', function () {
+        window.addEventListener('scroll', function() {
             var nav = document.querySelector('.navbar');
             if (window.pageYOffset > 40) {
                 nav.classList.add('scrolled');
@@ -526,7 +568,7 @@
         function filterType(type, element) {
             document.querySelectorAll('.btn-filter-tab').forEach(tab => tab.classList.remove('active'));
             element.classList.add('active');
-            
+
             currentType = type;
             applySearchAndFilter();
         }
@@ -557,4 +599,5 @@
         }
     </script>
 </body>
+
 </html>

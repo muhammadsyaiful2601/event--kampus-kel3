@@ -56,6 +56,8 @@ return [
     'registration_date' => 'Registration Date',
     'pending' => 'Pending',
     'verified' => 'Verified',
+    'diterima' => 'Accepted',
+    'ditolak' => 'Rejected',
     'rejected' => 'Rejected',
     'reject' => 'Reject',
     'finished' => 'Finished',
