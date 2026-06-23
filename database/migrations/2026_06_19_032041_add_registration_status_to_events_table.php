@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kegiatan', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('events', function (Blueprint $table) {
+            $table->boolean('is_registration_open')->default(true)->after('type');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kegiatan');
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('is_registration_open');
+        });
     }
 };
