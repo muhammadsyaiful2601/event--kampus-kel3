@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\LocaleController;
 
@@ -41,8 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/events', [EventController::class, 'store'])->name('admin.events.store');
 
     // Admin Registrations
-    Route::get('/admin/registrations', [EventController::class, 'adminRegistrations'])->name('admin.registrations.index');
-    Route::post('/admin/registrations/{registration}/verify', [EventController::class, 'verifyRegistration'])->name('admin.registrations.verify');
+    Route::get('/admin/registrations', [RegistrationController::class, 'index'])->name('admin.registrations.index');
+    Route::post('/admin/registrations/{registration}/verify', [RegistrationController::class, 'updateStatus'])->name('admin.registrations.verify');
+    Route::delete('/admin/registrations/{registration}', [RegistrationController::class, 'destroy'])->name('admin.registrations.destroy');
     Route::put('/admin/events/{event}', [EventController::class, 'update'])->name('admin.events.update');
     Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])->name('admin.events.destroy');
 
@@ -54,5 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');
 
     // Event Registration
-    Route::post('/events/{event}/register', [EventController::class, 'register'])->name('events.register');
+    Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/events/{event}/register', [RegistrationController::class, 'create'])->name('events.register.create');
+    Route::post('/events/{event}/register', [RegistrationController::class, 'store'])->name('events.register');
+    Route::delete('/registrations/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
 });
