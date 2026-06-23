@@ -17,7 +17,7 @@
 
                     <div class="container-xxl flex-grow-1 container-p-y">
 
-                        {{-- Isi Konten Halaman Mulai di Sini --}}
+                        
                         <div class="row">
                             <div class="col-12">
                                 <div class="card mb-4">
@@ -34,15 +34,15 @@
                         <!-- Status Pendaftaran Summary -->
                         <div class="row mb-5">
                             <div class="col-md-4 mb-3">
-                                <div class="card bg-label-primary">
+                                <div class="card bg-label-warning">
                                     <div class="card-body text-center">
                                         <div class="avatar mx-auto mb-2">
-                                            <span class="avatar-initial rounded bg-primary"><i
+                                            <span class="avatar-initial rounded bg-warning"><i
                                                     class="bx bx-time-five fs-4"></i></span>
                                         </div>
                                         <h5 class="card-title mb-1">Pending</h5>
                                         <p class="mb-0 fw-bold fs-4">
-                                            {{ $myRegistrations->where('status', 'pending')->count() }}</p>
+                                            {{ $pendingCount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -53,9 +53,9 @@
                                             <span class="avatar-initial rounded bg-success"><i
                                                     class="bx bx-check-circle fs-4"></i></span>
                                         </div>
-                                        <h5 class="card-title mb-1">Verified</h5>
+                                        <h5 class="card-title mb-1">Diterima</h5>
                                         <p class="mb-0 fw-bold fs-4">
-                                            {{ $myRegistrations->where('status', 'verified')->count() }}</p>
+                                            {{ $acceptedCount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -66,9 +66,9 @@
                                             <span class="avatar-initial rounded bg-danger"><i
                                                     class="bx bx-x-circle fs-4"></i></span>
                                         </div>
-                                        <h5 class="card-title mb-1">Rejected</h5>
+                                        <h5 class="card-title mb-1">Ditolak</h5>
                                         <p class="mb-0 fw-bold fs-4">
-                                            {{ $myRegistrations->where('status', 'rejected')->count() }}</p>
+                                            {{ $rejectedCount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                                             data-bs-toggle="modal" data-bs-target="#registrationModal"
                                                             data-event-id="{{ $event->id }}" data-event-title="{{ $event->title }}"
                                                             data-event-type="{{ $event->type }}"
-                                                            data-url="{{ route('events.register', $event->id) }}">
+                                                            data-url="{{ route('pendaftaran.store') }}">
                                                             Daftar Sekarang
                                                         </button>
                                                     @endif
@@ -161,8 +161,9 @@
                         <div class="modal fade" id="registrationModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
-                                    <form id="registrationForm" method="POST">
+                                    <form id="registrationForm" method="POST" action="{{ route('pendaftaran.store') }}">
                                         @csrf
+                                        <input type="hidden" name="event_id" id="event_id_input" value="">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Daftar Event</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -219,6 +220,7 @@
                                     var eventTitle = button.getAttribute('data-event-title');
                                     var eventType = button.getAttribute('data-event-type');
                                     var url = button.getAttribute('data-url');
+                                    var eventId = button.getAttribute('data-event-id');
 
                                     var modalTitle = registrationModal.querySelector('.modal-title');
                                     var eventTitleDisplay = registrationModal.querySelector('#eventTitleDisplay');
@@ -230,6 +232,11 @@
                                     modalTitle.textContent = 'Pendaftaran ' + (eventType.charAt(0).toUpperCase() + eventType.slice(1)) + ' Event';
                                     eventTitleDisplay.textContent = eventTitle;
                                     form.setAttribute('action', url);
+
+                                    var eventInput = form.querySelector('#event_id_input');
+                                    if (eventInput) {
+                                        eventInput.value = eventId;
+                                    }
 
                                     if (eventType === 'tim') {
                                         teamFields.style.display = 'block';
@@ -243,7 +250,6 @@
                                 });
                             });
                         </script>
-                        {{-- Batas Akhir Konten Halaman --}}
 
                     </div>
                     @include('components.footer')

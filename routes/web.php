@@ -55,9 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');
 
-    // Event Registration
-    Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
-    Route::get('/events/{event}/register', [RegistrationController::class, 'create'])->name('events.register.create');
-    Route::post('/events/{event}/register', [RegistrationController::class, 'store'])->name('events.register');
-    Route::delete('/registrations/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
+    // Pendaftaran Resource Routes
+    Route::resource('pendaftaran', RegistrationController::class);
+    Route::patch('/pendaftaran/{pendaftaran}/status', [RegistrationController::class, 'updateStatus'])->name('pendaftaran.updateStatus');
 });

@@ -21,11 +21,26 @@ class EventController extends Controller
     // Participant dashboard
     public function pesertaIndex()
     {
+        $userId = Auth::id();
+
         $ongoingEvents = Event::where('status', 'berlangsung')->latest()->get();
         $upcomingEvents = Event::where('status', 'mendatang')->orderBy('date', 'asc')->get();
-        $myRegistrations = Registration::with('event')->where('user_id', Auth::id())->latest()->get();
+        $myRegistrations = Registration::with('event')->where('user_id', $userId)->latest()->get();
 
-        return view('dashboard_peserta.index', compact('ongoingEvents', 'upcomingEvents', 'myRegistrations'));
+        // Get registration statistics
+        $pendingCount = Registration::where('user_id', $userId)
+            ->where('status', 'pending')
+            ->count();
+
+        $acceptedCount = Registration::where('user_id', $userId)
+            ->where('status', 'diterima')
+            ->count();
+
+        $rejectedCount = Registration::where('user_id', $userId)
+            ->where('status', 'ditolak')
+            ->count();
+
+        return view('dashboard_peserta.index', compact('ongoingEvents', 'upcomingEvents', 'myRegistrations', 'pendingCount', 'acceptedCount', 'rejectedCount'));
     }
 
     // Admin event list

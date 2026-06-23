@@ -10,43 +10,111 @@
             <div class="layout-page">
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4">Pendaftaran Event</h4>
+                        <!-- Header -->
+                        <div class="mb-4">
+                            <h4 class="fw-bold py-3 mb-2">Daftar Event</h4>
+                            <p class="text-muted">Pilih event yang ingin Anda ikuti dan lengkapi pendaftaran Anda sekarang.</p>
+                        </div>
 
+                        <!-- Alert Errors -->
                         @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="fw-semibold mb-2">Terjadi kesalahan:</div>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
 
-                        <div class="card">
+                        <!-- Form Card -->
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary bg-gradient">
+                                <h5 class="mb-0 text-white">Form Pendaftaran Event</h5>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $event->title }}</h5>
-                                <p class="text-muted">{{ $event->date }} | {{ $event->location }}</p>
-                                <p>{{ $event->description }}</p>
-
-                                <form action="{{ route('events.register', $event->id) }}" method="POST">
+                                <form action="{{ route('pendaftaran.store') }}" method="POST" id="registrationForm">
                                     @csrf
 
-                                    @if ($event->type === 'tim')
-                                        <div class="mb-3">
-                                            <label for="team_name" class="form-label">Nama Tim</label>
-                                            <input type="text" class="form-control" id="team_name" name="team_name" value="{{ old('team_name') }}" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="substitutes" class="form-label">Cadangan (Opsional)</label>
-                                            <textarea class="form-control" id="substitutes" name="substitutes" rows="3">{{ old('substitutes') }}</textarea>
-                                        </div>
-                                    @else
-                                        <p class="text-muted">Isi form di bawah untuk menyelesaikan pendaftaran.</p>
-                                    @endif
+                                    <!-- Event Selection -->
+                                    <div class="mb-4">
+                                        <label for="event_id" class="form-label fw-semibold">Pilih Event <span class="text-danger">*</span></label>
+                                        <select 
+                                            class="form-select form-select-lg @error('event_id') is-invalid @enderror" 
+                                            id="event_id" 
+                                            name="event_id" 
+                                            required
+                                            onchange="updateEventInfo()">
+                                            <option value="">-- Pilih Event --</option>
+                                            @forelse($events as $event)
+                                                <option 
+                                                    value="{{ $event->id }}" 
+                                                    data-date="{{ $event->date }}"
+                                                    data-location="{{ $event->location }}"
+                                                    data-description="{{ $event->description }}"
+                                                    data-quota="{{ $event->quota }}"
+                                                    data-registered="{{ $event->registrations()->count() }}"
+                                                    {{ old('event_id') == $event->id ? 'selected' : '' }}>
+                                                    {{ $event->title }} • {{ $event->date }}
+                                                </option>
+                                            @empty
+                                                <option value="" disabled>Tidak ada event tersedia</option>
+                                            @endforelse
+                                        </select>
+                                        @error('event_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
-                                    <button type="submit" class="btn btn-primary">Kirim Pendaftaran</button>
-                                    <a href="{{ route('registrations.index') }}" class="btn btn-outline-secondary">Kembali</a>
+                                    <!-- Event Info Display -->
+                                    <div id="eventInfo" style="display: none;" class="mb-4">
+                                        <div class="alert alert-light border">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="text-muted small">Tanggal</div>
+                                                    <div class="fw-semibold" id="infoDate"></div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="text-muted small">Lokasi</div>
+                                                    <div class="fw-semibold" id="infoLocation"></div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="text-muted small">Deskripsi</div>
+                                                    <div class="fw-semibold small" id="infoDescription"></div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="text-muted small">Kuota Peserta</div>
+                                                    <div class="fw-semibold"><span id="infoRegistered">0</span>/<span id="infoQuota">-</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="d-flex flex-wrap gap-2 pt-3 border-top">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="bx bx-check me-1"></i>Daftar Sekarang
+                                        </button>
+                                        <a href="{{ route('pendaftaran.index') }}" class="btn btn-outline-secondary btn-lg">
+                                            <i class="bx bx-arrow-back me-1"></i>Kembali
+                                        </a>
+                                    </div>
                                 </form>
+                            </div>
+                        </div>
+
+                        <!-- Info Card -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-3">Informasi Penting</h6>
+                                <ul class="mb-0 ps-3">
+                                    <li class="mb-2">Pastikan Anda sudah membaca deskripsi event dengan cermat sebelum mendaftar.</li>
+                                    <li class="mb-2">Pendaftaran akan diproses dengan status <span class="badge bg-warning">Pending</span> terlebih dahulu.</li>
+                                    <li class="mb-2">Admin akan memverifikasi pendaftaran Anda dalam waktu 24 jam.</li>
+                                    <li>Anda hanya dapat mendaftar satu kali untuk setiap event.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -58,5 +126,31 @@
         </div>
     </div>
     @include('components.scripts')
+
+    <script>
+        function updateEventInfo() {
+            const select = document.getElementById('event_id');
+            const selectedOption = select.options[select.selectedIndex];
+            const infoDiv = document.getElementById('eventInfo');
+            
+            if (selectedOption.value) {
+                document.getElementById('infoDate').textContent = selectedOption.dataset.date;
+                document.getElementById('infoLocation').textContent = selectedOption.dataset.location;
+                document.getElementById('infoDescription').textContent = selectedOption.dataset.description;
+                document.getElementById('infoQuota').textContent = selectedOption.dataset.quota || 'Unlimited';
+                document.getElementById('infoRegistered').textContent = selectedOption.dataset.registered;
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateEventInfo();
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>
