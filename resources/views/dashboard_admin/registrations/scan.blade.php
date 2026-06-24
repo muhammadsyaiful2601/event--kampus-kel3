@@ -64,7 +64,8 @@
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active py-2" id="manual-tab"
                                                     data-bs-toggle="tab" data-bs-target="#manual-panel" type="button"
-                                                    role="tab"><i class="bx bx-edit-alt me-1"></i>Input Manual</button>
+                                                    role="tab"><i class="bx bx-edit-alt me-1"></i>Input
+                                                    Manual</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link py-2" id="file-tab" data-bs-toggle="tab"
@@ -183,7 +184,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const VERIFY_URL = "{{ route('admin.registrations.scan.verify') }}";
             const CSRF_TOKEN = "{{ csrf_token() }}";
 
@@ -201,6 +202,8 @@
 
             let currentCameraId = null;
             let isScanning = false;
+            let processingScan = false; // lock to prevent repeated calls while processing
+            let lastScannedCode = null; // last scanned code to avoid duplicates
 
             // Load Daftar Kamera yang Tersedia
             function loadCameras() {
@@ -226,7 +229,7 @@
                 });
             }
 
-            cameraSelect.addEventListener('change', function () {
+            cameraSelect.addEventListener('change', function() {
                 currentCameraId = this.value;
                 if (isScanning) {
                     stopCamera().then(() => startCamera(currentCameraId));
@@ -241,16 +244,36 @@
                 startCamBtn.parentNode.classList.add('d-none');
 
                 html5QrCode.start(
-                    cameraId,
-                    { fps: 10, qrbox: (width, height) => { return { width: width * 0.7, height: width * 0.7 }; } },
-                    (decodedText) => {
-                        if (decodedText) {
-                            // Beri feedback audio singkat atau getaran jika didukung browser
-                            if (navigator.vibrate) navigator.vibrate(100);
-                            callVerifyAPI(decodedText.trim());
+                    cameraId, {
+                        fps: 10,
+                        qrbox: (width, height) => {
+                            return {
+                                width: width * 0.7,
+                                height: width * 0.7
+                            };
                         }
                     },
-                    () => { }
+                    (decodedText) => {
+                        if (!decodedText) return;
+                        const code = decodedText.trim();
+
+                        // Ignore if we're already processing a scan
+                        if (processingScan) return;
+
+                        // Ignore repeat detections of the same code within the same session
+                        if (lastScannedCode && lastScannedCode === code) return;
+
+                        // Lock processing and remember the code
+                        processingScan = true;
+                        lastScannedCode = code;
+
+                        // Beri feedback audio singkat atau getaran jika didukung browser
+                        if (navigator.vibrate) navigator.vibrate(100);
+
+                        // Call verification
+                        callVerifyAPI(code);
+                    },
+                    () => {}
                 ).then(() => {
                     isScanning = true;
                 }).catch(err => {
@@ -298,10 +321,15 @@
                     </div>`;
 
                 fetch(VERIFY_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
-                    body: JSON.stringify({ code: code })
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        body: JSON.stringify({
+                            code: code
+                        })
+                    })
                     .then(response => {
                         if (!response.ok && response.status !== 404 && response.status !== 422) {
                             throw new Error('Gangguan koneksi atau sistem server.');
@@ -312,19 +340,70 @@
                         if (res.status === 'success') {
                             displayResult(res.data, 'success', res.message);
                             prependLogTable(res.data);
+                            // stop camera after successful verification and show confirmation
+                            stopCamera().then(() => showScanConfirmation(res.data, res.message, 'success'));
                         } else if (res.status === 'warning') {
                             displayResult(res.data, 'warning', res.message);
                             prependLogTable(res.data);
+                            // stop camera after warning and show confirmation so admin can acknowledge
+                            stopCamera().then(() => showScanConfirmation(res.data, res.message, 'warning'));
                         } else if (res.data) {
                             displayResult(res.data, 'error', res.message);
+                            stopCamera().then(() => showScanConfirmation(res.data, res.message, 'error'));
                         } else {
                             displayResult(null, 'error', res.message || 'Terjadi kesalahan sistem.');
+                            stopCamera().then(() => showScanConfirmation(null, res.message ||
+                                'Terjadi kesalahan sistem.', 'error'));
                         }
                     })
                     .catch(err => {
                         console.error(err);
                         displayResult(null, 'error', 'Gagal memproses verifikasi: ' + err.message);
+                        stopCamera().then(() => showScanConfirmation(null, 'Gagal memproses verifikasi: ' + err
+                            .message, 'error'));
                     });
+            }
+
+            // Show a small confirmation panel with resume button after a scan is processed
+            function showScanConfirmation(data, message, type) {
+                // Create overlay element
+                const overlayId = 'scanConfirmOverlay';
+                // remove previous overlay if any
+                const prev = document.getElementById(overlayId);
+                if (prev) prev.remove();
+
+                const overlay = document.createElement('div');
+                overlay.id = overlayId;
+                overlay.className = 'position-fixed top-50 start-50 translate-middle z-index-200';
+                overlay.style.minWidth = '320px';
+                overlay.style.zIndex = 2000;
+                overlay.innerHTML = `
+                    <div class="card shadow">
+                        <div class="card-body text-center">
+                            <h6 class="mb-2 fw-bold">${type === 'success' ? 'Verifikasi Berhasil' : (type === 'warning' ? 'Peringatan' : 'Hasil Scan')}</h6>
+                            <p class="small text-muted mb-3">${message || ''}</p>
+                            <div>
+                                <button id="resumeScanBtn" class="btn btn-sm btn-primary me-2">Lanjutkan Scan</button>
+                                <button id="clearLastBtn" class="btn btn-sm btn-outline-secondary">Bersihkan</button>
+                            </div>
+                        </div>
+                    </div>`;
+
+                document.body.appendChild(overlay);
+
+                document.getElementById('resumeScanBtn').addEventListener('click', () => {
+                    overlay.remove();
+                    processingScan = false;
+                    // allow next scans including same code again only after cleared
+                    // do not clear lastScannedCode so same code won't retrigger immediately
+                    startCamera(currentCameraId);
+                });
+
+                document.getElementById('clearLastBtn').addEventListener('click', () => {
+                    overlay.remove();
+                    processingScan = false;
+                    lastScannedCode = null; // allow rescanning same code
+                });
             }
 
             // Memasukkan Log yang Berhasil atau Berstatus Warning Baru ke Tabel Real-time
@@ -417,7 +496,7 @@
             }
 
             /* ───── Perbaikan Panel Input Manual ───── */
-            document.getElementById('manualVerifyBtn').addEventListener('click', function () {
+            document.getElementById('manualVerifyBtn').addEventListener('click', function() {
                 const codeInput = document.getElementById('manualCodeInput');
                 const code = codeInput.value.trim();
                 if (!code) return;
@@ -425,8 +504,12 @@
                 const btn = this;
                 const originalHtml = btn.innerHTML;
                 btn.disabled = true;
-                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>...';
+                btn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>...';
 
+                // lock and remember code to prevent duplicates
+                processingScan = true;
+                lastScannedCode = code;
                 callVerifyAPI(code);
 
                 // Kembalikan keadaan tombol setelah request selesai diproses
@@ -438,13 +521,14 @@
             });
 
             /* ───── Perbaikan Panel Unggah File QR ───── */
-            document.getElementById('qrFileInput').addEventListener('change', function (e) {
+            document.getElementById('qrFileInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 e.target.value = ''; // Reset input file cache
                 if (!file) return;
 
                 if (!file.type.startsWith('image/')) {
-                    displayResult(null, 'error', 'File yang dipilih harus berupa format gambar (PNG, JPG, JPEG).');
+                    displayResult(null, 'error',
+                        'File yang dipilih harus berupa format gambar (PNG, JPG, JPEG).');
                     return;
                 }
 
@@ -466,6 +550,9 @@
                 html5QrCodeFile.scanFile(file, true)
                     .then(decodedText => {
                         if (decodedText) {
+                            // lock and remember code to prevent duplicates
+                            processingScan = true;
+                            lastScannedCode = decodedText.trim();
                             callVerifyAPI(decodedText.trim());
                         } else {
                             throw new Error('Hasil scan mengembalikan data kosong.');
@@ -473,7 +560,9 @@
                     })
                     .catch(err => {
                         console.error(err);
-                        displayResult(null, 'error', 'Gagal membaca QR Code dari file tersebut. Pastikan gambar tajam, terang, dan QR terlihat penuh.');
+                        displayResult(null, 'error',
+                            'Gagal membaca QR Code dari file tersebut. Pastikan gambar tajam, terang, dan QR terlihat penuh.'
+                            );
                     });
             });
 
