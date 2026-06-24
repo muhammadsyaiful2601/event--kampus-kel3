@@ -28,12 +28,36 @@ document.addEventListener('DOMContentLoaded', function () {
     window.Helpers.mainMenu = menu;
   });
 
+  // Inject a mobile sidebar toggle button on pages that include the sidebar
+  if (!document.querySelector('.layout-menu-toggle') && document.getElementById('layout-menu')) {
+    const mobileToggle = document.createElement('button');
+    mobileToggle.type = 'button';
+    mobileToggle.className = 'btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none mobile-menu-toggle';
+    mobileToggle.setAttribute('aria-label', 'Toggle menu');
+    mobileToggle.innerHTML = '<i class="bx bx-menu"></i>';
+    document.body.appendChild(mobileToggle);
+  }
+
   // Initialize menu togglers and bind click on each
   let menuToggler = document.querySelectorAll('.layout-menu-toggle');
   menuToggler.forEach(item => {
     item.addEventListener('click', event => {
       event.preventDefault();
       window.Helpers.toggleCollapsed();
+      // Fallback: ensure the wrapper toggles the expanded class on small screens
+      try {
+        const wrapper = document.querySelector('.layout-wrapper');
+        if (wrapper) {
+          // If Helpers didn't update classes, toggle manually
+          if (!wrapper.classList.contains('layout-menu-expanded')) {
+            wrapper.classList.add('layout-menu-expanded');
+          } else {
+            wrapper.classList.remove('layout-menu-expanded');
+          }
+        }
+      } catch (e) {
+        // silent
+      }
     });
   });
 

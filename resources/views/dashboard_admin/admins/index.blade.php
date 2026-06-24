@@ -12,24 +12,33 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="fw-bold py-3 mb-0">Manajemen Admin</h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
+                                <h4 class="fw-bold py-3 mb-0">Manajemen Admin</h4>
+                            </div>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addAdminModal">
                                 Tambah Admin
                             </button>
                         </div>
 
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
 
-                        @if(session('error'))
+                        @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{ session('error') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
 
@@ -45,14 +54,15 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        @foreach($admins as $admin)
+                                        @foreach ($admins as $admin)
                                             <tr>
                                                 <td><strong>{{ $admin->name }}</strong></td>
                                                 <td>{{ $admin->email }}</td>
-                                                <td><span class="badge bg-label-primary">{{ ucfirst($admin->role) }}</span>
+                                                <td><span
+                                                        class="badge bg-label-primary">{{ ucfirst($admin->role) }}</span>
                                                 </td>
                                                 <td>
-                                                    @if(auth()->id() === $admin->id)
+                                                    @if (auth()->id() === $admin->id)
                                                         <form action="{{ route('admin.admins.destroy', $admin->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun Anda sendiri? Anda akan otomatis logout.')">
@@ -63,7 +73,8 @@
                                                             </button>
                                                         </form>
                                                     @else
-                                                        <span class="text-muted small">Tidak dapat menghapus admin lain</span>
+                                                        <span class="text-muted small">Tidak dapat menghapus admin
+                                                            lain</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -89,7 +100,8 @@
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="name" class="form-label">Nama Lengkap</label>
-                                                <input type="text" id="name" name="name" class="form-control" required>
+                                                <input type="text" id="name" name="name" class="form-control"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -131,6 +143,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 </body>

@@ -78,6 +78,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');
 
+    // Participant profile
+    Route::get('/peserta/profile', [\App\Http\Controllers\ParticipantProfileController::class, 'edit'])->name('peserta.profile');
+    Route::post('/peserta/profile/send-otp', [\App\Http\Controllers\ParticipantProfileController::class, 'sendOtp'])->name('peserta.profile.sendOtp');
+    Route::get('/peserta/profile/verify', [\App\Http\Controllers\ParticipantProfileController::class, 'showVerify'])->name('peserta.profile.verify');
+    Route::post('/peserta/profile/verify', [\App\Http\Controllers\ParticipantProfileController::class, 'verify'])->name('peserta.profile.verify.post');
+
     // Pendaftaran Resource Routes
     Route::resource('pendaftaran', RegistrationController::class);
     Route::patch('/pendaftaran/{pendaftaran}/status', [RegistrationController::class, 'updateStatus'])->name('pendaftaran.updateStatus');

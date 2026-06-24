@@ -22,8 +22,15 @@
                             <div class="col-12">
                                 <div class="card mb-4">
                                     <div class="card-body">
-                                        <h4 class="fw-bold py-3 mb-1"><span class="text-muted fw-light">Dashboard
-                                                /</span> Beranda</h4>
+                                        <div class="d-flex align-items-center gap-2 mb-3">
+                                            <button type="button"
+                                                class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                                aria-label="Toggle menu">
+                                                <i class="bx bx-menu"></i>
+                                            </button>
+                                            <h4 class="fw-bold py-3 mb-1"><span class="text-muted fw-light">Dashboard
+                                                    /</span> Beranda</h4>
+                                        </div>
                                         <p>Selamat datang, <strong>{{ Auth::user()->name }}</strong>! Di sini kamu bisa
                                             memantau pendaftaranmu dan memilih event baru.</p>
                                     </div>
@@ -177,7 +184,8 @@
                                             </div>
                                             <h5 class="card-title fw-bold">{{ $event->title }}</h5>
                                             <p class="card-text text-muted small"><i class='bx bx-calendar'></i>
-                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}
+                                                {{ $event->date }} | <i class='bx bx-map'></i>
+                                                {{ $event->location }}
                                             </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
                                             <div class="mt-3">

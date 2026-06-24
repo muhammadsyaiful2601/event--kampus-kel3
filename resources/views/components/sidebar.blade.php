@@ -37,6 +37,13 @@
             </li>
         @endif
 
+        <li class="menu-item {{ request()->routeIs('peserta.profile*') ? 'active' : '' }}">
+            <a href="{{ route('peserta.profile') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div>Profil</div>
+            </a>
+        </li>
+
 
 
         <li class="menu-item">

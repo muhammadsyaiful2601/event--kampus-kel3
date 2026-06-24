@@ -12,7 +12,14 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="fw-bold py-3 mb-0">{{ __('messages.event_management') }}</h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
+                                <h4 class="fw-bold py-3 mb-0">{{ __('messages.event_management') }}</h4>
+                            </div>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addEventModal">
                                 {{ __('messages.add_event') }}
@@ -40,9 +47,10 @@
                                         @forelse($events as $event)
                                             <tr>
                                                 <td>
-                                                    @if($event->image)
-                                                        <img src="{{ asset('storage/' . $event->image) }}" alt="Event Image"
-                                                            class="rounded" width="50" height="50" style="object-fit: cover;">
+                                                    @if ($event->image)
+                                                        <img src="{{ asset('storage/' . $event->image) }}"
+                                                            alt="Event Image" class="rounded" width="50"
+                                                            height="50" style="object-fit: cover;">
                                                     @else
                                                         <span class="badge bg-label-secondary">No Image</span>
                                                     @endif
@@ -54,10 +62,12 @@
                                                 <td>{{ $event->quota ? $event->quota - $event->registrations()->count() : '-' }}
                                                 </td>
                                                 <td>
-                                                    @if($event->status === 'berlangsung')
-                                                        <span class="badge bg-primary">{{ __('messages.ongoing') }}</span>
+                                                    @if ($event->status === 'berlangsung')
+                                                        <span
+                                                            class="badge bg-primary">{{ __('messages.ongoing') }}</span>
                                                     @else
-                                                        <span class="badge bg-secondary">{{ __('messages.upcoming') }}</span>
+                                                        <span
+                                                            class="badge bg-secondary">{{ __('messages.upcoming') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -65,15 +75,17 @@
                                                         class="badge bg-label-info">{{ ucfirst($event->type ?? 'solo') }}</span>
                                                 </td>
                                                 <td>
-                                                    @if($event->is_registration_open)
+                                                    @if ($event->is_registration_open)
                                                         <span class="badge bg-success">{{ __('messages.open') }}</span>
                                                     @else
-                                                        <span class="badge bg-danger">{{ __('messages.closed') }}</span>
+                                                        <span
+                                                            class="badge bg-danger">{{ __('messages.closed') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     <div class="dropdown">
-                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                        <button type="button"
+                                                            class="btn p-0 dropdown-toggle hide-arrow"
                                                             data-bs-toggle="dropdown">
                                                             <i class="bx bx-dots-vertical-rounded"></i>
                                                         </button>
@@ -83,12 +95,14 @@
                                                                 <i class="bx bx-edit-alt me-1"></i>
                                                                 {{ __('messages.edit') }}
                                                             </button>
-                                                            <form action="{{ route('admin.events.destroy', $event->id) }}"
+                                                            <form
+                                                                action="{{ route('admin.events.destroy', $event->id) }}"
                                                                 method="POST"
                                                                 onsubmit="return confirm('{{ __('messages.delete_confirm') }}')">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                <button type="submit"
+                                                                    class="dropdown-item text-danger">
                                                                     <i class="bx bx-trash me-1"></i>
                                                                     {{ __('messages.delete') }}
                                                                 </button>
@@ -107,7 +121,8 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title">{{ __('messages.edit') }}
+                                                                        <h5 class="modal-title">
+                                                                            {{ __('messages.edit') }}
                                                                             Event</h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
@@ -119,28 +134,33 @@
                                                                                 <label for="title{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.event_title') }}</label>
                                                                                 <input type="text"
-                                                                                    id="title{{ $event->id }}" name="title"
-                                                                                    class="form-control"
-                                                                                    value="{{ $event->title }}" required>
+                                                                                    id="title{{ $event->id }}"
+                                                                                    name="title" class="form-control"
+                                                                                    value="{{ $event->title }}"
+                                                                                    required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
                                                                                 <label for="date{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.date') }}</label>
-                                                                                <input type="date" id="date{{ $event->id }}"
+                                                                                <input type="date"
+                                                                                    id="date{{ $event->id }}"
                                                                                     name="date" class="form-control"
-                                                                                    value="{{ $event->date }}" required>
+                                                                                    value="{{ $event->date }}"
+                                                                                    required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
-                                                                                <label for="location{{ $event->id }}"
+                                                                                <label
+                                                                                    for="location{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.location') }}</label>
                                                                                 <input type="text"
                                                                                     id="location{{ $event->id }}"
                                                                                     name="location" class="form-control"
-                                                                                    value="{{ $event->location }}" required>
+                                                                                    value="{{ $event->location }}"
+                                                                                    required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -150,10 +170,12 @@
                                                                                 <select id="status{{ $event->id }}"
                                                                                     name="status" class="form-select"
                                                                                     required>
-                                                                                    <option value="berlangsung" {{ $event->status === 'berlangsung' ? 'selected' : '' }}>
+                                                                                    <option value="berlangsung"
+                                                                                        {{ $event->status === 'berlangsung' ? 'selected' : '' }}>
                                                                                         {{ __('messages.ongoing') }}
                                                                                     </option>
-                                                                                    <option value="mendatang" {{ $event->status === 'mendatang' ? 'selected' : '' }}>
+                                                                                    <option value="mendatang"
+                                                                                        {{ $event->status === 'mendatang' ? 'selected' : '' }}>
                                                                                         {{ __('messages.upcoming') }}
                                                                                     </option>
                                                                                 </select>
@@ -166,23 +188,35 @@
                                                                                 <select id="type{{ $event->id }}"
                                                                                     name="type" class="form-select"
                                                                                     required>
-                                                                                    <option value="solo" {{ $event->type === 'solo' ? 'selected' : '' }}>Solo</option>
-                                                                                    <option value="duo" {{ $event->type === 'duo' ? 'selected' : '' }}>Duo</option>
-                                                                                    <option value="tim" {{ $event->type === 'tim' ? 'selected' : '' }}>Tim</option>
+                                                                                    <option value="solo"
+                                                                                        {{ $event->type === 'solo' ? 'selected' : '' }}>
+                                                                                        Solo</option>
+                                                                                    <option value="duo"
+                                                                                        {{ $event->type === 'duo' ? 'selected' : '' }}>
+                                                                                        Duo</option>
+                                                                                    <option value="tim"
+                                                                                        {{ $event->type === 'tim' ? 'selected' : '' }}>
+                                                                                        Tim</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
-                                                                                <label for="reg_status{{ $event->id }}"
+                                                                                <label
+                                                                                    for="reg_status{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.registration') }}</label>
-                                                                                <select id="reg_status{{ $event->id }}"
+                                                                                <select
+                                                                                    id="reg_status{{ $event->id }}"
                                                                                     name="is_registration_open"
                                                                                     class="form-select" required>
-                                                                                    <option value="1" {{ $event->is_registration_open ? 'selected' : '' }}>
-                                                                                        {{ __('messages.open') }}</option>
-                                                                                    <option value="0" {{ !$event->is_registration_open ? 'selected' : '' }}>
-                                                                                        {{ __('messages.closed') }}</option>
+                                                                                    <option value="1"
+                                                                                        {{ $event->is_registration_open ? 'selected' : '' }}>
+                                                                                        {{ __('messages.open') }}
+                                                                                    </option>
+                                                                                    <option value="0"
+                                                                                        {{ !$event->is_registration_open ? 'selected' : '' }}>
+                                                                                        {{ __('messages.closed') }}
+                                                                                    </option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -191,7 +225,8 @@
                                                                                 <label for="quota{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.quota') }}</label>
                                                                                 <input type="number"
-                                                                                    id="quota{{ $event->id }}" name="quota"
+                                                                                    id="quota{{ $event->id }}"
+                                                                                    name="quota"
                                                                                     class="form-control"
                                                                                     value="{{ $event->quota }}">
                                                                             </div>
@@ -200,9 +235,11 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="image{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.image') }}
-                                                                                    ({{ __('messages.optional') }})</label>
+                                                                                    ({{ __('messages.optional') }})
+                                                                                </label>
                                                                                 <input type="file"
-                                                                                    id="image{{ $event->id }}" name="image"
+                                                                                    id="image{{ $event->id }}"
+                                                                                    name="image"
                                                                                     class="form-control">
                                                                                 <small
                                                                                     class="text-muted">{{ __('messages.leave_blank_if_no_change') }}</small>
@@ -210,12 +247,10 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mb-3">
-                                                                                <label for="description{{ $event->id }}"
+                                                                                <label
+                                                                                    for="description{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.description') }}</label>
-                                                                                <textarea id="description{{ $event->id }}"
-                                                                                    name="description" class="form-control"
-                                                                                    rows="3"
-                                                                                    required>{{ $event->description }}</textarea>
+                                                                                <textarea id="description{{ $event->id }}" name="description" class="form-control" rows="3" required>{{ $event->description }}</textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -234,7 +269,8 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="10" class="text-center">{{ __('messages.no_events') }}</td>
+                                                <td colspan="10" class="text-center">{{ __('messages.no_events') }}
+                                                </td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -260,22 +296,24 @@
                                             <div class="col mb-3">
                                                 <label for="title"
                                                     class="form-label">{{ __('messages.event_title') }}</label>
-                                                <input type="text" id="title" name="title" class="form-control"
-                                                    required>
+                                                <input type="text" id="title" name="title"
+                                                    class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="date" class="form-label">{{ __('messages.date') }}</label>
-                                                <input type="date" id="date" name="date" class="form-control" required>
+                                                <label for="date"
+                                                    class="form-label">{{ __('messages.date') }}</label>
+                                                <input type="date" id="date" name="date"
+                                                    class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="location"
                                                     class="form-label">{{ __('messages.location') }}</label>
-                                                <input type="text" id="location" name="location" class="form-control"
-                                                    required>
+                                                <input type="text" id="location" name="location"
+                                                    class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -291,7 +329,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="type" class="form-label">{{ __('messages.type') }}</label>
+                                                <label for="type"
+                                                    class="form-label">{{ __('messages.type') }}</label>
                                                 <select id="type" name="type" class="form-select" required>
                                                     <option value="solo" selected>Solo</option>
                                                     <option value="duo">Duo</option>
@@ -312,30 +351,33 @@
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="quota" class="form-label">{{ __('messages.quota') }}</label>
-                                                <input type="number" id="quota" name="quota" class="form-control">
+                                                <label for="quota"
+                                                    class="form-label">{{ __('messages.quota') }}</label>
+                                                <input type="number" id="quota" name="quota"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="image" class="form-label">{{ __('messages.image') }}
                                                     ({{ __('messages.optional') }})</label>
-                                                <input type="file" id="image" name="image" class="form-control">
+                                                <input type="file" id="image" name="image"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
                                                 <label for="description"
                                                     class="form-label">{{ __('messages.description') }}</label>
-                                                <textarea id="description" name="description" class="form-control"
-                                                    rows="3" required></textarea>
+                                                <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary"
                                             data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
-                                        <button type="submit" class="btn btn-primary">{{ __('messages.save') }}</button>
+                                        <button type="submit"
+                                            class="btn btn-primary">{{ __('messages.save') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -347,6 +389,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 </body>

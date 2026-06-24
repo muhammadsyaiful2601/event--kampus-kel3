@@ -12,7 +12,14 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="fw-bold">{{ __('messages.registration_verification') }}</h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
+                                <h4 class="fw-bold">{{ __('messages.registration_verification') }}</h4>
+                            </div>
                             <a href="{{ route('admin.registrations.scan') }}" class="btn btn-primary">
                                 <i class="bx bx-scan me-1"></i>Scan QR Peserta
                             </a>
@@ -164,6 +171,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 </body>
