@@ -117,9 +117,8 @@
                         @csrf
                         <div class="mb-6">
                             <label for="email" class="form-label">{{ __('messages.email') }}</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email"
-                                autofocus />
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus />
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

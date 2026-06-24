@@ -11,12 +11,14 @@
             <div class="layout-page">
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
                             <div>
                                 <h4 class="fw-bold py-3 mb-2">
                                     <i class="bx bx-qr-code me-2"></i>Verifikasi Peserta dengan QR Code
                                 </h4>
-                                <p class="text-muted mb-0">Scan QR ticket peserta untuk memverifikasi kehadiran menggunakan kamera atau unggah gambar.</p>
+                                <p class="text-muted mb-0">Scan QR ticket peserta untuk memverifikasi kehadiran
+                                    menggunakan kamera atau unggah gambar.</p>
                             </div>
                             <a href="{{ route('admin.registrations.index') }}"
                                 class="btn btn-outline-secondary btn-lg mt-3 mt-md-0">
@@ -27,23 +29,32 @@
                         <div class="row">
                             <div class="col-12 col-lg-5 mb-4">
                                 <div class="card mb-4">
-                                    <div class="card-header d-flex justify-content-between align-items-center border-bottom mb-3">
+                                    <div
+                                        class="card-header d-flex justify-content-between align-items-center border-bottom mb-3">
                                         <h5 class="card-title mb-0"><i class="bx bx-camera me-2"></i>Kamera Scanner</h5>
-                                        <select id="cameraSelect" class="form-select form-select-sm w-auto" style="max-width: 200px;">
+                                        <select id="cameraSelect" class="form-select form-select-sm w-auto"
+                                            style="max-width: 200px;">
                                             <option value="">Memuat kamera...</option>
                                         </select>
                                     </div>
                                     <div class="card-body">
-                                        <div class="position-relative bg-light rounded-3 overflow-hidden border mb-3" style="min-height: 280px;">
+                                        <div class="position-relative bg-light rounded-3 overflow-hidden border mb-3"
+                                            style="min-height: 280px;">
                                             <div id="reader" style="width: 100%;"></div>
-                                            <div id="scannerOverlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-dark bg-opacity-70 text-white z-3">
+                                            <div id="scannerOverlay"
+                                                class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-dark bg-opacity-70 text-white z-3">
                                                 <i class="bx bx-camera-off fs-1 mb-2"></i>
                                                 <p class="mb-0 small fw-semibold">Kamera Belum Diaktifkan</p>
-                                                <button id="startCamBtn" class="btn btn-primary btn-sm mt-3"><i class="bx bx-play me-1"></i>Mulai Scan</button>
+                                                <button id="startCamBtn" class="btn btn-primary btn-sm mt-3"><i
+                                                        class="bx bx-play me-1"></i>Mulai Scan</button>
                                             </div>
-                                            <div id="laserLine" class="position-absolute start-0 w-100 bg-danger opacity-75 d-none z-2" style="height: 3px; box-shadow: 0 0 8px #dc3545; animation: scanAnim 2s infinite linear;"></div>
+                                            <div id="laserLine"
+                                                class="position-absolute start-0 w-100 bg-danger opacity-75 d-none z-2"
+                                                style="height: 3px; box-shadow: 0 0 8px #dc3545; animation: scanAnim 2s infinite linear;">
+                                            </div>
                                         </div>
-                                        <button id="stopCamBtn" class="btn btn-outline-danger btn-sm w-100 d-none"><i class="bx bx-stop me-1"></i>Hentikan Kamera</button>
+                                        <button id="stopCamBtn" class="btn btn-outline-danger btn-sm w-100 d-none"><i
+                                                class="bx bx-stop me-1"></i>Hentikan Kamera</button>
                                     </div>
                                 </div>
 
@@ -51,23 +62,33 @@
                                     <div class="card-body">
                                         <ul class="nav nav-tabs nav-fill mb-3" id="methodTabs" role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active py-2" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual-panel" type="button" role="tab"><i class="bx bx-edit-alt me-1"></i>Input Manual</button>
+                                                <button class="nav-link active py-2" id="manual-tab"
+                                                    data-bs-toggle="tab" data-bs-target="#manual-panel" type="button"
+                                                    role="tab"><i class="bx bx-edit-alt me-1"></i>Input Manual</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link py-2" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-panel" type="button" role="tab"><i class="bx bx-upload me-1"></i>Unggah QR</button>
+                                                <button class="nav-link py-2" id="file-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#file-panel" type="button" role="tab"><i
+                                                        class="bx bx-upload me-1"></i>Unggah QR</button>
                                             </li>
                                         </ul>
                                         <div class="tab-content p-0 border-0" id="methodTabsContent">
                                             <div class="tab-pane fade show active" id="manual-panel" role="tabpanel">
-                                                <label class="form-label small fw-semibold text-muted">Masukkan Kode Tiket Peserta</label>
+                                                <label class="form-label small fw-semibold text-muted">Masukkan Kode
+                                                    Tiket Peserta</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="manualCodeInput" class="form-control text-uppercase" placeholder="Contoh: ABCDE12345" autocomplete="off">
-                                                    <button class="btn btn-info" type="button" id="manualVerifyBtn"><i class="bx bx-check-shield me-1"></i>Verifikasi</button>
+                                                    <input type="text" id="manualCodeInput"
+                                                        class="form-control text-uppercase"
+                                                        placeholder="Contoh: ABCDE12345" autocomplete="off">
+                                                    <button class="btn btn-info" type="button" id="manualVerifyBtn"><i
+                                                            class="bx bx-check-shield me-1"></i>Verifikasi</button>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="file-panel" role="tabpanel">
-                                                <label class="form-label small fw-semibold text-muted">Pilih Gambar/Screenshot QR Code</label>
-                                                <input type="file" id="qrFileInput" class="form-control" accept="image/*">
+                                                <label class="form-label small fw-semibold text-muted">Pilih
+                                                    Gambar/Screenshot QR Code</label>
+                                                <input type="file" id="qrFileInput" class="form-control"
+                                                    accept="image/*">
                                             </div>
                                         </div>
                                     </div>
@@ -76,19 +97,26 @@
 
                             <div class="col-12 col-lg-7">
                                 <div id="resultContainer" class="mb-4">
-                                    <div class="card h-100 min-vh-25 d-flex align-items-center justify-content-center p-5 text-center bg-light border-dashed">
+                                    <div
+                                        class="card h-100 min-vh-25 d-flex align-items-center justify-content-center p-5 text-center bg-light border-dashed">
                                         <div class="text-muted">
                                             <i class="bx bx-scan display-4 mb-3 text-secondary opacity-50"></i>
                                             <h5>Menunggu Pemindaian</h5>
-                                            <p class="mb-0 small max-w-350">Silakan arahkan kode QR tiket ke kamera, masukkan kode secara manual, atau unggah file gambar tiket untuk divalidasi.</p>
+                                            <p class="mb-0 small max-w-350">Silakan arahkan kode QR tiket ke kamera,
+                                                masukkan kode secara manual, atau unggah file gambar tiket untuk
+                                                divalidasi.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center border-bottom">
-                                        <h5 class="card-title mb-0"><i class="bx bx-list-check me-2 text-primary"></i>Log Verifikasi Hari Ini</h5>
-                                        <span class="badge bg-label-secondary rounded-pill small fw-semibold">10 Terakhir</span>
+                                    <div
+                                        class="card-header d-flex justify-content-between align-items-center border-bottom">
+                                        <h5 class="card-title mb-0"><i
+                                                class="bx bx-list-check me-2 text-primary"></i>Log Verifikasi Hari Ini
+                                        </h5>
+                                        <span class="badge bg-label-secondary rounded-pill small fw-semibold">10
+                                            Terakhir</span>
                                     </div>
                                     <div class="table-responsive text-nowrap" style="max-height: 400px;">
                                         <table class="table table-hover align-middle mb-0">
@@ -104,21 +132,32 @@
                                             <tbody id="logTableBody">
                                                 @forelse($recentScans as $scan)
                                                     <tr style="animation: fadeSlideIn 0.3s ease-out both;">
-                                                        <td><small class="text-muted fw-semibold">{{ $scan->verified_at ? $scan->verified_at->format('H:i:s') : '-' }}</small></td>
+                                                        <td><small
+                                                                class="text-muted fw-semibold">{{ $scan->verified_at ? $scan->verified_at->format('H:i:s') : '-' }}</small>
+                                                        </td>
                                                         <td>
                                                             <div class="d-flex flex-column">
-                                                                <span class="fw-semibold text-dark">{{ $scan->participant_name ?? ($scan->user->name ?? '-') }}</span>
-                                                                <small class="text-muted text-truncate" style="max-width: 150px;">{{ $scan->department ?? '-' }}</small>
+                                                                <span
+                                                                    class="fw-semibold text-dark">{{ $scan->participant_name ?? ($scan->user->name ?? '-') }}</span>
+                                                                <small class="text-muted text-truncate"
+                                                                    style="max-width: 150px;">{{ $scan->department ?? '-' }}</small>
                                                             </div>
                                                         </td>
-                                                        <td><span class="badge bg-label-primary font-monospace">{{ $scan->ticket_code }}</span></td>
-                                                        <td><span class="text-truncate d-inline-block" style="max-width: 180px;">{{ $scan->event->title ?? '-' }}</span></td>
-                                                        <td><small class="badge bg-label-secondary">{{ $scan->verified_by ?? 'System' }}</small></td>
+                                                        <td><span
+                                                                class="badge bg-label-primary font-monospace">{{ $scan->ticket_code }}</span>
+                                                        </td>
+                                                        <td><span class="text-truncate d-inline-block"
+                                                                style="max-width: 180px;">{{ $scan->event->title ?? '-' }}</span>
+                                                        </td>
+                                                        <td><small
+                                                                class="badge bg-label-secondary">{{ $scan->verified_by ?? 'System' }}</small>
+                                                        </td>
                                                     </tr>
                                                 @empty
                                                     <tr id="emptyRow">
                                                         <td colspan="5" class="text-center py-4 text-muted">
-                                                            <i class="bx bx-info-circle mb-1"></i> Belum ada aktivitas verifikasi tiket hari ini.
+                                                            <i class="bx bx-info-circle mb-1"></i> Belum ada aktivitas
+                                                            verifikasi tiket hari ini.
                                                         </td>
                                                     </tr>
                                                 @endforelse
@@ -137,7 +176,8 @@
     @include('components.scripts')
 
     {{-- Elemen Tersembunyi untuk Keperluan Scanner Gambar File QR --}}
-    <div id="fileScannerTmp" style="width: 1px; height: 1px; opacity: 0; position: absolute; pointer-events: none;"></div>
+    <div id="fileScannerTmp" style="width: 1px; height: 1px; opacity: 0; position: absolute; pointer-events: none;">
+    </div>
 
     {{-- CDN Library html5-qrcode diletakkan LEBIH DULU agar class terbaca oleh Browser --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -186,7 +226,7 @@
                 });
             }
 
-            cameraSelect.addEventListener('change', function() {
+            cameraSelect.addEventListener('change', function () {
                 currentCameraId = this.value;
                 if (isScanning) {
                     stopCamera().then(() => startCamera(currentCameraId));
@@ -210,7 +250,7 @@
                             callVerifyAPI(decodedText.trim());
                         }
                     },
-                    () => {}
+                    () => { }
                 ).then(() => {
                     isScanning = true;
                 }).catch(err => {
@@ -262,35 +302,35 @@
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
                     body: JSON.stringify({ code: code })
                 })
-                .then(response => {
-                    if (!response.ok && response.status !== 404 && response.status !== 422) {
-                        throw new Error('Gangguan koneksi atau sistem server.');
-                    }
-                    return response.json();
-                })
-                .then(res => {
-                    if (res.status === 'success') {
-                        displayResult(res.data, 'success', res.message);
-                        prependLogTable(res.data);
-                    } else if (res.status === 'warning') {
-                        displayResult(res.data, 'warning', res.message);
-                        prependLogTable(res.data);
-                    } else if (res.data) {
-                        displayResult(res.data, 'error', res.message);
-                    } else {
-                        displayResult(null, 'error', res.message || 'Terjadi kesalahan sistem.');
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    displayResult(null, 'error', 'Gagal memproses verifikasi: ' + err.message);
-                });
+                    .then(response => {
+                        if (!response.ok && response.status !== 404 && response.status !== 422) {
+                            throw new Error('Gangguan koneksi atau sistem server.');
+                        }
+                        return response.json();
+                    })
+                    .then(res => {
+                        if (res.status === 'success') {
+                            displayResult(res.data, 'success', res.message);
+                            prependLogTable(res.data);
+                        } else if (res.status === 'warning') {
+                            displayResult(res.data, 'warning', res.message);
+                            prependLogTable(res.data);
+                        } else if (res.data) {
+                            displayResult(res.data, 'error', res.message);
+                        } else {
+                            displayResult(null, 'error', res.message || 'Terjadi kesalahan sistem.');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        displayResult(null, 'error', 'Gagal memproses verifikasi: ' + err.message);
+                    });
             }
 
             // Memasukkan Log yang Berhasil atau Berstatus Warning Baru ke Tabel Real-time
             function prependLogTable(data) {
                 if (!data) return;
-                
+
                 const emptyRow = document.getElementById('emptyRow');
                 if (emptyRow) emptyRow.remove();
 
@@ -377,7 +417,7 @@
             }
 
             /* ───── Perbaikan Panel Input Manual ───── */
-            document.getElementById('manualVerifyBtn').addEventListener('click', function() {
+            document.getElementById('manualVerifyBtn').addEventListener('click', function () {
                 const codeInput = document.getElementById('manualCodeInput');
                 const code = codeInput.value.trim();
                 if (!code) return;
@@ -398,7 +438,7 @@
             });
 
             /* ───── Perbaikan Panel Unggah File QR ───── */
-            document.getElementById('qrFileInput').addEventListener('change', function(e) {
+            document.getElementById('qrFileInput').addEventListener('change', function (e) {
                 const file = e.target.files[0];
                 e.target.value = ''; // Reset input file cache
                 if (!file) return;
@@ -444,19 +484,58 @@
 
     <style>
         @keyframes scanAnim {
-            0%   { top: 4px; }
-            50%  { top: calc(100% - 7px); }
-            100% { top: 4px; }\
+            0% {
+                top: 4px;
+            }
+
+            50% {
+                top: calc(100% - 7px);
+            }
+
+            100% {
+                top: 4px;
+            }
+
+            \
+
         }
+
         @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        #reader { border-radius: 12px; overflow: hidden; }
-        #reader video { border-radius:0 !important; width:100% !important; }
-        #reader img, #reader canvas + div { display:none !important; }
-        #reader__scan_region { border-radius: 12px; overflow: hidden; }
-        #reader__dashboard { display: none !important; }
+
+        #reader {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        #reader video {
+            border-radius: 0 !important;
+            width: 100% !important;
+        }
+
+        #reader img,
+        #reader canvas+div {
+            display: none !important;
+        }
+
+        #reader__scan_region {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        #reader__dashboard {
+            display: none !important;
+        }
     </style>
 </body>
+
 </html>

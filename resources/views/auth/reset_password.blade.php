@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('components.header')
+
 <body class="bg-light">
     <div class="container">
         <div class="row justify-content-center align-items-center vh-100">
@@ -28,7 +29,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                    class="form-control" required>
                             </div>
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg">Reset Password</button>
@@ -41,4 +43,5 @@
     </div>
     @include('components.scripts')
 </body>
+
 </html>

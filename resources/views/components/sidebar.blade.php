@@ -36,12 +36,8 @@
                 </a>
             </li>
         @endif
-        <li class="menu-item {{ request()->routeIs('profile.show') ? 'active' : '' }}">
-            <a href="{{ route('profile.show') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div>Profile</div>
-            </a>
-        </li>
+
+
 
         <li class="menu-item">
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

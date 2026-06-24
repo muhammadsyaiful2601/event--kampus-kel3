@@ -7,7 +7,9 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\LocaleController;
-use App\Http\Controllers\ProfileController;
+use App\Models\Event;
+use App\Models\Registration;
+use App\Models\User;
 
 Route::get('lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 
@@ -35,7 +37,25 @@ Route::post('/lupa_password/reset', [AuthController::class, 'resetPassword'])->n
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return view('dashboard_admin.index');
+        $eventCount = Event::count();
+        $eventOngoing = Event::where('status', 'berlangsung')->count();
+        $eventUpcoming = Event::where('status', 'mendatang')->count();
+        $pendingRegistrations = Registration::where('status', 'pending')->count();
+        $acceptedRegistrations = Registration::where('status', 'diterima')->count();
+        $rejectedRegistrations = Registration::where('status', 'ditolak')->count();
+        $adminCount = User::where('role', 'admin')->count();
+        $recentRegistrations = Registration::with(['user', 'event'])->latest()->take(5)->get();
+
+        return view('dashboard_admin.index', compact(
+            'eventCount',
+            'eventOngoing',
+            'eventUpcoming',
+            'pendingRegistrations',
+            'acceptedRegistrations',
+            'rejectedRegistrations',
+            'adminCount',
+            'recentRegistrations'
+        ));
     })->name('admin.dashboard');
 
     // Admin Events
@@ -65,11 +85,4 @@ Route::middleware(['auth'])->group(function () {
     // Download Routes
     Route::get('/pendaftaran/{pendaftaran}/download-qr', [RegistrationController::class, 'downloadQr'])->name('pendaftaran.download-qr');
     Route::get('/pendaftaran/{pendaftaran}/download-certificate', [RegistrationController::class, 'downloadCertificate'])->name('pendaftaran.download-certificate');
-
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile/otp', [ProfileController::class, 'showOtpForm'])->name('profile.otp');
-    Route::post('/profile/otp', [ProfileController::class, 'verifyOtp'])->name('profile.otp.verify');
-    Route::post('/profile/otp/resend', [ProfileController::class, 'resendOtp'])->name('profile.otp.resend');
 });

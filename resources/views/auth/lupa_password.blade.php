@@ -59,25 +59,25 @@
             <p class="mb-6">Enter your email and we'll send you instructions to reset your password</p>
 
             @if(session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
+              <div class="alert alert-success">
+                {{ session('status') }}
+              </div>
             @endif
 
             @if($errors->any())
-                <div class="alert alert-danger">
-                    @foreach($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                </div>
+              <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                  <div>{{ $error }}</div>
+                @endforeach
+              </div>
             @endif
 
             <form id="formAuthentication" class="mb-6" action="{{ route('password.reset.send') }}" method="POST">
               @csrf
               <div class="mb-6">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email"
-                  autofocus required />
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus
+                  required />
               </div>
               <button class="btn btn-primary d-grid w-100" type="submit">Send Reset Link</button>
             </form>
