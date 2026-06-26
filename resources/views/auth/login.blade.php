@@ -137,8 +137,12 @@
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-8">
-                            <div class="d-flex justify-content-between">
+                        <div class="mb-6">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                    <label class="form-check-label" for="remember">Ingat Saya</label>
+                                </div>
                                 <a href="{{ route('forgot-password') }}">
                                     <span>{{ __('messages.forgot_password') }}</span>
                                 </a>

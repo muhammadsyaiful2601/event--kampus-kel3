@@ -35,6 +35,12 @@
                     <div data-i18n="Layouts">{{ __('messages.admin_management') }}</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->routeIs('admin.logs.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.logs.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <div>Log Aktivitas</div>
+                </a>
+            </li>
         @endif
 
         <li class="menu-item {{ request()->routeIs('peserta.profile*') ? 'active' : '' }}">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Registration;
+use App\Helpers\AdminActivityLogger;
 use BaconQrCode\Encoder\Encoder;
 use BaconQrCode\Common\ErrorCorrectionLevel;
 use Illuminate\Http\Request;
@@ -93,7 +94,12 @@ class RegistrationController extends Controller
             'department' => 'required|string|max:255',
             'year' => 'required|string|max:100',
             'age' => 'required|integer|min:10|max:120',
-            'participant_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'participant_photo' => 'required|image|mimes:jpeg,png,jpg|max:3072',
+        ], [
+            'participant_photo.required' => 'Foto peserta wajib diunggah.',
+            'participant_photo.image' => 'File foto peserta tidak valid.',
+            'participant_photo.mimes' => 'Foto peserta harus berformat JPG atau PNG.',
+            'participant_photo.max' => 'Foto peserta maksimal 3MB.',
         ]);
 
         $event = Event::findOrFail($request->event_id);
@@ -233,6 +239,16 @@ class RegistrationController extends Controller
 
         $pendaftaran->update(['status' => $newStatus]);
 
+        // Log admin action
+        $actionKey = $newStatus === 'diterima' ? 'registration.verified' : 'registration.rejected';
+        $label     = $newStatus === 'diterima' ? 'Menyetujui' : 'Menolak';
+        AdminActivityLogger::log(
+            $actionKey,
+            $label . ' pendaftaran peserta "' . ($pendaftaran->participant_name ?? $pendaftaran->user->name ?? '-') . '" untuk event "' . ($pendaftaran->event->title ?? '-') . '"',
+            'Registration',
+            $pendaftaran->id
+        );
+
         return redirect()->route('pendaftaran.index')->with('success', 'Status pendaftaran berhasil diperbarui.');
     }
 
@@ -311,23 +327,84 @@ class RegistrationController extends Controller
 
         $registration->update($updateData);
 
+        // Log the scan verification
+        AdminActivityLogger::log(
+            'registration.scan_verified',
+            'Memverifikasi tiket via QR scan: kode "' . $code . '" — peserta "' . ($registration->participant_name ?? $registration->user->name ?? '-') . '"',
+            'Registration',
+            $registration->id
+        );
+
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'message' => 'Verifikasi Berhasil! Silakan dipersilakan masuk.',
-            'data' => $responseData,
+            'data'    => $responseData,
         ]);
     }
 
     /**
-     * Remove the specified registration from storage.
+     * Cancel a pending registration by the participant.
      */
-    public function destroy(Registration $pendaftaran)
+    public function cancel(Registration $pendaftaran)
     {
-        if (strtolower(Auth::user()->role) !== 'admin' && Auth::id() != $pendaftaran->user_id) {
-            abort(403);
+        // Hanya pemilik yang bisa membatalkan
+        if (Auth::id() != $pendaftaran->user_id) {
+            abort(403, 'Anda tidak memiliki hak untuk membatalkan pendaftaran ini.');
+        }
+
+        // Jika sudah diterima, tidak bisa dibatalkan lewat aplikasi
+        if ($pendaftaran->status === 'diterima') {
+            return back()->with('error', 'Pendaftaran yang sudah diterima tidak dapat dibatalkan melalui aplikasi. Silakan hubungi admin secara langsung di lapangan untuk mengundurkan diri.');
+        }
+
+        // Hanya pending yang bisa dibatalkan
+        if ($pendaftaran->status !== 'pending') {
+            return back()->with('error', 'Hanya pendaftaran dengan status pending yang dapat dibatalkan.');
+        }
+
+        // Hapus foto peserta jika ada
+        if ($pendaftaran->participant_photo) {
+            Storage::disk('public')->delete($pendaftaran->participant_photo);
         }
 
         $pendaftaran->delete();
+
+        return redirect()->route('peserta.dashboard')->with('success', 'Pendaftaran berhasil dibatalkan.');
+    }
+
+    /**
+     * Remove the specified registration from storage (Admin only or pending owner).
+     */
+    public function destroy(Registration $pendaftaran)
+    {
+        $isAdmin = strtolower(Auth::user()->role) === 'admin';
+        $isOwner = Auth::id() == $pendaftaran->user_id;
+
+        if (!$isAdmin && !$isOwner) {
+            abort(403);
+        }
+
+        // Peserta hanya bisa hapus yang pending
+        if (!$isAdmin && $pendaftaran->status !== 'pending') {
+            return back()->with('error', 'Hanya pendaftaran dengan status pending yang dapat dihapus.');
+        }
+
+        $regName = $pendaftaran->participant_name ?? $pendaftaran->user->name ?? '-';
+        $regId   = $pendaftaran->id;
+        $eventTitle = $pendaftaran->event->title ?? '-';
+
+        $pendaftaran->delete();
+
+        // Only log when an admin deletes
+        if ($isAdmin) {
+            AdminActivityLogger::log(
+                'registration.deleted',
+                'Menghapus pendaftaran peserta "' . $regName . '" dari event "' . $eventTitle . '"',
+                'Registration',
+                $regId
+            );
+        }
+
         return back()->with('success', 'Pendaftaran berhasil dihapus.');
     }
 

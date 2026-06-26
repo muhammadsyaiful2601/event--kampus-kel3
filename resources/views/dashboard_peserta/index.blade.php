@@ -39,6 +39,32 @@
                         </div>
 
                         <!-- Status Pendaftaran Summary -->
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="fw-semibold mb-2">Periksa kembali form pendaftaran:</div>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                         <div class="row mb-5">
                             <div class="col-md-4 mb-3">
                                 <div class="card bg-label-warning">
@@ -108,16 +134,28 @@
                                                             <span class="badge bg-warning text-dark">Pending</span>
                                                         @endif
                                                     </div>
-                                                    <div class="text-end">
+                                                    <div class="text-end d-flex flex-column align-items-end gap-2">
                                                         @if ($registration->status === 'diterima')
                                                             <a href="{{ route('pendaftaran.show', $registration->id) }}"
                                                                 class="btn btn-sm btn-success">Lihat Tiket</a>
+                                                            <div class="text-muted small" style="max-width: 200px;">
+                                                                <i class='bx bx-info-circle text-warning'></i>
+                                                                Untuk pengunduran diri, hubungi admin secara langsung di lapangan.
+                                                            </div>
                                                         @elseif($registration->status === 'ditolak')
                                                             <div class="text-danger small">Data kurang atau tidak masuk
                                                                 kategori.</div>
                                                         @else
-                                                            <div class="text-muted small">Menunggu verifikasi admin.
-                                                            </div>
+                                                            <div class="text-muted small mb-1">Menunggu verifikasi admin.</div>
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-danger btn-cancel-reg"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#cancelModal"
+                                                                data-reg-id="{{ $registration->id }}"
+                                                                data-event-title="{{ $registration->event->title }}"
+                                                                data-cancel-url="{{ route('pendaftaran.cancel', $registration->id) }}">
+                                                                <i class='bx bx-x-circle me-1'></i>Batalkan Pendaftaran
+                                                            </button>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -148,7 +186,8 @@
                                             </div>
                                             <h5 class="card-title fw-bold">{{ $event->title }}</h5>
                                             <p class="card-text text-muted small"><i class='bx bx-calendar'></i>
-                                                {{ $event->date }} | <i class='bx bx-map'></i> {{ $event->location }}
+                                                {{ $event->date }} | <i class='bx bx-map'></i>
+                                                {{ $event->location }}
                                             </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
                                             <div class="text-muted small italic">Pendaftaran ditutup untuk event ini
@@ -228,6 +267,31 @@
                             @endforelse
                         </div>
 
+                        <!-- Cancel Confirmation Modal -->
+                        <div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title text-danger"><i class='bx bx-error-circle me-1'></i>Batalkan Pendaftaran</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Apakah kamu yakin ingin membatalkan pendaftaran untuk event:</p>
+                                        <p class="fw-bold" id="cancelEventTitle"></p>
+                                        <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tidak, Kembali</button>
+                                        <form id="cancelForm" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Ya, Batalkan</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Registration Modal -->
                         <div class="modal fade" id="registrationModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -283,7 +347,7 @@
                                                     <span class="text-danger">*</span></label>
                                                 <input type="file" class="form-control"
                                                     id="participant_photo_modal" name="participant_photo"
-                                                    accept="image/*" required>
+                                                    accept=".png,.jpg,.jpeg" required>
                                             </div>
 
                                             <p id="confirmationText">Apakah kamu yakin ingin mendaftar di event ini?
@@ -313,6 +377,19 @@
 
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
+                                // Cancel modal handler
+                                var cancelModal = document.getElementById('cancelModal');
+                                if (cancelModal) {
+                                    cancelModal.addEventListener('show.bs.modal', function(event) {
+                                        var button = event.relatedTarget;
+                                        var eventTitle = button.getAttribute('data-event-title');
+                                        var cancelUrl = button.getAttribute('data-cancel-url');
+                                        document.getElementById('cancelEventTitle').textContent = eventTitle;
+                                        document.getElementById('cancelForm').setAttribute('action', cancelUrl);
+                                    });
+                                }
+
+                                // Registration modal handler
                                 var registrationModal = document.getElementById('registrationModal');
                                 registrationModal.addEventListener('show.bs.modal', function(event) {
                                     var button = event.relatedTarget;

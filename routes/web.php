@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminManagementController;
+use App\Http\Controllers\AdminLogController;
 use App\Http\Controllers\LocaleController;
 use App\Models\Event;
 use App\Models\Registration;
@@ -86,6 +87,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/admins', [AdminManagementController::class, 'store'])->name('admin.admins.store');
     Route::delete('/admin/admins/{admin}', [AdminManagementController::class, 'destroy'])->name('admin.admins.destroy');
 
+    // Admin Activity Log (read-only — no DELETE/POST routes)
+    Route::get('/admin/logs', [AdminLogController::class, 'index'])->name('admin.logs.index');
+
     // Participant Dashboard
     Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');
 
@@ -98,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
     // Pendaftaran Resource Routes (Diakses Bersama: Admin & Peserta)
     Route::resource('pendaftaran', RegistrationController::class);
     Route::patch('/pendaftaran/{pendaftaran}/status', [RegistrationController::class, 'updateStatus'])->name('pendaftaran.updateStatus');
+    Route::delete('/pendaftaran/{pendaftaran}/cancel', [RegistrationController::class, 'cancel'])->name('pendaftaran.cancel');
 
     // Shared Download Routes
     Route::get('/pendaftaran/{pendaftaran}/download-qr', [RegistrationController::class, 'downloadQr'])->name('pendaftaran.download-qr');

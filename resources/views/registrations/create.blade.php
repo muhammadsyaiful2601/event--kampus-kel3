@@ -152,7 +152,7 @@
                                                 <span class="text-danger">*</span></label>
                                             <input type="file" id="participant_photo" name="participant_photo"
                                                 class="form-control @error('participant_photo') is-invalid @enderror"
-                                                accept="image/*" required>
+                                                accept=".png,.jpg,.jpeg" required>
                                             @error('participant_photo')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

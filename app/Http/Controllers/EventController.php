@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Registration;
+use App\Helpers\AdminActivityLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -144,10 +145,14 @@ class EventController extends Controller
             'date' => 'required|date',
             'location' => 'required',
             'quota' => 'nullable|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:3072',
             'status' => 'required|in:berlangsung,mendatang',
             'type' => 'required|in:solo,duo,tim',
             'is_registration_open' => 'required|boolean',
+        ], [
+            'image.image' => 'File gambar event tidak valid.',
+            'image.mimes' => 'Gambar event harus berformat JPG atau PNG.',
+            'image.max' => 'Gambar event maksimal 3MB.',
         ]);
 
         if ($request->hasFile('image')) {
@@ -155,6 +160,12 @@ class EventController extends Controller
         }
 
         Event::create($data);
+
+        AdminActivityLogger::log(
+            'event.created',
+            'Menambahkan event baru: "' . $data['title'] . '"',
+            'Event'
+        );
 
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan!');
     }
@@ -167,10 +178,14 @@ class EventController extends Controller
             'date' => 'required|date',
             'location' => 'required',
             'quota' => 'nullable|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:3072',
             'status' => 'required|in:berlangsung,mendatang',
             'type' => 'required|in:solo,duo,tim',
             'is_registration_open' => 'required|boolean',
+        ], [
+            'image.image' => 'File gambar event tidak valid.',
+            'image.mimes' => 'Gambar event harus berformat JPG atau PNG.',
+            'image.max' => 'Gambar event maksimal 3MB.',
         ]);
 
         if ($request->hasFile('image')) {
@@ -183,16 +198,33 @@ class EventController extends Controller
 
         $event->update($data);
 
+        AdminActivityLogger::log(
+            'event.updated',
+            'Memperbarui event: "' . $event->title . '"',
+            'Event',
+            $event->id
+        );
+
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil diperbarui!');
     }
 
     public function destroy(Event $event)
     {
+        $eventTitle = $event->title;
+        $eventId    = $event->id;
+
         if ($event->image && \Storage::disk('public')->exists($event->image)) {
             \Storage::disk('public')->delete($event->image);
         }
-        
+
         $event->delete();
+
+        AdminActivityLogger::log(
+            'event.deleted',
+            'Menghapus event: "' . $eventTitle . '"',
+            'Event',
+            $eventId
+        );
 
         return redirect()->route('admin.events.index')->with('success', 'Event berhasil dihapus!');
     }

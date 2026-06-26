@@ -26,6 +26,32 @@
                             </button>
                         </div>
 
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="fw-semibold mb-2">Periksa kembali form event:</div>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                         <div class="card">
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-hover">
@@ -146,7 +172,8 @@
                                                                                     class="form-label">{{ __('messages.date') }}</label>
                                                                                 <input type="date"
                                                                                     id="date{{ $event->id }}"
-                                                                                    name="date" class="form-control"
+                                                                                    name="date"
+                                                                                    class="form-control"
                                                                                     value="{{ $event->date }}"
                                                                                     required>
                                                                             </div>
@@ -158,7 +185,8 @@
                                                                                     class="form-label">{{ __('messages.location') }}</label>
                                                                                 <input type="text"
                                                                                     id="location{{ $event->id }}"
-                                                                                    name="location" class="form-control"
+                                                                                    name="location"
+                                                                                    class="form-control"
                                                                                     value="{{ $event->location }}"
                                                                                     required>
                                                                             </div>
@@ -240,6 +268,7 @@
                                                                                 <input type="file"
                                                                                     id="image{{ $event->id }}"
                                                                                     name="image"
+                                                                                    accept=".png,.jpg,.jpeg"
                                                                                     class="form-control">
                                                                                 <small
                                                                                     class="text-muted">{{ __('messages.leave_blank_if_no_change') }}</small>
@@ -362,7 +391,7 @@
                                                 <label for="image" class="form-label">{{ __('messages.image') }}
                                                     ({{ __('messages.optional') }})</label>
                                                 <input type="file" id="image" name="image"
-                                                    class="form-control">
+                                                    accept=".png,.jpg,.jpeg" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row">

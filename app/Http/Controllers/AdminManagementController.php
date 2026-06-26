@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Helpers\AdminActivityLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -23,22 +24,39 @@ class AdminManagementController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        $newAdmin = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => 'admin',
+            'role'     => 'admin',
         ]);
+
+        AdminActivityLogger::log(
+            'admin.created',
+            'Menambahkan admin baru: "' . $newAdmin->name . '" (' . $newAdmin->email . ')',
+            'User',
+            $newAdmin->id
+        );
 
         return redirect()->route('admin.admins.index')->with('success', 'Admin baru berhasil ditambahkan!');
     }
 
     public function destroy(User $admin)
     {
-        // Pastikan hanya bisa menghapus diri sendiri
         if (Auth::id() !== $admin->id) {
             return redirect()->route('admin.admins.index')->with('error', 'Anda hanya dapat menghapus akun Anda sendiri!');
         }
+
+        $adminName  = $admin->name;
+        $adminEmail = $admin->email;
+        $adminId    = $admin->id;
+
+        AdminActivityLogger::log(
+            'admin.deleted',
+            'Menghapus akun admin: "' . $adminName . '" (' . $adminEmail . ')',
+            'User',
+            $adminId
+        );
 
         $admin->delete();
 
