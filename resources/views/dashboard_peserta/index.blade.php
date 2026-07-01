@@ -38,7 +38,6 @@
                             </div>
                         </div>
 
-                        <!-- Status Pendaftaran Summary -->
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('success') }}
@@ -276,7 +275,6 @@
                             @endforelse
                         </div>
 
-                        <!-- Cancel Confirmation Modal -->
                         <div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-sm">
                                 <div class="modal-content">
@@ -306,7 +304,6 @@
                             </div>
                         </div>
 
-                        <!-- Registration Modal -->
                         <div class="modal fade" id="registrationModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -458,29 +455,23 @@
                                 if (modalForm) {
                                     modalForm.addEventListener('submit', function(e) {
                                         var isValid = true;
+
                                         var fields = [{
                                                 id: 'participant_name',
-                                                message: 'Nama peserta wajib diisi.'
+                                                message: '{{ __('messages.participant_name_required') }}'
                                             },
                                             {
                                                 id: 'department',
-                                                message: 'Jurusan wajib diisi.'
+                                                message: '{{ __('messages.department_required') }}'
                                             },
                                             {
                                                 id: 'year',
-                                                message: 'Angkatan wajib diisi.'
+                                                message: '{{ __('messages.year_required') }}'
                                             },
                                             {
                                                 id: 'age',
-                                                message: 'Umur wajib diisi.'
+                                                message: '{{ __('messages.age_required') }}'
                                             }
-                                        ];
-
-                                        var fields = [
-                                            { id: 'participant_name', message: '{{ __('messages.participant_name_required') }}' },
-                                            { id: 'department', message: '{{ __('messages.department_required') }}' },
-                                            { id: 'year', message: '{{ __('messages.year_required') }}' },
-                                            { id: 'age', message: '{{ __('messages.age_required') }}' }
                                         ];
 
                                         fields.forEach(function(field) {
@@ -514,7 +505,9 @@
                                         // Validate photo
                                         var photoInput = document.getElementById('participant_photo_modal');
                                         if (photoInput && !photoInput.files.length) {
-                                            showError('participant_photo', '{{ __('messages.participant_photo') }} {{ __('messages.field_required', {field: "{{ __('messages.participant_photo') }}"}) }}');
+                                            showError('participant_photo',
+                                                '{{ __('messages.participant_photo') }} {{ __('messages.field_required', ['field' => __('messages.participant_photo')]) }}'
+                                                );
                                             isValid = false;
                                         }
 

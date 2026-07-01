@@ -9,8 +9,8 @@
                 <div class="card shadow border-0">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <h3 class="fw-bold">Buat Password Baru</h3>
-                            <p class="text-muted">Silakan masukkan password baru kamu.</p>
+                            <h3 class="fw-bold">{{ __('messages.reset_password_title') }}</h3>
+                            <p class="text-muted">{{ __('messages.reset_password_description') }}</p>
                         </div>
 
                         @if ($errors->any())
@@ -24,7 +24,7 @@
                         <form action="{{ route('password.reset.update') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password Baru</label>
+                                <label for="password" class="form-label">{{ __('messages.new_password') }}</label>
                                 @error('password')
                                     <div class="alert alert-danger py-2 mb-2" role="alert">
                                         {{ $message }}
@@ -33,7 +33,7 @@
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                                <label for="password_confirmation" class="form-label">{{ __('messages.confirm_new_password') }}</label>
                                 @error('password_confirmation')
                                     <div class="alert alert-danger py-2 mb-2" role="alert">
                                         {{ $message }}
@@ -43,7 +43,7 @@
                                     class="form-control" required>
                             </div>
                             <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-primary btn-lg">Reset Password</button>
+                                <button type="submit" class="btn btn-primary btn-lg">{{ __('messages.reset_password_button') }}</button>
                             </div>
                         </form>
                     </div>

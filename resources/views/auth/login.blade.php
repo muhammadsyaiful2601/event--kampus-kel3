@@ -108,7 +108,7 @@
                             </svg>
                             </span>
                             </span>
-                            <span class="app-brand-text demo text-heading fw-bold">Event Kampus</span>
+                            <span class="app-brand-text demo text-heading fw-bold">{{ __('messages.landing_title') }}</span>
                             </a>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                 </div>
                             @enderror
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email"
+                                id="email" name="email" value="{{ old('email') }}" placeholder="{{ __('messages.enter_your_email') }}"
                                 autofocus />
                         </div>
                         <div class="mb-6 form-password-toggle">

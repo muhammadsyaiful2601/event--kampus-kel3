@@ -458,9 +458,9 @@
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
                                 <span
-                                    class="badge bg-label-primary px-3 py-2 rounded-3 me-2 fw-semibold">Berlangsung</span>
+                                    class="badge bg-label-primary px-3 py-2 rounded-3 me-2 fw-semibold">{{ __('messages.ongoing_badge') }}</span>
                                 <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-primary'></i>
-                                    {{ $event->quota ?? 'Unlimited' }} Kuota</small>
+                                    {{ $event->quota ?? __('messages.unlimited') }} {{ __('messages.quota_text') }}</small>
                             </div>
                             <h5 class="card-title fw-bold text-dark mb-3">{{ $event->title }}</h5>
                             <div class="small text-muted mb-3 d-flex flex-column gap-2">
@@ -478,7 +478,7 @@
                 <div class="col-12 text-center empty-state">
                     <div class="glass-morphism shadow-sm">
                         <i class='bx bxs-file-blank fs-1 text-muted mb-3'></i>
-                        <p class="text-muted mb-0 fw-semibold">Tidak ada event yang sedang berlangsung.</p>
+                        <p class="text-muted mb-0 fw-semibold">{{ __('messages.no_ongoing_events') }}</p>
                     </div>
                 </div>
             @endforelse
@@ -502,9 +502,9 @@
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
                                 <span
-                                    class="badge bg-label-secondary px-3 py-2 rounded-3 me-2 fw-semibold">Mendatang</span>
+                                    class="badge bg-label-secondary px-3 py-2 rounded-3 me-2 fw-semibold">{{ __('messages.upcoming_badge') }}</span>
                                 <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-info'></i>
-                                    {{ $event->quota ?? 'Unlimited' }} Kuota</small>
+                                    {{ $event->quota ?? __('messages.unlimited') }} {{ __('messages.quota_text') }}</small>
                             </div>
                             <h5 class="card-title fw-bold text-dark mb-3">{{ $event->title }}</h5>
                             <div class="small text-muted mb-3 d-flex flex-column gap-2">
@@ -514,21 +514,20 @@
                             <p class="card-text text-secondary mb-4">{{ Str::limit($event->description, 90) }}</p>
                             <div class="d-grid mt-auto">
                                 @if (!$event->is_registration_open)
-                                    <button class="btn btn-secondary rounded-3" disabled>Pendaftaran Ditutup</button>
+                                    <button class="btn btn-secondary rounded-3" disabled>{{ __('messages.registration_closed') }}</button>
                                 @elseif($event->is_full)
-                                    <button class="btn btn-danger rounded-3" disabled>Kuota Penuh</button>
+                                    <button class="btn btn-danger rounded-3" disabled>{{ __('messages.quota_full') }}</button>
                                 @else
                                     @auth
                                         @if (Auth::user()->role === 'peserta')
                                             <a href="{{ route('peserta.dashboard') }}"
-                                                class="btn btn-sneat rounded-3">Daftar di Dashboard</a>
+                                                class="btn btn-sneat rounded-3">{{ __('messages.register_in_dashboard') }}</a>
                                         @else
                                             <button type="button" class="btn btn-outline-secondary rounded-3" disabled
-                                                title="Hanya peserta yang dapat mendaftar">Role Terbatas</button>
+                                                title="{{ __('messages.only_participants') }}">{{ __('messages.role_restricted') }}</button>
                                         @endif
                                     @else
-                                        <a href="{{ route('login') }}" class="btn btn-sneat rounded-3">Login untuk
-                                            Daftar</a>
+                                        <a href="{{ route('login') }}" class="btn btn-sneat rounded-3">{{ __('messages.login_to_register') }}</a>
                                     @endauth
                                 @endif
                             </div>
@@ -539,7 +538,7 @@
                 <div class="col-12 text-center empty-state">
                     <div class="glass-morphism shadow-sm">
                         <i class='bx bxs-calendar-x fs-1 text-muted mb-3'></i>
-                        <p class="text-muted mb-0 fw-semibold">Belum ada event mendatang yang tersedia.</p>
+                        <p class="text-muted mb-0 fw-semibold">{{ __('messages.no_upcoming_events') }}</p>
                     </div>
                 </div>
             @endforelse

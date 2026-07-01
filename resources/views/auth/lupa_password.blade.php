@@ -8,9 +8,9 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Forgot Password - Event Kampus</title>
+    <title>{{ __('messages.forgot_password_title') }} - {{ __('messages.landing_title') }}</title>
 
-    <meta name="description" content="Forgot Password Page" />
+    <meta name="description" content="{{ __('messages.forgot_password_description') }}" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
@@ -51,12 +51,12 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
                             <a href="{{ url('/') }}" class="app-brand-link gap-2">
-                                <span class="app-brand-text demo text-heading fw-bold">Event Kampus</span>
+                                <span class="app-brand-text demo text-heading fw-bold">{{ __('messages.landing_title') }}</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Forgot Password? 🔒</h4>
-                        <p class="mb-6">Enter your email and we'll send you instructions to reset your password</p>
+                        <h4 class="mb-1">{{ __('messages.forgot_password_title') }}</h4>
+                        <p class="mb-6">{{ __('messages.forgot_password_description') }}</p>
 
                         @if (session('status'))
                             <div class="alert alert-success">
@@ -76,21 +76,20 @@
                             method="POST">
                             @csrf
                             <div class="mb-6">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">{{ __('messages.email') }}</label>
                                 @error('email')
                                     <div class="alert alert-danger py-2 mb-2" role="alert">
                                         {{ $message }}
                                     </div>
                                 @enderror
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" autofocus required />
+                                    placeholder="{{ __('messages.enter_your_email') }}" autofocus required />
                             </div>
-                            <button class="btn btn-primary d-grid w-100" type="submit">Send Reset Link</button>
+                            <button class="btn btn-primary d-grid w-100" type="submit">{{ __('messages.send_reset_link') }}</button>
                         </form>
                         <div class="text-center">
                             <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
-                                <i class="bx bx-chevron-left scaleX-n1-rtl icon-base"></i>
-                                Back to login
+                                <i class="bx bx-chevron-left scaleX-n1-rtl icon-base"></i> {{ __('messages.back_to_login') }}
                             </a>
                         </div>
                     </div>
