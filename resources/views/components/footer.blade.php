@@ -6,7 +6,7 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                made By kelompok 3
+                <span id="footerText">{{ __('messages.made_by') }}</span> Kelompok 3
             </div>
             <div>
             </div>

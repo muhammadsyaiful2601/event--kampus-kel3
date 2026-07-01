@@ -246,7 +246,7 @@
             const ageField = document.getElementById('age');
             const age = parseInt(ageField.value);
             if (ageField.value && (isNaN(age) || age < 10 || age > 120)) {
-                showError('age', 'Umur harus antara 10 sampai 120 tahun.');
+                showError('age', '{{ __('messages.age_range') }}');
                 return false;
             } else {
                 clearError('age');
@@ -267,7 +267,7 @@
             // Event ID validation
             eventId.addEventListener('change', function() {
                 if (this.value === '') {
-                    showError('event_id', 'Pilih event terlebih dahulu.');
+                    showError('event_id', '{{ __('messages.select_event_required') }}');
                 } else {
                     clearError('event_id');
                 }
@@ -275,17 +275,17 @@
 
             // Participant name validation
             participantName.addEventListener('blur', function() {
-                validateField(this, 'participant_name', 'Nama peserta wajib diisi.');
+                validateField(this, 'participant_name', '{{ __('messages.participant_name_required') }}');
             });
 
             // Department validation
             department.addEventListener('blur', function() {
-                validateField(this, 'department', 'Jurusan wajib diisi.');
+                validateField(this, 'department', '{{ __('messages.department_required') }}');
             });
 
             // Year validation
             year.addEventListener('blur', function() {
-                validateField(this, 'year', 'Angkatan wajib diisi.');
+                validateField(this, 'year', '{{ __('messages.year_required') }}');
             });
 
             // Age validation
@@ -297,7 +297,7 @@
             if (teamName) {
                 teamName.addEventListener('blur', function() {
                     if (this.hasAttribute('required') && !this.value.trim()) {
-                        showError('team_name', 'Nama tim wajib diisi untuk event tim.');
+                        showError('team_name', '{{ __('messages.team_name_required') }}');
                     } else {
                         clearError('team_name');
                     }
@@ -315,19 +315,19 @@
             document.getElementById('registrationForm').addEventListener('submit', function(e) {
                 let isValid = true;
 
-                isValid = validateField(eventId, 'event_id', 'Pilih event terlebih dahulu.') && isValid;
-                isValid = validateField(participantName, 'participant_name', 'Nama peserta wajib diisi.') && isValid;
-                isValid = validateField(department, 'department', 'Jurusan wajib diisi.') && isValid;
-                isValid = validateField(year, 'year', 'Angkatan wajib diisi.') && isValid;
+                isValid = validateField(eventId, 'event_id', '{{ __('messages.select_event_required') }}') && isValid;
+                isValid = validateField(participantName, 'participant_name', '{{ __('messages.participant_name_required') }}') && isValid;
+                isValid = validateField(department, 'department', '{{ __('messages.department_required') }}') && isValid;
+                isValid = validateField(year, 'year', '{{ __('messages.year_required') }}') && isValid;
                 isValid = validateAge() && isValid;
 
                 if (teamName && teamName.hasAttribute('required') && !teamName.value.trim()) {
-                    showError('team_name', 'Nama tim wajib diisi untuk event tim.');
+                    showError('team_name', '{{ __('messages.team_name_required') }}');
                     isValid = false;
                 }
 
                 if (!participantPhoto.files.length) {
-                    showError('participant_photo', 'Foto peserta wajib diunggah.');
+                    showError('participant_photo', '{{ __('messages.participant_photo') }} {{ __('messages.field_required', {"field": "Foto Peserta"}) }}');
                     isValid = false;
                 }
 

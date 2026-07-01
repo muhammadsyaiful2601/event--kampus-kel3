@@ -28,10 +28,11 @@
                                                 aria-label="Toggle menu">
                                                 <i class="bx bx-menu"></i>
                                             </button>
-                                            <h4 class="fw-bold py-3 mb-1"><span class="text-muted fw-light">{{ __('messages.dashboard') }}
+                                            <h4 class="fw-bold py-3 mb-1"><span
+                                                    class="text-muted fw-light">{{ __('messages.dashboard') }}
                                                     /</span> {{ __('messages.home_page') }}</h4>
                                         </div>
-                                        <p>{{ __('messages.welcome_message', ['name' => Auth::user()->name']) }}</p>
+                                        <p>{{ __('messages.welcome_message', ['name' => Auth::user()->name]) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +55,7 @@
                         @endif
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <div class="fw-semibold mb-2">{{ __('messages.registration_error') }}</div>
+                                <div class="fw-semibold mb-2">{{ __('messages.registration_error') }}</div>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -126,11 +127,14 @@
                                                             {{ \Carbon\Carbon::parse($registration->created_at)->format('d M Y H:i') }}
                                                         </p>
                                                         @if ($registration->status === 'diterima')
-                                                            <span class="badge bg-success">{{ __('messages.diterima') }}</span>
+                                                            <span
+                                                                class="badge bg-success">{{ __('messages.diterima') }}</span>
                                                         @elseif($registration->status === 'ditolak')
-                                                            <span class="badge bg-danger">{{ __('messages.ditolak') }}</span>
+                                                            <span
+                                                                class="badge bg-danger">{{ __('messages.ditolak') }}</span>
                                                         @else
-                                                            <span class="badge bg-warning text-dark">{{ __('messages.pending') }}</span>
+                                                            <span
+                                                                class="badge bg-warning text-dark">{{ __('messages.pending') }}</span>
                                                         @endif
                                                     </div>
                                                     <div class="text-end d-flex flex-column align-items-end gap-2">
@@ -142,17 +146,19 @@
                                                                 {{ __('messages.cancel_contact_admin') }}
                                                             </div>
                                                         @elseif($registration->status === 'ditolak')
-                                                            <div class="text-danger small">{{ __('messages.insufficient_data') }}</div>
+                                                            <div class="text-danger small">
+                                                                {{ __('messages.insufficient_data') }}</div>
                                                         @else
-                                                            <div class="text-muted small mb-1">{{ __('messages.waiting_admin_verification') }}</div>
+                                                            <div class="text-muted small mb-1">
+                                                                {{ __('messages.waiting_admin_verification') }}</div>
                                                             <button type="button"
                                                                 class="btn btn-sm btn-outline-danger btn-cancel-reg"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#cancelModal"
+                                                                data-bs-toggle="modal" data-bs-target="#cancelModal"
                                                                 data-reg-id="{{ $registration->id }}"
                                                                 data-event-title="{{ $registration->event->title }}"
                                                                 data-cancel-url="{{ route('pendaftaran.cancel', $registration->id) }}">
-                                                                <i class='bx bx-x-circle me-1'></i>{{ __('messages.cancel_registration') }}
+                                                                <i
+                                                                    class='bx bx-x-circle me-1'></i>{{ __('messages.cancel_registration') }}
                                                             </button>
                                                         @endif
                                                     </div>
@@ -178,7 +184,8 @@
                                         @endif
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-2">
-                                                <span class="badge bg-primary">{{ __('messages.ongoing_badge') }}</span>
+                                                <span
+                                                    class="badge bg-primary">{{ __('messages.ongoing_badge') }}</span>
                                                 <span
                                                     class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
                                             </div>
@@ -188,13 +195,15 @@
                                                 {{ $event->location }}
                                             </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
-                                            <div class="text-muted small italic">{{ __('messages.registration_closed') }}</div>
+                                            <div class="text-muted small italic">
+                                                {{ __('messages.registration_closed') }}</div>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="col-12">
-                                    <div class="alert alert-secondary text-center">{{ __('messages.no_ongoing_events') }}
+                                    <div class="alert alert-secondary text-center">
+                                        {{ __('messages.no_ongoing_events') }}
                                     </div>
                                 </div>
                             @endforelse
@@ -211,7 +220,8 @@
                                         @endif
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-2">
-                                                <span class="badge bg-label-secondary">{{ __('messages.upcoming_badge') }}</span>
+                                                <span
+                                                    class="badge bg-label-secondary">{{ __('messages.upcoming_badge') }}</span>
                                                 <span
                                                     class="badge bg-info">{{ ucfirst($event->type ?? 'solo') }}</span>
                                                 <span class="badge bg-label-primary">{{ __('messages.quota') }}:
@@ -225,9 +235,11 @@
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
                                             <div class="mt-3">
                                                 @if (!$event->is_registration_open)
-                                                    <span class="badge bg-secondary">{{ __('messages.registration_closed') }}</span>
+                                                    <span
+                                                        class="badge bg-secondary">{{ __('messages.registration_closed') }}</span>
                                                 @elseif($event->is_full)
-                                                    <span class="badge bg-danger">{{ __('messages.quota_full') }}</span>
+                                                    <span
+                                                        class="badge bg-danger">{{ __('messages.quota_full') }}</span>
                                                 @else
                                                     @php
                                                         $isRegistered = \App\Models\Registration::where(
@@ -238,7 +250,7 @@
                                                             ->exists();
                                                     @endphp
                                                     @if ($isRegistered)
-                                                            <button class="btn btn-success w-100"
+                                                        <button class="btn btn-success w-100"
                                                             disabled>{{ __('messages.registered') }}</button>
                                                     @else
                                                         <button type="button"
@@ -258,7 +270,8 @@
                                 </div>
                             @empty
                                 <div class="col-12">
-                                    <div class="alert alert-secondary text-center">{{ __('messages.no_upcoming_events') }}</div>
+                                    <div class="alert alert-secondary text-center">
+                                        {{ __('messages.no_upcoming_events') }}</div>
                                 </div>
                             @endforelse
                         </div>
@@ -268,8 +281,11 @@
                             <div class="modal-dialog modal-dialog-centered modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header border-0 pb-0">
-                                        <h5 class="modal-title text-danger"><i class='bx bx-error-circle me-1'></i>{{ __('messages.cancel_registration_title') }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h5 class="modal-title text-danger"><i
+                                                class='bx bx-error-circle me-1'></i>{{ __('messages.cancel_registration_title') }}
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <p>{{ __('messages.cancel_confirmation_text') }}</p>
@@ -277,11 +293,13 @@
                                         <p class="text-muted small">{{ __('messages.cancel_note_text') }}</p>
                                     </div>
                                     <div class="modal-footer border-0 pt-0">
-                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ __('messages.no_cancel_button') }}</button>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">{{ __('messages.no_cancel_button') }}</button>
                                         <form id="cancelForm" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">{{ __('messages.yes_cancel_button') }}</button>
+                                            <button type="submit"
+                                                class="btn btn-danger">{{ __('messages.yes_cancel_button') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -304,53 +322,59 @@
                                         <div class="modal-body">
                                             <h6 id="eventTitleDisplay" class="fw-bold mb-3"></h6>
 
-                                        <div class="row g-3 mb-3">
-                                            <div class="col-md-6">
-                                                <label for="participant_name" class="form-label">Nama Peserta
-                                                    <span class="text-danger">*</span></label>
-                                                <div id="participant_name_error" class="text-danger small mb-2" style="display: none;"></div>
-                                                <input type="text" class="form-control" id="participant_name"
-                                                    name="participant_name" placeholder="Masukkan nama peserta"
-                                                    required>
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="participant_name" class="form-label">Nama Peserta
+                                                        <span class="text-danger">*</span></label>
+                                                    <div id="participant_name_error" class="text-danger small mb-2"
+                                                        style="display: none;"></div>
+                                                    <input type="text" class="form-control" id="participant_name"
+                                                        name="participant_name" placeholder="Masukkan nama peserta"
+                                                        required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="department" class="form-label">Jurusan <span
+                                                            class="text-danger">*</span></label>
+                                                    <div id="department_error" class="text-danger small mb-2"
+                                                        style="display: none;"></div>
+                                                    <input type="text" class="form-control" id="department"
+                                                        name="department" placeholder="Masukkan jurusan" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="year" class="form-label">Angkatan <span
+                                                            class="text-danger">*</span></label>
+                                                    <div id="year_error" class="text-danger small mb-2"
+                                                        style="display: none;"></div>
+                                                    <input type="text" class="form-control" id="year"
+                                                        name="year" placeholder="Masukkan angkatan" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="age" class="form-label">Umur <span
+                                                            class="text-danger">*</span></label>
+                                                    <div id="age_error" class="text-danger small mb-2"
+                                                        style="display: none;"></div>
+                                                    <input type="number" class="form-control" id="age"
+                                                        name="age" placeholder="Masukkan umur" min="10"
+                                                        max="120" required>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="department" class="form-label">Jurusan <span
-                                                        class="text-danger">*</span></label>
-                                                <div id="department_error" class="text-danger small mb-2" style="display: none;"></div>
-                                                <input type="text" class="form-control" id="department"
-                                                    name="department" placeholder="Masukkan jurusan" required>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="year" class="form-label">Angkatan <span
-                                                        class="text-danger">*</span></label>
-                                                <div id="year_error" class="text-danger small mb-2" style="display: none;"></div>
-                                                <input type="text" class="form-control" id="year"
-                                                    name="year" placeholder="Masukkan angkatan" required>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="age" class="form-label">Umur <span
-                                                        class="text-danger">*</span></label>
-                                                <div id="age_error" class="text-danger small mb-2" style="display: none;"></div>
-                                                <input type="number" class="form-control" id="age"
-                                                    name="age" placeholder="Masukkan umur" min="10"
-                                                    max="120" required>
-                                            </div>
-                                        </div>
 
-                                        <div id="teamFields" style="display: none;" class="mb-3">
-                                            <label for="team_name" class="form-label">Nama Tim</label>
-                                            <div id="team_name_error" class="text-danger small mb-2" style="display: none;"></div>
-                                            <input type="text" class="form-control" id="team_name"
-                                                name="team_name" placeholder="Masukkan nama tim">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="participant_photo_modal" class="form-label">Foto Peserta
-                                                <span class="text-danger">*</span></label>
-                                            <div id="participant_photo_error" class="text-danger small mb-2" style="display: none;"></div>
-                                            <input type="file" class="form-control"
-                                                id="participant_photo_modal" name="participant_photo"
-                                                accept=".png,.jpg,.jpeg" required>
-                                        </div>
+                                            <div id="teamFields" style="display: none;" class="mb-3">
+                                                <label for="team_name" class="form-label">Nama Tim</label>
+                                                <div id="team_name_error" class="text-danger small mb-2"
+                                                    style="display: none;"></div>
+                                                <input type="text" class="form-control" id="team_name"
+                                                    name="team_name" placeholder="Masukkan nama tim">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="participant_photo_modal" class="form-label">Foto Peserta
+                                                    <span class="text-danger">*</span></label>
+                                                <div id="participant_photo_error" class="text-danger small mb-2"
+                                                    style="display: none;"></div>
+                                                <input type="file" class="form-control"
+                                                    id="participant_photo_modal" name="participant_photo"
+                                                    accept=".png,.jpg,.jpeg" required>
+                                            </div>
 
                                             <p id="confirmationText">Apakah kamu yakin ingin mendaftar di event ini?
                                             </p>
@@ -358,7 +382,8 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">{{ __('messages.cancel_button') }}</button>
-                                            <button type="submit" class="btn btn-primary">{{ __('messages.confirm_registration') }}</button>
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ __('messages.confirm_registration') }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -433,11 +458,29 @@
                                 if (modalForm) {
                                     modalForm.addEventListener('submit', function(e) {
                                         var isValid = true;
+                                        var fields = [{
+                                                id: 'participant_name',
+                                                message: 'Nama peserta wajib diisi.'
+                                            },
+                                            {
+                                                id: 'department',
+                                                message: 'Jurusan wajib diisi.'
+                                            },
+                                            {
+                                                id: 'year',
+                                                message: 'Angkatan wajib diisi.'
+                                            },
+                                            {
+                                                id: 'age',
+                                                message: 'Umur wajib diisi.'
+                                            }
+                                        ];
+
                                         var fields = [
-                                            { id: 'participant_name', message: 'Nama peserta wajib diisi.' },
-                                            { id: 'department', message: 'Jurusan wajib diisi.' },
-                                            { id: 'year', message: 'Angkatan wajib diisi.' },
-                                            { id: 'age', message: 'Umur wajib diisi.' }
+                                            { id: 'participant_name', message: '{{ __('messages.participant_name_required') }}' },
+                                            { id: 'department', message: '{{ __('messages.department_required') }}' },
+                                            { id: 'year', message: '{{ __('messages.year_required') }}' },
+                                            { id: 'age', message: '{{ __('messages.age_required') }}' }
                                         ];
 
                                         fields.forEach(function(field) {
@@ -455,22 +498,23 @@
                                         if (ageInput && ageInput.value) {
                                             var age = parseInt(ageInput.value);
                                             if (isNaN(age) || age < 10 || age > 120) {
-                                                showError('age', 'Umur harus antara 10 sampai 120 tahun.');
+                                                showError('age', '{{ __('messages.age_range') }}');
                                                 isValid = false;
                                             }
                                         }
 
                                         // Validate team name for team events
                                         var teamNameInput = document.getElementById('team_name');
-                                        if (teamNameInput && teamNameInput.hasAttribute('required') && !teamNameInput.value.trim()) {
-                                            showError('team_name', 'Nama tim wajib diisi untuk event tim.');
+                                        if (teamNameInput && teamNameInput.hasAttribute('required') && !teamNameInput.value
+                                            .trim()) {
+                                            showError('team_name', '{{ __('messages.team_name_required') }}');
                                             isValid = false;
                                         }
 
                                         // Validate photo
                                         var photoInput = document.getElementById('participant_photo_modal');
                                         if (photoInput && !photoInput.files.length) {
-                                            showError('participant_photo', 'Foto peserta wajib diunggah.');
+                                            showError('participant_photo', '{{ __('messages.participant_photo') }} {{ __('messages.field_required', {field: "{{ __('messages.participant_photo') }}"}) }}');
                                             isValid = false;
                                         }
 
