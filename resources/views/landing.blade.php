@@ -3,7 +3,7 @@
 @include('components.header')
 
 <head>
-    <title>{{ __('messages.landing_title') }} | Welcome</title>
+    <title>{{ __('messages.landing_title') }} | {{ __('messages.welcome') }}</title>
     <!-- Boxicons Link -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
@@ -391,11 +391,10 @@
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     <h1 class="hero-title">{{ __('messages.welcome') }}</h1>
-                    <p class="hero-subtitle mx-auto">Platform manajemen event terbaik untuk mahasiswa. Temukan, ikuti,
-                        dan kelola kegiatan kampusmu dengan lebih mudah, cepat, dan interaktif.</p>
+                    <p class="hero-subtitle mx-auto">{{ __('messages.welcome_text') }}</p>
                     <div class="hero-cta">
                         <a href="#events" class="btn btn-hero-explore shadow rounded-3">
-                            <i class='bx bx-rocket me-2 animate-bounce'></i>Jelajahi Event Kampus
+                            <i class='bx bx-rocket me-2 animate-bounce'></i>{{ __('messages.explore_events') }}
                         </a>
                     </div>
                 </div>
@@ -413,15 +412,15 @@
                     <div class="search-box-container">
                         <i class='bx bx-search fs-4'></i>
                         <input type="text" id="eventSearch" class="form-control search-input"
-                            placeholder="Cari nama atau lokasi event...">
+                            placeholder="{{ __('messages.search_placeholder') }}">
                     </div>
                 </div>
                 <div class="col-md-8 text-md-end">
                     <div class="d-flex flex-wrap gap-2 justify-content-md-end">
-                        <button class="btn-filter-tab active" onclick="filterType('all', this)">Semua Tipe</button>
-                        <button class="btn-filter-tab" onclick="filterType('solo', this)">Solo</button>
-                        <button class="btn-filter-tab" onclick="filterType('duo', this)">Duo</button>
-                        <button class="btn-filter-tab" onclick="filterType('tim', this)">Tim</button>
+                        <button class="btn-filter-tab active" onclick="filterType('all', this)">{{ __('messages.all_types') }}</button>
+                        <button class="btn-filter-tab" onclick="filterType('solo', this)">{{ __('messages.solo') }}</button>
+                        <button class="btn-filter-tab" onclick="filterType('duo', this)">{{ __('messages.duo') }}</button>
+                        <button class="btn-filter-tab" onclick="filterType('tim', this)">{{ __('messages.team') }}</button>
                     </div>
                 </div>
             </div>
@@ -442,7 +441,7 @@
         @endif
 
         <!-- Ongoing Events Section -->
-        <h2 class="text-center section-title fw-bold">Event Sedang Berlangsung</h2>
+        <h2 class="text-center section-title fw-bold">{{ __('messages.ongoing_events_title') }}</h2>
         <div class="row g-4 mb-5 pb-5 event-container">
             @forelse($ongoingEvents as $event)
                 <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}"
@@ -470,7 +469,7 @@
                             </div>
                             <p class="card-text text-secondary mb-4">{{ Str::limit($event->description, 90) }}</p>
                             <div class="alert alert-light border-0 small m-0 p-2 text-center text-secondary mt-auto">
-                                <i class='bx bx-lock-alt me-1'></i> Pendaftaran ditutup
+                                <i class='bx bx-lock-alt me-1'></i> {{ __('messages.registration_closed') }}
                             </div>
                         </div>
                     </div>
@@ -486,7 +485,7 @@
         </div>
 
         <!-- Upcoming Events Section -->
-        <h2 class="text-center section-title fw-bold mt-5">Event Mendatang</h2>
+        <h2 class="text-center section-title fw-bold mt-5">{{ __('messages.upcoming_events_title') }}</h2>
         <div class="row g-4 event-container" id="upcomingSection">
             @forelse($upcomingEvents as $event)
                 <div class="col-md-6 col-lg-4 event-card-item" data-type="{{ strtolower($event->type ?? 'solo') }}"

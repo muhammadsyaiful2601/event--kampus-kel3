@@ -24,25 +24,23 @@
                                     <div class="card-body">
                                         <div
                                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <button type="button"
-                                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
-                                                    aria-label="Toggle menu">
-                                                    <i class="bx bx-menu"></i>
-                                                </button>
-                                                <div>
-                                                    <h4 class="fw-bold mb-2">Dashboard Admin</h4>
-                                                    <p class="mb-0 text-muted">Selamat datang,
-                                                        <strong>{{ Auth::user()->name }}</strong>. Kelola event dan
-                                                        verifikasi peserta di sini.</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex gap-2 flex-wrap">
-                                                <a href="{{ route('admin.events.index') }}"
-                                                    class="btn btn-outline-primary btn-sm">Event</a>
-                                                <a href="{{ route('admin.registrations.index') }}"
-                                                    class="btn btn-outline-success btn-sm">Pendaftaran</a>
-                                            </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button"
+                                class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                aria-label="Toggle menu">
+                                <i class="bx bx-menu"></i>
+                            </button>
+                            <div>
+                                <h4 class="fw-bold mb-2">{{ __('messages.dashboard_admin') }}</h4>
+                                <p class="mb-0 text-muted">{{ __('messages.welcome_message', ['name' => Auth::user()->name]) }}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ route('admin.events.index') }}"
+                                class="btn btn-outline-primary btn-sm">{{ __('messages.event_management') }}</a>
+                            <a href="{{ route('admin.registrations.index') }}"
+                                class="btn btn-outline-success btn-sm">{{ __('messages.registration_verification') }}</a>
+                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -52,38 +50,38 @@
                         <div class="row g-3 mb-4">
                             <div class="col-12 col-sm-6 col-xl-3">
                                 <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-body text-center py-4">
-                                        <span class="badge bg-label-primary mb-3">Total Event</span>
-                                        <h2 class="mb-0">{{ $eventCount ?? 0 }}</h2>
-                                        <p class="text-muted mb-0">Semua event</p>
-                                    </div>
+                            <div class="card-body text-center py-4">
+                                <span class="badge bg-label-primary mb-3">{{ __('messages.total_events') }}</span>
+                                <h2 class="mb-0">{{ $eventCount ?? 0 }}</h2>
+                                <p class="text-muted mb-0">{{ __('messages.all_events') }}</p>
+                            </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-xl-3">
                                 <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-body text-center py-4">
-                                        <span class="badge bg-label-info mb-3">Event Berlangsung</span>
-                                        <h2 class="mb-0">{{ $eventOngoing ?? 0 }}</h2>
-                                        <p class="text-muted mb-0">Event saat ini</p>
-                                    </div>
+                            <div class="card-body text-center py-4">
+                                <span class="badge bg-label-info mb-3">{{ __('messages.ongoing_events') }}</span>
+                                <h2 class="mb-0">{{ $eventOngoing ?? 0 }}</h2>
+                                <p class="text-muted mb-0">{{ __('messages.current_events') }}</p>
+                            </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-xl-3">
                                 <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-body text-center py-4">
-                                        <span class="badge bg-label-success mb-3">Pendaftaran Diterima</span>
-                                        <h2 class="mb-0">{{ $acceptedRegistrations ?? 0 }}</h2>
-                                        <p class="text-muted mb-0">Peserta lolos</p>
-                                    </div>
+                            <div class="card-body text-center py-4">
+                                <span class="badge bg-label-success mb-3">{{ __('messages.accepted_registrations') }}</span>
+                                <h2 class="mb-0">{{ $acceptedRegistrations ?? 0 }}</h2>
+                                <p class="text-muted mb-0">{{ __('messages.passed_participants') }}</p>
+                            </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-xl-3">
                                 <div class="card border-0 shadow-sm h-100">
-                                    <div class="card-body text-center py-4">
-                                        <span class="badge bg-label-warning mb-3">Pendaftaran Pending</span>
-                                        <h2 class="mb-0">{{ $pendingRegistrations ?? 0 }}</h2>
-                                        <p class="text-muted mb-0">Menunggu verifikasi</p>
-                                    </div>
+                            <div class="card-body text-center py-4">
+                                <span class="badge bg-label-warning mb-3">{{ __('messages.pending_registrations') }}</span>
+                                <h2 class="mb-0">{{ $pendingRegistrations ?? 0 }}</h2>
+                                <p class="text-muted mb-0">{{ __('messages.waiting_verification') }}</p>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -92,20 +90,20 @@
                             <div class="col-12 col-lg-6">
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-header">
-                                        <h5 class="mb-0">Ringkasan Pendaftaran</h5>
+                                        <h5 class="mb-0">{{ __('messages.registration_summary') }}</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="row text-center">
                                             <div class="col-4 border-end">
-                                                <p class="mb-1 text-muted">Aman</p>
+                                                <p class="mb-1 text-muted">{{ __('messages.safe') }}</p>
                                                 <h4 class="mb-0">{{ $acceptedRegistrations ?? 0 }}</h4>
                                             </div>
                                             <div class="col-4 border-end">
-                                                <p class="mb-1 text-muted">Pending</p>
+                                                <p class="mb-1 text-muted">{{ __('messages.pending') }}</p>
                                                 <h4 class="mb-0">{{ $pendingRegistrations ?? 0 }}</h4>
                                             </div>
                                             <div class="col-4">
-                                                <p class="mb-1 text-muted">Ditolak</p>
+                                                <p class="mb-1 text-muted">{{ __('messages.rejected') }}</p>
                                                 <h4 class="mb-0">{{ $rejectedRegistrations ?? 0 }}</h4>
                                             </div>
                                         </div>
@@ -115,17 +113,17 @@
                             <div class="col-12 col-lg-6">
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-header">
-                                        <h5 class="mb-0">Admin Aktif</h5>
+                                        <h5 class="mb-0">{{ __('messages.active_admins') }}</h5>
                                     </div>
                                     <div class="card-body">
                                         <div
                                             class="d-flex align-items-center justify-content-between gap-3 flex-column flex-sm-row">
                                             <div>
-                                                <p class="text-muted mb-1">Jumlah admin saat ini</p>
+                                                <p class="text-muted mb-1">{{ __('messages.current_admin_count') }}</p>
                                                 <h3 class="mb-0">{{ $adminCount ?? 0 }}</h3>
                                             </div>
                                             <a href="{{ route('admin.admins.index') }}"
-                                                class="btn btn-outline-secondary btn-sm">Lihat Admin</a>
+                                                class="btn btn-outline-secondary btn-sm">{{ __('messages.view_admins') }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -134,16 +132,16 @@
 
                         <div class="card border-0 shadow-sm">
                             <div class="card-header">
-                                <h5 class="mb-0">Pendaftaran Terbaru</h5>
+                                <h5 class="mb-0">{{ __('messages.latest_registrations') }}</h5>
                             </div>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-hover mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Nama</th>
-                                            <th>Event</th>
-                                            <th>Status</th>
-                                            <th>Tanggal</th>
+                                            <th>{{ __('messages.name') }}</th>
+                                            <th>{{ __('messages.event') }}</th>
+                                            <th>{{ __('messages.status') }}</th>
+                                            <th>{{ __('messages.date') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,11 +151,11 @@
                                                 <td>{{ $registration->event->title ?? '-' }}</td>
                                                 <td>
                                                     @if ($registration->status === 'diterima')
-                                                        <span class="badge bg-success">Diterima</span>
+                                                        <span class="badge bg-success">{{ __('messages.diterima') }}</span>
                                                     @elseif($registration->status === 'ditolak')
-                                                        <span class="badge bg-danger">Ditolak</span>
+                                                        <span class="badge bg-danger">{{ __('messages.ditolak') }}</span>
                                                     @else
-                                                        <span class="badge bg-warning text-dark">Pending</span>
+                                                        <span class="badge bg-warning text-dark">{{ __('messages.pending') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $registration->created_at ? $registration->created_at->format('d M Y') : '-' }}
@@ -165,8 +163,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="text-center text-muted">Belum ada pendaftaran
-                                                    terbaru.</td>
+                                                <td colspan="4" class="text-center text-muted">{{ __('messages.no_latest_registrations') }}</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

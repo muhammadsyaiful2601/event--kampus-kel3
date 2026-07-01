@@ -1,113 +1,119 @@
 <!doctype html>
 
 <html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/"
-  data-template="vertical-menu-template-free">
+    data-template="vertical-menu-template-free">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Forgot Password - Event Kampus</title>
+    <title>Forgot Password - Event Kampus</title>
 
-  <meta name="description" content="Forgot Password Page" />
+    <meta name="description" content="Forgot Password Page" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-    rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
 
-  <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
+    <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
 
-  <!-- Core CSS -->
-  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
-  <link rel="stylesheet" href="../assets/css/demo.css" />
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
 
-  <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <!-- Page CSS -->
-  <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
 
-  <!-- Helpers -->
-  <script src="../assets/vendor/js/helpers.js"></script>
-  <script src="../assets/js/config.js"></script>
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="../assets/js/config.js"></script>
 </head>
 
 <body>
-  <!-- Content -->
+    <!-- Content -->
 
-  <div class="container-xxl">
-    <div class="authentication-wrapper authentication-basic container-p-y">
-      <div class="authentication-inner">
-        <!-- Forgot Password -->
-        <div class="card px-sm-6 px-0">
-          <div class="card-body">
-            <!-- Logo -->
-            <div class="app-brand justify-content-center">
-              <a href="{{ url('/') }}" class="app-brand-link gap-2">
-                <span class="app-brand-text demo text-heading fw-bold">Event Kampus</span>
-              </a>
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Forgot Password -->
+                <div class="card px-sm-6 px-0">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center">
+                            <a href="{{ url('/') }}" class="app-brand-link gap-2">
+                                <span class="app-brand-text demo text-heading fw-bold">Event Kampus</span>
+                            </a>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-1">Forgot Password? 🔒</h4>
+                        <p class="mb-6">Enter your email and we'll send you instructions to reset your password</p>
+
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <form id="formAuthentication" class="mb-6" action="{{ route('password.reset.send') }}"
+                            method="POST">
+                            @csrf
+                            <div class="mb-6">
+                                <label for="email" class="form-label">Email</label>
+                                @error('email')
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter your email" autofocus required />
+                            </div>
+                            <button class="btn btn-primary d-grid w-100" type="submit">Send Reset Link</button>
+                        </form>
+                        <div class="text-center">
+                            <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
+                                <i class="bx bx-chevron-left scaleX-n1-rtl icon-base"></i>
+                                Back to login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Forgot Password -->
             </div>
-            <!-- /Logo -->
-            <h4 class="mb-1">Forgot Password? 🔒</h4>
-            <p class="mb-6">Enter your email and we'll send you instructions to reset your password</p>
-
-            @if(session('status'))
-              <div class="alert alert-success">
-                {{ session('status') }}
-              </div>
-            @endif
-
-            @if($errors->any())
-              <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                  <div>{{ $error }}</div>
-                @endforeach
-              </div>
-            @endif
-
-            <form id="formAuthentication" class="mb-6" action="{{ route('password.reset.send') }}" method="POST">
-              @csrf
-              <div class="mb-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus
-                  required />
-              </div>
-              <button class="btn btn-primary d-grid w-100" type="submit">Send Reset Link</button>
-            </form>
-            <div class="text-center">
-              <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
-                <i class="bx bx-chevron-left scaleX-n1-rtl icon-base"></i>
-                Back to login
-              </a>
-            </div>
-          </div>
         </div>
-        <!-- /Forgot Password -->
-      </div>
     </div>
-  </div>
 
-  <!-- / Content -->
+    <!-- / Content -->
 
-  <!-- Core JS -->
-  <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-  <script src="../assets/vendor/libs/popper/popper.js"></script>
-  <script src="../assets/vendor/js/bootstrap.js"></script>
-  <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-  <script src="../assets/vendor/js/menu.js"></script>
+    <!-- Core JS -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
 
-  <!-- Main JS -->
-  <script src="../assets/js/main.js"></script>
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
 
-  <!-- Place this tag before closing body tag for github widget button. -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Place this tag before closing body tag for github widget button. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
 </html>

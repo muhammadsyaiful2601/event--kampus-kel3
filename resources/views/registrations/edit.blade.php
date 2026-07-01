@@ -13,8 +13,8 @@
                         <!-- Header Section -->
                         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
                             <div>
-                                <h4 class="fw-bold py-3 mb-2">Ubah Status Pendaftaran</h4>
-                                <p class="text-muted mb-0">Verifikasi dan ubah status pendaftaran peserta event.</p>
+                                <h4 class="fw-bold py-3 mb-2">{{ __('messages.edit_registration_status_title') }}</h4>
+                                <p class="text-muted mb-0">{{ __('messages.edit_registration_status_description') }}</p>
                             </div>
                             <a href="{{ route('pendaftaran.index') }}" class="btn btn-outline-secondary btn-lg mt-3 mt-md-0">
                                 <i class="bx bx-arrow-back me-1"></i>Kembali
@@ -35,7 +35,7 @@
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <div class="d-flex align-items-center">
                                     <i class="bx bx-x-circle me-2"></i>
-                                    <div class="fw-semibold">Terjadi kesalahan:</div>
+                                    <div class="fw-semibold">{{ __('messages.error_occurred') }}</div>
                                 </div>
                                 <ul class="mb-0 mt-2">
                                     @foreach ($errors->all() as $error)
@@ -54,7 +54,7 @@
                                 <div class="card mb-3 shadow-sm">
                                     <div class="card-header bg-primary text-white">
                                         <h6 class="mb-0">
-                                            <i class="bx bx-user-circle me-2"></i>Informasi Peserta
+                                            <i class="bx bx-user-circle me-2"></i>{{ __('messages.participant_information') }}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -78,22 +78,22 @@
                                 <div class="card mb-3 shadow-sm">
                                     <div class="card-header bg-info text-white">
                                         <h6 class="mb-0">
-                                            <i class="bx bx-calendar-event me-2"></i>Informasi Event
+                                            <i class="bx bx-calendar-event me-2"></i>{{ __('messages.event_information') }}
                                         </h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-2">
-                                            <small class="text-muted">Nama Event</small>
+                                            <small class="text-muted">{{ __('messages.event_name') }}</small>
                                             <p class="fw-semibold mb-0">{{ $registration->event->title }}</p>
                                         </div>
                                         <div class="mb-2">
-                                            <small class="text-muted">Tanggal Event</small>
+                                            <small class="text-muted">{{ __('messages.event_date') }}</small>
                                             <p class="fw-semibold mb-0">
                                                 <i class="bx bx-calendar"></i> {{ \Carbon\Carbon::parse($registration->event->date)->format('d M Y H:i') }}
                                             </p>
                                         </div>
                                         <div class="mb-0">
-                                            <small class="text-muted">Lokasi Event</small>
+                                            <small class="text-muted">{{ __('messages.event_location') }}</small>
                                             <p class="fw-semibold mb-0">
                                                 <i class="bx bx-map"></i> {{ $registration->event->location }}
                                             </p>
@@ -105,30 +105,30 @@
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-secondary text-white">
                                         <h6 class="mb-0">
-                                            <i class="bx bx-time-five me-2"></i>Status Saat Ini
+                                            <i class="bx bx-time-five me-2"></i>{{ __('messages.current_status') }}
                                         </h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="text-center">
                                             @if($registration->status === 'pending')
                                                 <span class="badge bg-warning text-dark p-3" style="font-size: 1rem;">
-                                                    <i class="bx bx-time"></i> PENDING
+                                                    <i class="bx bx-time"></i> {{ __('messages.pending') }}
                                                 </span>
-                                                <p class="text-muted small mt-2 mb-0">Menunggu verifikasi</p>
+                                                <p class="text-muted small mt-2 mb-0">{{ __('messages.waiting_verification') }}</p>
                                             @elseif($registration->status === 'diterima')
                                                 <span class="badge bg-success p-3" style="font-size: 1rem;">
-                                                    <i class="bx bx-check-circle"></i> DITERIMA
+                                                    <i class="bx bx-check-circle"></i> {{ __('messages.diterima') }}
                                                 </span>
-                                                <p class="text-muted small mt-2 mb-0">Sudah disetujui</p>
+                                                <p class="text-muted small mt-2 mb-0">{{ __('messages.registration_approved') }}</p>
                                             @else
                                                 <span class="badge bg-danger p-3" style="font-size: 1rem;">
-                                                    <i class="bx bx-x-circle"></i> DITOLAK
+                                                    <i class="bx bx-x-circle"></i> {{ __('messages.ditolak') }}
                                                 </span>
-                                                <p class="text-muted small mt-2 mb-0">Sudah ditolak</p>
+                                                <p class="text-muted small mt-2 mb-0">{{ __('messages.registration_rejected') }}</p>
                                             @endif
                                         </div>
                                         <div class="mt-3">
-                                            <small class="text-muted">Tanggal Pendaftaran</small>
+                                            <small class="text-muted">{{ __('messages.registration_date') }}</small>
                                             <p class="fw-semibold mb-0">{{ $registration->created_at->format('d M Y H:i') }}</p>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-warning text-dark">
                                         <h6 class="mb-0">
-                                            <i class="bx bx-edit-alt me-2"></i>Ubah Status Pendaftaran
+                                            <i class="bx bx-edit-alt me-2"></i>{{ __('messages.edit_registration_status_title') }}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -151,14 +151,14 @@
                                             <!-- Status Selection -->
                                             <div class="mb-4">
                                                 <label for="status" class="form-label fw-semibold">
-                                                    <i class="bx bx-info-circle me-2"></i>Pilih Status Baru <span class="text-danger">*</span>
+                                                    <i class="bx bx-info-circle me-2"></i>{{ __('messages.select_new_status') }} <span class="text-danger">*</span>
                                                 </label>
                                                 <select class="form-select form-select-lg @error('status') is-invalid @enderror" 
                                                         id="status" 
                                                         name="status" 
                                                         required
                                                         onchange="updateStatusPreview()">
-                                                    <option value="">-- Pilih Status --</option>
+                                                    <option value="">-- {{ __('messages.select_status') }} --</option>
                                                     <option value="pending" data-color="warning" data-icon="bx-time">
                                                         <i class="bx bx-time"></i> Pending - Menunggu Verifikasi
                                                     </option>
@@ -200,10 +200,10 @@
                                             <!-- Action Buttons -->
                                             <div class="d-flex flex-wrap gap-2 pt-3 border-top">
                                                 <button type="submit" class="btn btn-primary btn-lg">
-                                                    <i class="bx bx-save me-1"></i>Simpan Perubahan
+                                                    <i class="bx bx-save me-1"></i>{{ __('messages.save_changes') }}
                                                 </button>
                                                 <a href="{{ route('pendaftaran.index') }}" class="btn btn-outline-secondary btn-lg">
-                                                    <i class="bx bx-arrow-back me-1"></i>Batal
+                                                    <i class="bx bx-arrow-back me-1"></i>{{ __('messages.cancel') }}
                                                 </a>
                                             </div>
                                         </form>

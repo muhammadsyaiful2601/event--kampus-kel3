@@ -42,7 +42,7 @@
                         @endif
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <div class="fw-semibold mb-2">Periksa kembali form event:</div>
+                                <div class="fw-semibold mb-2">{{ __('messages.registration_error') }}</div>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -78,7 +78,7 @@
                                                             alt="Event Image" class="rounded" width="50"
                                                             height="50" style="object-fit: cover;">
                                                     @else
-                                                        <span class="badge bg-label-secondary">No Image</span>
+                                                        <span class="badge bg-label-secondary">{{ __('messages.no_image') }}</span>
                                                     @endif
                                                 </td>
                                                 <td><strong>{{ $event->title }}</strong></td>
@@ -159,10 +159,16 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="title{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.event_title') }}</label>
+                                                                                @error('title')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <input type="text"
                                                                                     id="title{{ $event->id }}"
                                                                                     name="title" class="form-control"
-                                                                                    value="{{ $event->title }}"
+                                                                                    value="{{ old('title', $event->title) }}"
                                                                                     required>
                                                                             </div>
                                                                         </div>
@@ -170,11 +176,17 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="date{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.date') }}</label>
+                                                                                @error('date')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <input type="date"
                                                                                     id="date{{ $event->id }}"
                                                                                     name="date"
                                                                                     class="form-control"
-                                                                                    value="{{ $event->date }}"
+                                                                                    value="{{ old('date', $event->date) }}"
                                                                                     required>
                                                                             </div>
                                                                         </div>
@@ -183,11 +195,17 @@
                                                                                 <label
                                                                                     for="location{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.location') }}</label>
+                                                                                @error('location')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <input type="text"
                                                                                     id="location{{ $event->id }}"
                                                                                     name="location"
                                                                                     class="form-control"
-                                                                                    value="{{ $event->location }}"
+                                                                                    value="{{ old('location', $event->location) }}"
                                                                                     required>
                                                                             </div>
                                                                         </div>
@@ -195,15 +213,21 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="status{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.status') }}</label>
+                                                                                @error('status')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <select id="status{{ $event->id }}"
                                                                                     name="status" class="form-select"
                                                                                     required>
                                                                                     <option value="berlangsung"
-                                                                                        {{ $event->status === 'berlangsung' ? 'selected' : '' }}>
+                                                                                        {{ old('status', $event->status) === 'berlangsung' ? 'selected' : '' }}>
                                                                                         {{ __('messages.ongoing') }}
                                                                                     </option>
                                                                                     <option value="mendatang"
-                                                                                        {{ $event->status === 'mendatang' ? 'selected' : '' }}>
+                                                                                        {{ old('status', $event->status) === 'mendatang' ? 'selected' : '' }}>
                                                                                         {{ __('messages.upcoming') }}
                                                                                     </option>
                                                                                 </select>
@@ -213,17 +237,23 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="type{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.type') }}</label>
+                                                                                @error('type')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <select id="type{{ $event->id }}"
                                                                                     name="type" class="form-select"
                                                                                     required>
                                                                                     <option value="solo"
-                                                                                        {{ $event->type === 'solo' ? 'selected' : '' }}>
+                                                                                        {{ old('type', $event->type) === 'solo' ? 'selected' : '' }}>
                                                                                         Solo</option>
                                                                                     <option value="duo"
-                                                                                        {{ $event->type === 'duo' ? 'selected' : '' }}>
+                                                                                        {{ old('type', $event->type) === 'duo' ? 'selected' : '' }}>
                                                                                         Duo</option>
                                                                                     <option value="tim"
-                                                                                        {{ $event->type === 'tim' ? 'selected' : '' }}>
+                                                                                        {{ old('type', $event->type) === 'tim' ? 'selected' : '' }}>
                                                                                         Tim</option>
                                                                                 </select>
                                                                             </div>
@@ -233,16 +263,22 @@
                                                                                 <label
                                                                                     for="reg_status{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.registration') }}</label>
+                                                                                @error('is_registration_open')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <select
                                                                                     id="reg_status{{ $event->id }}"
                                                                                     name="is_registration_open"
                                                                                     class="form-select" required>
                                                                                     <option value="1"
-                                                                                        {{ $event->is_registration_open ? 'selected' : '' }}>
+                                                                                        {{ old('is_registration_open', $event->is_registration_open) ? 'selected' : '' }}>
                                                                                         {{ __('messages.open') }}
                                                                                     </option>
                                                                                     <option value="0"
-                                                                                        {{ !$event->is_registration_open ? 'selected' : '' }}>
+                                                                                        {{ !old('is_registration_open', $event->is_registration_open) ? 'selected' : '' }}>
                                                                                         {{ __('messages.closed') }}
                                                                                     </option>
                                                                                 </select>
@@ -252,11 +288,17 @@
                                                                             <div class="col mb-3">
                                                                                 <label for="quota{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.quota') }}</label>
+                                                                                @error('quota')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <input type="number"
                                                                                     id="quota{{ $event->id }}"
                                                                                     name="quota"
                                                                                     class="form-control"
-                                                                                    value="{{ $event->quota }}">
+                                                                                    value="{{ old('quota', $event->quota) }}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -265,6 +307,12 @@
                                                                                     class="form-label">{{ __('messages.image') }}
                                                                                     ({{ __('messages.optional') }})
                                                                                 </label>
+                                                                                @error('image')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
                                                                                 <input type="file"
                                                                                     id="image{{ $event->id }}"
                                                                                     name="image"
@@ -279,7 +327,13 @@
                                                                                 <label
                                                                                     for="description{{ $event->id }}"
                                                                                     class="form-label">{{ __('messages.description') }}</label>
-                                                                                <textarea id="description{{ $event->id }}" name="description" class="form-control" rows="3" required>{{ $event->description }}</textarea>
+                                                                                @error('description')
+                                                                                    <div class="alert alert-danger py-2 mb-2"
+                                                                                        role="alert">
+                                                                                        {{ $message }}
+                                                                                    </div>
+                                                                                @enderror
+                                                                                <textarea id="description{{ $event->id }}" name="description" class="form-control" rows="3" required>{{ old('description', $event->description) }}</textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -325,6 +379,11 @@
                                             <div class="col mb-3">
                                                 <label for="title"
                                                     class="form-label">{{ __('messages.event_title') }}</label>
+                                                @error('title')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <input type="text" id="title" name="title"
                                                     class="form-control" required>
                                             </div>
@@ -333,6 +392,11 @@
                                             <div class="col mb-3">
                                                 <label for="date"
                                                     class="form-label">{{ __('messages.date') }}</label>
+                                                @error('date')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <input type="date" id="date" name="date"
                                                     class="form-control" required>
                                             </div>
@@ -341,6 +405,11 @@
                                             <div class="col mb-3">
                                                 <label for="location"
                                                     class="form-label">{{ __('messages.location') }}</label>
+                                                @error('location')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <input type="text" id="location" name="location"
                                                     class="form-control" required>
                                             </div>
@@ -349,6 +418,11 @@
                                             <div class="col mb-3">
                                                 <label for="status"
                                                     class="form-label">{{ __('messages.status') }}</label>
+                                                @error('status')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <select id="status" name="status" class="form-select" required>
                                                     <option value="mendatang" selected>{{ __('messages.upcoming') }}
                                                     </option>
@@ -360,10 +434,15 @@
                                             <div class="col mb-3">
                                                 <label for="type"
                                                     class="form-label">{{ __('messages.type') }}</label>
+                                                @error('type')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <select id="type" name="type" class="form-select" required>
-                                                    <option value="solo" selected>Solo</option>
-                                                    <option value="duo">Duo</option>
-                                                    <option value="tim">Tim</option>
+                                                        <option value="solo" selected>{{ __('messages.solo') }}</option>
+                                                        <option value="duo">{{ __('messages.duo') }}</option>
+                                                        <option value="tim">{{ __('messages.team') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -371,9 +450,15 @@
                                             <div class="col mb-3">
                                                 <label for="is_registration_open"
                                                     class="form-label">{{ __('messages.registration') }}</label>
+                                                @error('is_registration_open')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <select id="is_registration_open" name="is_registration_open"
                                                     class="form-select" required>
-                                                    <option value="1" selected>{{ __('messages.open') }}</option>
+                                                    <option value="1" selected>{{ __('messages.open') }}
+                                                    </option>
                                                     <option value="0">{{ __('messages.closed') }}</option>
                                                 </select>
                                             </div>
@@ -382,6 +467,11 @@
                                             <div class="col mb-3">
                                                 <label for="quota"
                                                     class="form-label">{{ __('messages.quota') }}</label>
+                                                @error('quota')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <input type="number" id="quota" name="quota"
                                                     class="form-control">
                                             </div>
@@ -390,6 +480,11 @@
                                             <div class="col mb-3">
                                                 <label for="image" class="form-label">{{ __('messages.image') }}
                                                     ({{ __('messages.optional') }})</label>
+                                                @error('image')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <input type="file" id="image" name="image"
                                                     accept=".png,.jpg,.jpeg" class="form-control">
                                             </div>
@@ -398,6 +493,11 @@
                                             <div class="col mb-3">
                                                 <label for="description"
                                                     class="form-label">{{ __('messages.description') }}</label>
+                                                @error('description')
+                                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
                                             </div>
                                         </div>

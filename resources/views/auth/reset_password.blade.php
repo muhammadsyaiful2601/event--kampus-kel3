@@ -13,9 +13,9 @@
                             <p class="text-muted">Silakan masukkan password baru kamu.</p>
                         </div>
 
-                        @if($errors->any())
+                        @if ($errors->any())
                             <div class="alert alert-danger">
-                                @foreach($errors->all() as $error)
+                                @foreach ($errors->all() as $error)
                                     <div>{{ $error }}</div>
                                 @endforeach
                             </div>
@@ -25,10 +25,20 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password Baru</label>
+                                @error('password')
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                                @error('password_confirmation')
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <input type="password" name="password_confirmation" id="password_confirmation"
                                     class="form-control" required>
                             </div>

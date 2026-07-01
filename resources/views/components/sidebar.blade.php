@@ -46,8 +46,21 @@
         <li class="menu-item {{ request()->routeIs('peserta.profile*') ? 'active' : '' }}">
             <a href="{{ route('peserta.profile') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
-                <div>Profil</div>
+                <div>{{ __('messages.profile') }}</div>
             </a>
+        </li>
+
+        <li class="menu-item">
+            <div class="dropdown">
+                <a class="menu-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <i class="menu-icon tf-icons bx bx-globe"></i>
+                    <div>{{ strtoupper(app()->getLocale()) }}</div>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('lang.switch', 'id') }}">{{ __('messages.indonesian') }}</a></li>
+                    <li><a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">{{ __('messages.english') }}</a></li>
+                </ul>
+            </div>
         </li>
 
 

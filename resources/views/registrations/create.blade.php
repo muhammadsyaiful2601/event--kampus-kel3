@@ -13,15 +13,14 @@
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <!-- Header -->
                         <div class="mb-4">
-                            <h4 class="fw-bold py-3 mb-2">Daftar Event</h4>
-                            <p class="text-muted">Pilih event yang ingin Anda ikuti dan lengkapi pendaftaran Anda
-                                sekarang.</p>
+                            <h4 class="fw-bold py-3 mb-2">{{ __('messages.registration_title') }}</h4>
+                            <p class="text-muted">{{ __('messages.registration_description') }}</p>
                         </div>
 
                         <!-- Alert Errors -->
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <div class="fw-semibold mb-2">Terjadi kesalahan:</div>
+                                <div class="fw-semibold mb-2">{{ __('messages.registration_error') }}</div>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -35,7 +34,7 @@
                         <!-- Form Card -->
                         <div class="card shadow-sm">
                             <div class="card-header bg-primary bg-gradient">
-                                <h5 class="mb-0 text-white">Form Pendaftaran Event</h5>
+                                <h5 class="mb-0 text-white">{{ __('messages.registration_title_modal') }}</h5>
                             </div>
                             <div class="card-body">
                                 <form action="{{ route('pendaftaran.store') }}" method="POST" id="registrationForm"
@@ -44,8 +43,14 @@
 
                                     <!-- Event Selection -->
                                     <div class="mb-4">
-                                        <label for="event_id" class="form-label fw-semibold">Pilih Event <span
-                                                class="text-danger">*</span></label>
+                                        <label for="event_id" class="form-label fw-semibold">{{ __('messages.select_event') }} <span
+                                                class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                        <div id="event_id_error" class="text-danger small mb-2" style="display: none;"></div>
+                                        @error('event_id')
+                                            <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                         <select
                                             class="form-select form-select-lg @error('event_id') is-invalid @enderror"
                                             id="event_id" name="event_id" required onchange="updateEventInfo()">
@@ -61,12 +66,9 @@
                                                     {{ $event->title }} • {{ $event->date }}
                                                 </option>
                                             @empty
-                                                <option value="" disabled>Tidak ada event tersedia</option>
+                                                <option value="" disabled>{{ __('messages.no_events') }}</option>
                                             @endforelse
                                         </select>
-                                        @error('event_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
 
                                     <!-- Event Info Display -->
@@ -74,19 +76,19 @@
                                         <div class="alert alert-light border">
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
-                                                    <div class="text-muted small">Tanggal</div>
+                                                    <div class="text-muted small">{{ __('messages.date_label') }}</div>
                                                     <div class="fw-semibold" id="infoDate"></div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <div class="text-muted small">Lokasi</div>
+                                                    <div class="text-muted small">{{ __('messages.location_label') }}</div>
                                                     <div class="fw-semibold" id="infoLocation"></div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <div class="text-muted small">Deskripsi</div>
+                                                    <div class="text-muted small">{{ __('messages.description_label') }}</div>
                                                     <div class="fw-semibold small" id="infoDescription"></div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <div class="text-muted small">Kuota Peserta</div>
+                                                    <div class="text-muted small">{{ __('messages.quota_label') }}</div>
                                                     <div class="fw-semibold"><span id="infoRegistered">0</span>/<span
                                                             id="infoQuota">-</span></div>
                                                 </div>
@@ -97,76 +99,94 @@
                                     <!-- Participant Details -->
                                     <div class="row g-3 mb-4">
                                         <div class="col-md-6">
-                                            <label for="participant_name" class="form-label fw-semibold">Nama Peserta
-                                                <span class="text-danger">*</span></label>
+                                            <label for="participant_name" class="form-label fw-semibold">{{ __('messages.participant_name') }}
+                                                <span class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                            <div id="participant_name_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('participant_name')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="text" id="participant_name" name="participant_name"
                                                 value="{{ old('participant_name') }}"
                                                 class="form-control @error('participant_name') is-invalid @enderror"
                                                 required>
-                                            @error('participant_name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="department" class="form-label fw-semibold">Jurusan <span
-                                                    class="text-danger">*</span></label>
+                                            <label for="department" class="form-label fw-semibold">{{ __('messages.department') }} <span
+                                                    class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                            <div id="department_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('department')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="text" id="department" name="department"
                                                 value="{{ old('department') }}"
                                                 class="form-control @error('department') is-invalid @enderror" required>
-                                            @error('department')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="year" class="form-label fw-semibold">Angkatan <span
-                                                    class="text-danger">*</span></label>
+                                            <label for="year" class="form-label fw-semibold">{{ __('messages.year') }} <span
+                                                    class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                            <div id="year_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('year')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="text" id="year" name="year"
                                                 value="{{ old('year') }}"
                                                 class="form-control @error('year') is-invalid @enderror" required>
-                                            @error('year')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="age" class="form-label fw-semibold">Umur <span
-                                                    class="text-danger">*</span></label>
+                                            <label for="age" class="form-label fw-semibold">{{ __('messages.age') }} <span
+                                                    class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                            <div id="age_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('age')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="number" id="age" name="age"
                                                 value="{{ old('age') }}"
                                                 class="form-control @error('age') is-invalid @enderror" min="10"
                                                 max="120" required>
-                                            @error('age')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                         <div class="col-md-12" id="teamFields" style="display: none;">
-                                            <label for="team_name" class="form-label fw-semibold">Nama Tim</label>
+                                            <label for="team_name" class="form-label fw-semibold">{{ __('messages.team_name') }}</label>
+                                            <div id="team_name_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('team_name')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="text" id="team_name" name="team_name"
                                                 value="{{ old('team_name') }}"
                                                 class="form-control @error('team_name') is-invalid @enderror">
-                                            @error('team_name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                         <div class="col-md-12">
-                                            <label for="participant_photo" class="form-label fw-semibold">Foto Peserta
-                                                <span class="text-danger">*</span></label>
+                                            <label for="participant_photo" class="form-label fw-semibold">{{ __('messages.participant_photo') }}
+                                                <span class="text-danger">{{ __('messages.required_field') }}</span></label>
+                                            <div id="participant_photo_error" class="text-danger small mb-2" style="display: none;"></div>
+                                            @error('participant_photo')
+                                                <div class="alert alert-danger py-2 mb-2" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <input type="file" id="participant_photo" name="participant_photo"
                                                 class="form-control @error('participant_photo') is-invalid @enderror"
                                                 accept=".png,.jpg,.jpeg" required>
-                                            @error('participant_photo')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
                                         </div>
                                     </div>
 
                                     <!-- Action Buttons -->
                                     <div class="d-flex flex-wrap gap-2 pt-3 border-top">
                                         <button type="submit" class="btn btn-primary btn-lg">
-                                            <i class="bx bx-check me-1"></i>Daftar Sekarang
+                                            <i class="bx bx-check me-1"></i>{{ __('messages.register_now') }}
                                         </button>
                                         <a href="{{ route('pendaftaran.index') }}"
                                             class="btn btn-outline-secondary btn-lg">
-                                            <i class="bx bx-arrow-back me-1"></i>Kembali
+                                            <i class="bx bx-arrow-back me-1"></i>{{ __('messages.back') }}
                                         </a>
                                     </div>
                                 </form>
@@ -176,15 +196,12 @@
                         <!-- Info Card -->
                         <div class="card mt-4">
                             <div class="card-body">
-                                <h6 class="fw-bold mb-3">Informasi Penting</h6>
+                                <h6 class="fw-bold mb-3">{{ __('messages.important_info') }}</h6>
                                 <ul class="mb-0 ps-3">
-                                    <li class="mb-2">Pastikan Anda sudah membaca deskripsi event dengan cermat
-                                        sebelum mendaftar.</li>
-                                    <li class="mb-2">Pendaftaran akan diproses dengan status <span
-                                            class="badge bg-warning">Pending</span> terlebih dahulu.</li>
-                                    <li class="mb-2">Admin akan memverifikasi pendaftaran Anda dalam waktu 24 jam.
-                                    </li>
-                                    <li>Anda hanya dapat mendaftar satu kali untuk setiap event.</li>
+                                    <li class="mb-2">{{ __('messages.read_description') }}</li>
+                                    <li class="mb-2">{{ __('messages.pending_status') }}</li>
+                                    <li class="mb-2">{{ __('messages.admin_verification') }}</li>
+                                    <li>{{ __('messages.one_registration') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -199,6 +216,130 @@
     @include('components.scripts')
 
     <script>
+        function showError(fieldId, message) {
+            const errorDiv = document.getElementById(fieldId + '_error');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function clearError(fieldId) {
+            const errorDiv = document.getElementById(fieldId + '_error');
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+                errorDiv.textContent = '';
+            }
+        }
+
+        function validateField(field, fieldId, errorMessage) {
+            if (!field.value.trim()) {
+                showError(fieldId, errorMessage);
+                return false;
+            } else {
+                clearError(fieldId);
+                return true;
+            }
+        }
+
+        function validateAge() {
+            const ageField = document.getElementById('age');
+            const age = parseInt(ageField.value);
+            if (ageField.value && (isNaN(age) || age < 10 || age > 120)) {
+                showError('age', 'Umur harus antara 10 sampai 120 tahun.');
+                return false;
+            } else {
+                clearError('age');
+                return true;
+            }
+        }
+
+        // Add event listeners for real-time validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventId = document.getElementById('event_id');
+            const participantName = document.getElementById('participant_name');
+            const department = document.getElementById('department');
+            const year = document.getElementById('year');
+            const age = document.getElementById('age');
+            const participantPhoto = document.getElementById('participant_photo');
+            const teamName = document.getElementById('team_name');
+
+            // Event ID validation
+            eventId.addEventListener('change', function() {
+                if (this.value === '') {
+                    showError('event_id', 'Pilih event terlebih dahulu.');
+                } else {
+                    clearError('event_id');
+                }
+            });
+
+            // Participant name validation
+            participantName.addEventListener('blur', function() {
+                validateField(this, 'participant_name', 'Nama peserta wajib diisi.');
+            });
+
+            // Department validation
+            department.addEventListener('blur', function() {
+                validateField(this, 'department', 'Jurusan wajib diisi.');
+            });
+
+            // Year validation
+            year.addEventListener('blur', function() {
+                validateField(this, 'year', 'Angkatan wajib diisi.');
+            });
+
+            // Age validation
+            age.addEventListener('blur', function() {
+                validateAge();
+            });
+
+            // Team name validation (only for team events)
+            if (teamName) {
+                teamName.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value.trim()) {
+                        showError('team_name', 'Nama tim wajib diisi untuk event tim.');
+                    } else {
+                        clearError('team_name');
+                    }
+                });
+            }
+
+            // Photo validation
+            participantPhoto.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    clearError('participant_photo');
+                }
+            });
+
+            // Form submission validation
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                let isValid = true;
+
+                isValid = validateField(eventId, 'event_id', 'Pilih event terlebih dahulu.') && isValid;
+                isValid = validateField(participantName, 'participant_name', 'Nama peserta wajib diisi.') && isValid;
+                isValid = validateField(department, 'department', 'Jurusan wajib diisi.') && isValid;
+                isValid = validateField(year, 'year', 'Angkatan wajib diisi.') && isValid;
+                isValid = validateAge() && isValid;
+
+                if (teamName && teamName.hasAttribute('required') && !teamName.value.trim()) {
+                    showError('team_name', 'Nama tim wajib diisi untuk event tim.');
+                    isValid = false;
+                }
+
+                if (!participantPhoto.files.length) {
+                    showError('participant_photo', 'Foto peserta wajib diunggah.');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+
+            // Initialize
+            updateEventInfo();
+        });
+
         function updateEventInfo() {
             const select = document.getElementById('event_id');
             const selectedOption = select.options[select.selectedIndex];
@@ -226,15 +367,6 @@
                 document.getElementById('team_name').removeAttribute('required');
             }
         }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateEventInfo();
-        });
     </script>
 </body>
-
-</html>
-</body>
-
 </html>

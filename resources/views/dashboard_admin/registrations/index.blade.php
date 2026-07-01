@@ -21,7 +21,7 @@
                                 <h4 class="fw-bold">{{ __('messages.registration_verification') }}</h4>
                             </div>
                             <a href="{{ route('admin.registrations.scan') }}" class="btn btn-primary">
-                                <i class="bx bx-scan me-1"></i>Scan QR Peserta
+                                <i class="bx bx-scan me-1"></i>{{ __('messages.scan_qr_participant') }}
                             </a>
                         </div>
 
@@ -45,7 +45,7 @@
                             <div class="col-md-3 mb-3">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <p class="mb-1 text-muted small">Total Pendaftaran</p>
+                                        <p class="mb-1 text-muted small">{{ __('messages.total_registrations') }}</p>
                                         <h3 class="mb-0 fw-bold">{{ $registrations->count() }}</h3>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="col-md-3 mb-3">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <p class="mb-1 text-muted small">Pending</p>
+                                        <p class="mb-1 text-muted small">{{ __('messages.pending') }}</p>
                                         <h3 class="mb-0 fw-bold">
                                             {{ $registrations->where('status', 'pending')->count() }}</h3>
                                     </div>
@@ -62,7 +62,7 @@
                             <div class="col-md-3 mb-3">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <p class="mb-1 text-muted small">Diterima</p>
+                                        <p class="mb-1 text-muted small">{{ __('messages.diterima') }}</p>
                                         <h3 class="mb-0 fw-bold">
                                             {{ $registrations->where('status', 'diterima')->count() }}</h3>
                                     </div>
@@ -71,7 +71,7 @@
                             <div class="col-md-3 mb-3">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <p class="mb-1 text-muted small">Ditolak</p>
+                                        <p class="mb-1 text-muted small">{{ __('messages.ditolak') }}</p>
                                         <h3 class="mb-0 fw-bold">
                                             {{ $registrations->where('status', 'ditolak')->count() }}</h3>
                                     </div>
@@ -85,7 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>{{ __('messages.participant') }}</th>
-                                            <th>Event</th>
+                                            <th>{{ __('messages.event') }}</th>
                                             <th>{{ __('messages.registration_date') }}</th>
                                             <th>{{ __('messages.status') }}</th>
                                             <th>{{ __('messages.action') }}</th>
@@ -146,16 +146,14 @@
                                             <tr>
                                                 <td colspan="5" class="text-center py-5">
                                                     <div class="mb-3">
-                                                        <h5 class="mb-1">Tidak ada pendaftaran saat ini</h5>
-                                                        <p class="text-muted">Belum ada peserta yang mendaftar. Anda
-                                                            dapat membuat event baru atau menggunakan fitur scan untuk
-                                                            memverifikasi peserta saat tiba.</p>
+                                                        <h5 class="mb-1">{{ __('messages.no_registrations_yet') }}</h5>
+                                                        <p class="text-muted">{{ __('messages.no_registrations_description') }}</p>
                                                     </div>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                        <a href="{{ route('admin.events.index') }}"
-                                                            class="btn btn-primary">Buat Event Baru</a>
-                                                        <a href="{{ route('admin.registrations.scan') }}"
-                                                            class="btn btn-outline-secondary">Scan QR</a>
+                                                            <a href="{{ route('admin.events.index') }}"
+                                                                class="btn btn-primary">{{ __('messages.add_event') }}</a>
+                                                            <a href="{{ route('admin.registrations.scan') }}"
+                                                                class="btn btn-outline-secondary">{{ __('messages.scan_qr_participant') }}</a>
                                                     </div>
                                                 </td>
                                             </tr>

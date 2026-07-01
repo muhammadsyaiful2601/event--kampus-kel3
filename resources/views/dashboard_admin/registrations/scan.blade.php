@@ -17,8 +17,7 @@
                                 <h4 class="fw-bold py-3 mb-2">
                                     <i class="bx bx-qr-code me-2"></i>Verifikasi Peserta dengan QR Code
                                 </h4>
-                                <p class="text-muted mb-0">Scan QR ticket peserta untuk memverifikasi kehadiran
-                                    menggunakan kamera atau unggah gambar.</p>
+                                <p class="text-muted mb-0">{{ __('messages.scan_qr_description') }}</p>
                             </div>
                             <a href="{{ route('admin.registrations.index') }}"
                                 class="btn btn-outline-secondary btn-lg mt-3 mt-md-0">
@@ -31,7 +30,7 @@
                                 <div class="card mb-4">
                                     <div
                                         class="card-header d-flex justify-content-between align-items-center border-bottom mb-3">
-                                        <h5 class="card-title mb-0"><i class="bx bx-camera me-2"></i>Kamera Scanner</h5>
+                                        <h5 class="card-title mb-0"><i class="bx bx-camera me-2"></i>{{ __('messages.camera_scanner') }}</h5>
                                         <select id="cameraSelect" class="form-select form-select-sm w-auto"
                                             style="max-width: 200px;">
                                             <option value="">Memuat kamera...</option>
@@ -44,9 +43,9 @@
                                             <div id="scannerOverlay"
                                                 class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-dark bg-opacity-70 text-white z-3">
                                                 <i class="bx bx-camera-off fs-1 mb-2"></i>
-                                                <p class="mb-0 small fw-semibold">Kamera Belum Diaktifkan</p>
+                                                <p class="mb-0 small fw-semibold">{{ __('messages.camera_not_activated') }}</p>
                                                 <button id="startCamBtn" class="btn btn-primary btn-sm mt-3"><i
-                                                        class="bx bx-play me-1"></i>Mulai Scan</button>
+                                                        class="bx bx-play me-1"></i>{{ __('messages.start_scan') }}</button>
                                             </div>
                                             <div id="laserLine"
                                                 class="position-absolute start-0 w-100 bg-danger opacity-75 d-none z-2"
