@@ -188,8 +188,7 @@
                                                 {{ $event->location }}
                                             </p>
                                             <p class="card-text">{{ Str::limit($event->description, 100) }}</p>
-                                            <div class="text-muted small italic">{{ __('messages.registration_closed') }}
-                                            </div>
+                                            <div class="text-muted small italic">{{ __('messages.registration_closed') }}</div>
                                         </div>
                                     </div>
                                 </div>
