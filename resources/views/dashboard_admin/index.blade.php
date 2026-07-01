@@ -183,6 +183,7 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
+    <script src="{{ asset('assets/js/inactivity-monitor.js') }}"></script>
 </body>
 
 </html>
