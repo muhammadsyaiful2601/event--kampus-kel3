@@ -295,6 +295,7 @@ return [
     'verification_time' => 'Verification Time',
     'verified_by' => 'Verified by',
     'role' => 'Role',
+    'admin' => 'Admin',
     'actions' => 'Actions',
     'approve_registration' => 'Approve Registration',
     'reject_registration' => 'Reject Registration',

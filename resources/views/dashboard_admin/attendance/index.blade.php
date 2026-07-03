@@ -55,14 +55,12 @@
                                         <div class="card h-100 border-0 shadow-sm">
                                             <div class="card-body p-3 d-flex flex-column">
                                                 {{-- Top section: title + badge --}}
-                                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                                    <div class="me-2 min-w-0">
-                                                        <h6 class="fw-bold text-dark mb-1 text-truncate">{{ $event->title }}</h6>
-                                                        <small class="text-muted text-truncate d-block">
-                                                            <i class="bx bx-map-pin me-1"></i>{{ $event->location }}
-                                                        </small>
-                                                    </div>
-                                                    <span class="badge bg-{{ $event->status === 'berlangsung' ? 'success' : 'info' }} flex-shrink-0 ms-1">
+                                                <div class="mb-3">
+                                                    <h6 class="fw-bold text-dark mb-1 text-truncate">{{ $event->title }}</h6>
+                                                    <small class="text-muted text-truncate d-block mb-2">
+                                                        <i class="bx bx-map-pin me-1"></i>{{ $event->location }}
+                                                    </small>
+                                                    <span class="badge bg-{{ $event->status === 'berlangsung' ? 'success' : 'info' }}">
                                                         {{ $event->status === 'berlangsung' ? __('messages.ongoing') : __('messages.upcoming') }}
                                                     </span>
                                                 </div>

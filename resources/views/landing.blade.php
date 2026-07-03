@@ -456,13 +456,13 @@
                             @endif
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex align-items-center mb-3">
-                                <span
-                                    class="badge bg-label-primary px-3 py-2 rounded-3 me-2 fw-semibold">{{ __('messages.ongoing_badge') }}</span>
-                                <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-primary'></i>
+                            <div class="d-flex align-items-center mb-2">
+                                <small class="text-muted"><i class='bx bx-group me-1 text-primary'></i>
                                     {{ $event->quota ?? __('messages.unlimited') }} {{ __('messages.quota_text') }}</small>
                             </div>
-                            <h5 class="card-title fw-bold text-dark mb-3">{{ $event->title }}</h5>
+                            <h5 class="card-title fw-bold text-dark mb-2">{{ $event->title }}</h5>
+                            <span
+                                class="badge bg-label-primary px-3 py-1 rounded-3 fw-semibold mb-2 d-inline-block align-self-start">{{ __('messages.ongoing_badge') }}</span>
                             <div class="small text-muted mb-3 d-flex flex-column gap-2">
                                 <span><i class='bx bx-calendar text-primary me-2'></i> {{ $event->date }}</span>
                                 <span><i class='bx bx-map-pin text-danger me-2'></i> {{ $event->location }}</span>
@@ -500,13 +500,13 @@
                             @endif
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex align-items-center mb-3">
-                                <span
-                                    class="badge bg-label-secondary px-3 py-2 rounded-3 me-2 fw-semibold">{{ __('messages.upcoming_badge') }}</span>
-                                <small class="text-muted ms-auto"><i class='bx bx-group me-1 text-info'></i>
+                            <div class="d-flex align-items-center mb-2">
+                                <small class="text-muted"><i class='bx bx-group me-1 text-info'></i>
                                     {{ $event->quota ?? __('messages.unlimited') }} {{ __('messages.quota_text') }}</small>
                             </div>
-                            <h5 class="card-title fw-bold text-dark mb-3">{{ $event->title }}</h5>
+                            <h5 class="card-title fw-bold text-dark mb-2">{{ $event->title }}</h5>
+                            <span
+                                class="badge bg-label-secondary px-3 py-1 rounded-3 fw-semibold mb-2 d-inline-block align-self-start">{{ __('messages.upcoming_badge') }}</span>
                             <div class="small text-muted mb-3 d-flex flex-column gap-2">
                                 <span><i class='bx bx-calendar text-info me-2'></i> {{ $event->date }}</span>
                                 <span><i class='bx bx-map-pin text-danger me-2'></i> {{ $event->location }}</span>

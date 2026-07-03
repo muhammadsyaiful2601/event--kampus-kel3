@@ -298,6 +298,7 @@ return [
     'verification_time' => 'Waktu Verifikasi',
     'verified_by' => 'Diverifikasi oleh',
     'role' => 'Role',
+    'admin' => 'Admin',
     'actions' => 'Aksi',
     'approve_registration' => 'Setujui Pendaftaran',
     'reject_registration' => 'Tolak Pendaftaran',
