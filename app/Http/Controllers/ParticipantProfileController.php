@@ -26,8 +26,21 @@ class ParticipantProfileController extends Controller
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email'],
+            'current_password' => ['nullable', 'string'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
+
+        $needsPasswordCheck = !empty($data['password']) || ($data['email'] !== $user->email);
+
+        // If password change OR email change is requested, verify current password first
+        if ($needsPasswordCheck) {
+            if (empty($data['current_password'])) {
+                return back()->withErrors(['current_password' => 'Password lama wajib diisi untuk mengubah email atau password.'])->withInput();
+            }
+            if (!Hash::check($data['current_password'], $user->password)) {
+                return back()->withErrors(['current_password' => 'Password lama yang dimasukkan tidak sesuai.'])->withInput();
+            }
+        }
 
         $pending = [];
         $now = Carbon::now();
@@ -45,7 +58,7 @@ class ParticipantProfileController extends Controller
             $pending['email'] = $data['email'];
         }
 
-        // If password provided, send OTP to current (existing) email
+        // If password provided (already verified current password above), send OTP to current email
         if (!empty($data['password'])) {
             $otpPass = random_int(100000, 999999);
             OtpVerification::create([

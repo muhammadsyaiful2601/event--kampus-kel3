@@ -60,7 +60,7 @@
                         <div class="text-end mb-2">
                             <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}"
                                 class="text-decoration-none small">
-                                <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? __('messages.indonesian') : __('messages.english') }}
+                                <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
                             </a>
                         </div>
                         <!-- Logo -->
@@ -68,7 +68,7 @@
 
                             </span>
                             </span>
-                            <span class="app-brand-text demo text-heading fw-bold">{{ __('messages.register_account_title') }}</span>
+                            <span class="app-brand-text demo text-heading fw-bold">Daftar Akun</span>
                             </a>
                         </div>
                         <form id="formAuthentication" class="mb-6" method="POST" action="{{ route('register') }}">
@@ -76,41 +76,49 @@
 
                             <div class="mb-6">
                                 <label for="name" class="form-label">{{ __('messages.name') }}</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                                    name="name" value="{{ old('name') }}" placeholder="{{ __('messages.enter_your_name') }}" autofocus />
                                 @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name') }}"
+                                    placeholder="Enter your name" autofocus />
                             </div>
 
                             <div class="mb-6">
                                 <label for="email" class="form-label">{{ __('messages.email') }}</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                    name="email" value="{{ old('email') }}" placeholder="{{ __('messages.enter_your_email') }}" />
                                 @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    id="email" name="email" value="{{ old('email') }}"
+                                    placeholder="Enter your email" />
                             </div>
 
                             <div class="form-password-toggle">
                                 <label class="form-label" for="password">{{ __('messages.password') }}</label>
+                                @error('password')
+                                    <div class="alert alert-danger py-2 mb-2" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        placeholder="{{ __('messages.minimum_8_characters') }}" aria-describedby="password" />
+                                        placeholder="Minimum 8 characters" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i
                                             class="icon-base bx bx-hide"></i></span>
                                 </div>
-                                @error('password')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
                             </div>
 
                             <div class="mb-6">
                                 <label class="form-label"
                                     for="password_confirmation">{{ __('messages.confirm_password') }}</label>
                                 <input type="password" id="password_confirmation" class="form-control"
-                                    name="password_confirmation" placeholder="{{ __('messages.repeat_your_password') }}" />
+                                    name="password_confirmation" placeholder="Repeat your password" />
                             </div>
                             <button class="btn btn-primary d-grid w-100">{{ __('messages.sign_up') }}</button>
                         </form>

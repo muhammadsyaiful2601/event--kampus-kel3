@@ -14,7 +14,12 @@
                         <!-- Header Section -->
                         <div
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-                            <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
                                 <h4 class="fw-bold py-3 mb-2">{{ __('messages.registration_detail_title') }}</h4>
                                 <p class="text-muted mb-0">{{ __('messages.registration_detail_description') }}</p>
                             </div>
@@ -382,6 +387,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 

@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="layout-wide customizer-hide" data-assets-path="../assets/"
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="layout-wide customizer-hide" data-assets-path="../assets/"
     data-template="vertical-menu-template-free">
 
 <head>
@@ -55,6 +55,20 @@
                             </a>
                         </div>
                         <!-- /Logo -->
+                        <div class="text-end mb-2">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? __('messages.indonesian') : __('messages.english') }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if(app()->getLocale() == 'en')
+                                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'id') }}">🌐 Bahasa Indonesia</a></li>
+                                    @else
+                                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">🌐 English</a></li>
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
                         <h4 class="mb-1">{{ __('messages.forgot_password_title') }}</h4>
                         <p class="mb-6">{{ __('messages.forgot_password_description') }}</p>
 

@@ -17,14 +17,20 @@
                         <div class="row">
                             <div class="col-12 mb-4">
                                 <div class="card">
-                                    <div class="card-body">
+                                <div class="card-body">
                                         <div class="d-flex align-items-center gap-2 mb-3">
                                             <button type="button"
                                                 class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
                                                 aria-label="Toggle menu">
                                                 <i class="bx bx-menu"></i>
                                             </button>
-                                            <h4 class="fw-bold mb-0">Profil Saya</h4>
+                                            <h4 class="fw-bold mb-0">
+                                                @if(auth()->user()->role === 'admin')
+                                                    {{ __('messages.admin_profile') }}
+                                                @else
+                                                    {{ __('messages.participant_profile') }}
+                                                @endif
+                                            </h4>
                                         </div>
 
                                         @if (session('status'))
@@ -37,12 +43,12 @@
                                         <form method="POST" action="{{ route('peserta.profile.sendOtp') }}">
                                             @csrf
                                             <div class="mb-3">
-                                                <label class="form-label">Nama</label>
+                                                <label class="form-label">{{ __('messages.name') }}</label>
                                                 <input type="text" name="name" class="form-control"
                                                     value="{{ old('name', $user->name) }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Email</label>
+                                                <label class="form-label">{{ __('messages.email') }}</label>
                                                 <input type="email" name="email" class="form-control"
                                                     value="{{ old('email', $user->email) }}" required>
                                             </div>
@@ -50,20 +56,30 @@
                                             <hr />
                                             <p class="text-muted">Untuk mengganti password, isi kolom berikut:</p>
                                             <div class="mb-3">
-                                                <label class="form-label">Password Baru</label>
+                                                <label class="form-label">{{ __('messages.current_password') }} <span class="text-danger">*</span></label>
+                                                <input type="password" name="current_password" class="form-control" placeholder="{{ __('messages.enter_your_password') }}">
+                                                @error('current_password')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">{{ __('messages.new_password') }}</label>
                                                 <input type="password" name="password" class="form-control">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Konfirmasi Password</label>
+                                                <label class="form-label">{{ __('messages.confirm_new_password') }}</label>
                                                 <input type="password" name="password_confirmation"
                                                     class="form-control">
                                             </div>
 
                                             <div class="d-flex gap-2">
-                                                <button class="btn btn-primary" type="submit">Kirim OTP &
-                                                    Simpan</button>
+                                                <button class="btn btn-primary rounded-pill px-4 fw-semibold" type="submit">
+                                                    <i class="bx bx-send me-1"></i>{{ __('messages.send_reset_link') }}
+                                                </button>
                                                 <a href="{{ route('peserta.dashboard') }}"
-                                                    class="btn btn-outline-secondary">Kembali</a>
+                                                    class="btn btn-outline-secondary rounded-pill px-4">
+                                                    <i class="bx bx-arrow-back me-1"></i>{{ __('messages.back_to_login') }}
+                                                </a>
                                             </div>
                                         </form>
 

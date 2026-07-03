@@ -13,15 +13,20 @@
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-                            <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
                                 <h4 class="fw-bold py-3 mb-2">
-                                    <i class="bx bx-qr-code me-2"></i>Verifikasi Peserta dengan QR Code
+                                    <i class="bx bx-qr-code me-2"></i>{{ __('messages.verify_participant_qr') }}
                                 </h4>
                                 <p class="text-muted mb-0">{{ __('messages.scan_qr_description') }}</p>
                             </div>
                             <a href="{{ route('admin.registrations.index') }}"
                                 class="btn btn-outline-secondary btn-lg mt-3 mt-md-0">
-                                <i class="bx bx-arrow-back me-1"></i>Kembali ke Daftar
+                                <i class="bx bx-arrow-back me-1"></i>{{ __('messages.back_to_list') }}
                             </a>
                         </div>
 
@@ -33,7 +38,7 @@
                                         <h5 class="card-title mb-0"><i class="bx bx-camera me-2"></i>{{ __('messages.camera_scanner') }}</h5>
                                         <select id="cameraSelect" class="form-select form-select-sm w-auto"
                                             style="max-width: 200px;">
-                                            <option value="">Memuat kamera...</option>
+                                            <option value="{{ __('messages.loading_cameras') }}">{{ __('messages.loading_cameras') }}</option>
                                         </select>
                                     </div>
                                     <div class="card-body">
@@ -45,7 +50,7 @@
                                                 <i class="bx bx-camera-off fs-1 mb-2"></i>
                                                 <p class="mb-0 small fw-semibold">{{ __('messages.camera_not_activated') }}</p>
                                                 <button id="startCamBtn" class="btn btn-primary btn-sm mt-3"><i
-                                                        class="bx bx-play me-1"></i>{{ __('messages.start_scan') }}</button>
+                                                        class="bx bx-play me-1"></i>{{ __('messages.start_scan_button') }}</button>
                                             </div>
                                             <div id="laserLine"
                                                 class="position-absolute start-0 w-100 bg-danger opacity-75 d-none z-2"
@@ -53,7 +58,7 @@
                                             </div>
                                         </div>
                                         <button id="stopCamBtn" class="btn btn-outline-danger btn-sm w-100 d-none"><i
-                                                class="bx bx-stop me-1"></i>Hentikan Kamera</button>
+                                                class="bx bx-stop me-1"></i>{{ __('messages.stop_camera_button') }}</button>
                                     </div>
                                 </div>
 
@@ -63,30 +68,28 @@
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active py-2" id="manual-tab"
                                                     data-bs-toggle="tab" data-bs-target="#manual-panel" type="button"
-                                                    role="tab"><i class="bx bx-edit-alt me-1"></i>Input
-                                                    Manual</button>
+                                                    role="tab"><i class="bx bx-edit-alt me-1"></i>{{ __('messages.manual_tab') }}
+                                                </button>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link py-2" id="file-tab" data-bs-toggle="tab"
                                                     data-bs-target="#file-panel" type="button" role="tab"><i
-                                                        class="bx bx-upload me-1"></i>Unggah QR</button>
+                                                        class="bx bx-upload me-1"></i>{{ __('messages.upload_tab') }}</button>
                                             </li>
                                         </ul>
                                         <div class="tab-content p-0 border-0" id="methodTabsContent">
                                             <div class="tab-pane fade show active" id="manual-panel" role="tabpanel">
-                                                <label class="form-label small fw-semibold text-muted">Masukkan Kode
-                                                    Tiket Peserta</label>
+                                                <label class="form-label small fw-semibold text-muted">{{ __('messages.enter_ticket_code') }}</label>
                                                 <div class="input-group">
                                                     <input type="text" id="manualCodeInput"
                                                         class="form-control text-uppercase"
-                                                        placeholder="Contoh: ABCDE12345" autocomplete="off">
+                                                        placeholder="{{ __('messages.example_code') }}" autocomplete="off">
                                                     <button class="btn btn-info" type="button" id="manualVerifyBtn"><i
-                                                            class="bx bx-check-shield me-1"></i>Verifikasi</button>
+                                                            class="bx bx-check-shield me-1"></i>{{ __('messages.verify_button') }}</button>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="file-panel" role="tabpanel">
-                                                <label class="form-label small fw-semibold text-muted">Pilih
-                                                    Gambar/Screenshot QR Code</label>
+                                                <label class="form-label small fw-semibold text-muted">{{ __('messages.select_qr_image') }}</label>
                                                 <input type="file" id="qrFileInput" class="form-control"
                                                     accept="image/*">
                                             </div>
@@ -101,10 +104,8 @@
                                         class="card h-100 min-vh-25 d-flex align-items-center justify-content-center p-5 text-center bg-light border-dashed">
                                         <div class="text-muted">
                                             <i class="bx bx-scan display-4 mb-3 text-secondary opacity-50"></i>
-                                            <h5>Menunggu Pemindaian</h5>
-                                            <p class="mb-0 small max-w-350">Silakan arahkan kode QR tiket ke kamera,
-                                                masukkan kode secara manual, atau unggah file gambar tiket untuk
-                                                divalidasi.</p>
+                                            <h5>{{ __('messages.waiting_scan') }}</h5>
+                                            <p class="mb-0 small max-w-350">{{ __('messages.scan_instruction_desc') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -113,20 +114,19 @@
                                     <div
                                         class="card-header d-flex justify-content-between align-items-center border-bottom">
                                         <h5 class="card-title mb-0"><i
-                                                class="bx bx-list-check me-2 text-primary"></i>Log Verifikasi Hari Ini
+                                                class="bx bx-list-check me-2 text-primary"></i>{{ __('messages.verification_log_today') }}
                                         </h5>
-                                        <span class="badge bg-label-secondary rounded-pill small fw-semibold">10
-                                            Terakhir</span>
+                                        <span class="badge bg-label-secondary rounded-pill small fw-semibold">{{ __('messages.last_10') }}</span>
                                     </div>
                                     <div class="table-responsive text-nowrap" style="max-height: 400px;">
                                         <table class="table table-hover align-middle mb-0">
                                             <thead class="table-light position-sticky top-0 z-1">
                                                 <tr>
-                                                    <th>Waktu</th>
-                                                    <th>Nama Peserta</th>
-                                                    <th>Kode Tiket</th>
-                                                    <th>Nama Event</th>
-                                                    <th>Petugas</th>
+                                                    <th>{{ __('messages.time') }}</th>
+                                                    <th>{{ __('messages.participant_name_table') }}</th>
+                                                    <th>{{ __('messages.ticket_code') }}</th>
+                                                    <th>{{ __('messages.event_name_table') }}</th>
+                                                    <th>{{ __('messages.officer') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="logTableBody">
@@ -156,8 +156,7 @@
                                                 @empty
                                                     <tr id="emptyRow">
                                                         <td colspan="5" class="text-center py-4 text-muted">
-                                                            <i class="bx bx-info-circle mb-1"></i> Belum ada aktivitas
-                                                            verifikasi tiket hari ini.
+                                                            <i class="bx bx-info-circle mb-1"></i> {{ __('messages.no_activity_today') }}
                                                         </td>
                                                     </tr>
                                                 @endforelse
@@ -171,9 +170,11 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 
     @include('components.scripts')
+    <div class="content-backdrop fade"></div>
 
     {{-- Elemen Tersembunyi untuk Keperluan Scanner Gambar File QR --}}
     <div id="fileScannerTmp" style="width: 1px; height: 1px; opacity: 0; position: absolute; pointer-events: none;">
@@ -212,18 +213,18 @@
                         cameras.forEach((camera, index) => {
                             const option = document.createElement('option');
                             option.value = camera.id;
-                            option.text = camera.label || `Kamera ${index + 1}`;
+                            option.text = camera.label || `{{ __('messages.camera_scanner') }} ${index + 1}`;
                             if (index === 0) currentCameraId = camera.id;
                             cameraSelect.appendChild(option);
                         });
                         startCamBtn.disabled = false;
                     } else {
-                        cameraSelect.innerHTML = '<option value="">Kamera tidak ditemukan</option>';
+                        cameraSelect.innerHTML = '<option value="">' + '{{ __('messages.camera_not_found') }}' + '</option>';
                         startCamBtn.disabled = true;
                     }
                 }).catch(err => {
-                    console.error("Gagal mendapatkan akses list kamera: ", err);
-                    cameraSelect.innerHTML = '<option value="">Gagal mendeteksi perangkat</option>';
+                    console.error("{{ __('messages.failed_detect_device') }}", err);
+                    cameraSelect.innerHTML = '<option value="">' + '{{ __('messages.failed_detect_device') }}' + '</option>';
                     startCamBtn.disabled = true;
                 });
             }
@@ -296,7 +297,7 @@
                         isScanning = false;
                         resolve();
                     }).catch(err => {
-                        console.error("Gagal menghentikan kamera: ", err);
+                        console.error("{{ __('messages.error_stopping_camera') }}", err);
                         resolve();
                     });
                 });
@@ -314,8 +315,8 @@
                     <div class="card h-100 min-vh-25 d-flex align-items-center justify-content-center p-5 text-center bg-white border">
                         <div class="text-muted">
                             <div class="spinner-border text-primary mb-3" role="status"></div>
-                            <h5>Memproses Data...</h5>
-                            <p class="mb-0 small">Menghubungi server untuk mencocokkan kode tiket <strong>${code}</strong></p>
+                            <h5>{{ __('messages.processing_data') }}</h5>
+                            <p class="mb-0 small">{{ __('messages.contacting_server') }} <strong>${code}</strong></p>
                         </div>
                     </div>`;
 
@@ -331,7 +332,7 @@
                     })
                     .then(response => {
                         if (!response.ok && response.status !== 404 && response.status !== 422) {
-                            throw new Error('Gangguan koneksi atau sistem server.');
+                            throw new Error('{{ __('messages.connection_error') }}');
                         }
                         return response.json();
                     })
@@ -350,15 +351,15 @@
                             displayResult(res.data, 'error', res.message);
                             stopCamera().then(() => showScanConfirmation(res.data, res.message, 'error'));
                         } else {
-                            displayResult(null, 'error', res.message || 'Terjadi kesalahan sistem.');
+                            displayResult(null, 'error', res.message || '{{ __('messages.system_error') }}');
                             stopCamera().then(() => showScanConfirmation(null, res.message ||
-                                'Terjadi kesalahan sistem.', 'error'));
+                                '{{ __('messages.system_error') }}', 'error'));
                         }
                     })
                     .catch(err => {
                         console.error(err);
-                        displayResult(null, 'error', 'Gagal memproses verifikasi: ' + err.message);
-                        stopCamera().then(() => showScanConfirmation(null, 'Gagal memproses verifikasi: ' + err
+                        displayResult(null, 'error', '{{ __('messages.failed_process_verification') }}' + err.message);
+                        stopCamera().then(() => showScanConfirmation(null, '{{ __('messages.failed_process_verification') }}' + err
                             .message, 'error'));
                     });
             }
@@ -376,14 +377,15 @@
                 overlay.className = 'position-fixed top-50 start-50 translate-middle z-index-200';
                 overlay.style.minWidth = '320px';
                 overlay.style.zIndex = 2000;
+                const typeKey = type === 'success' ? 'verification_success' : (type === 'warning' ? 'verification_warning' : 'scan_result');
                 overlay.innerHTML = `
                     <div class="card shadow">
                         <div class="card-body text-center">
-                            <h6 class="mb-2 fw-bold">${type === 'success' ? 'Verifikasi Berhasil' : (type === 'warning' ? 'Peringatan' : 'Hasil Scan')}</h6>
+                            <h6 class="mb-2 fw-bold">${type === 'success' ? '{{ __('messages.verification_success') }}' : (type === 'warning' ? '{{ __('messages.verification_warning') }}' : '{{ __('messages.scan_result') }}')}</h6>
                             <p class="small text-muted mb-3">${message || ''}</p>
                             <div>
-                                <button id="resumeScanBtn" class="btn btn-sm btn-primary me-2">Lanjutkan Scan</button>
-                                <button id="clearLastBtn" class="btn btn-sm btn-outline-secondary">Bersihkan</button>
+                                <button id="resumeScanBtn" class="btn btn-sm btn-primary me-2">{{ __('messages.continue_scan') }}</button>
+                                <button id="clearLastBtn" class="btn btn-sm btn-outline-secondary">{{ __('messages.clear') }}</button>
                             </div>
                         </div>
                     </div>`;
@@ -437,23 +439,23 @@
                 let cardClass = 'bg-light border-secondary';
                 let iconClass = 'bx-scan text-secondary';
                 let alertClass = 'alert-secondary';
-                let heading = 'Hasil Pemindaian';
+                let heading = '{{ __('messages.scan_result') }}';
 
                 if (type === 'success') {
                     cardClass = 'bg-white border-success border-2 shadow-sm';
                     iconClass = 'bx-check-circle text-success';
                     alertClass = 'alert-success';
-                    heading = 'Verifikasi Berhasil';
+                    heading = '{{ __('messages.verification_success') }}';
                 } else if (type === 'warning') {
                     cardClass = 'bg-white border-warning border-2 shadow-sm';
                     iconClass = 'bx-error text-warning';
                     alertClass = 'alert-warning';
-                    heading = 'Peringatan Verifikasi';
+                    heading = '{{ __('messages.verification_warning') }}';
                 } else if (type === 'error') {
                     cardClass = 'bg-white border-danger border-2 shadow-sm';
                     iconClass = 'bx-x-circle text-danger';
                     alertClass = 'alert-danger';
-                    heading = 'Verifikasi Gagal';
+                    heading = '{{ __('messages.verification_error') }}';
                 }
 
                 let infoHtml = `
@@ -462,18 +464,20 @@
                         <div>${message}</div>
                     </div>`;
 
+                let lateBadge = (data && data.is_late) ? `<span class="badge bg-danger ms-2">⚠️ {{ __('messages.late_status') }}</span>` : '';
+
                 let detailsHtml = data ? `
                     <div class="table-responsive small mt-2">
                         <table class="table table-sm table-borderless mb-0">
-                            <tr><td class="text-muted ps-0 py-1" style="width: 110px;">Nama Peserta</td><td class="fw-bold text-dark py-1">: ${data.name}</td></tr>
-                            <tr><td class="text-muted ps-0 py-1">Kode Tiket</td><td class="font-monospace fw-bold text-primary py-1">: ${data.ticket_code}</td></tr>
-                            <tr><td class="text-muted ps-0 py-1">Nama Event</td><td class="text-dark py-1">: ${data.event}</td></tr>
-                            <tr><td class="text-muted ps-0 py-1">Jurusan / Tim</td><td class="text-muted py-1">: ${data.department} <span class="mx-1">|</span> Tim: ${data.team_name}</td></tr>
-                            <tr><td class="text-muted ps-0 py-1">Status Daftar</td><td class="py-1">: <span class="badge ${data.status === 'diterima' ? 'bg-label-success' : (data.status === 'pending' ? 'bg-label-warning' : 'bg-label-danger')} btn-sm rounded-pill px-2 py-0">${data.status.toUpperCase()}</span></td></tr>
+                            <tr><td class="text-muted ps-0 py-1" style="width: 110px;">{{ __('messages.participant_name_detail') }}</td><td class="fw-bold text-dark py-1">: ${data.name} ${lateBadge}</td></tr>
+                            <tr><td class="text-muted ps-0 py-1">{{ __('messages.ticket_code_detail') }}</td><td class="font-monospace fw-bold text-primary py-1">: ${data.ticket_code}</td></tr>
+                            <tr><td class="text-muted ps-0 py-1">{{ __('messages.event_name_detail') }}</td><td class="text-dark py-1">: ${data.event}</td></tr>
+                            <tr><td class="text-muted ps-0 py-1">{{ __('messages.department_team') }}</td><td class="text-muted py-1">: ${data.department} <span class="mx-1">|</span> {{ __('messages.team_label') }}: ${data.team_name}</td></tr>
+                            <tr><td class="text-muted ps-0 py-1">{{ __('messages.registration_status_detail') }}</td><td class="py-1">: <span class="badge ${data.status === 'diterima' ? 'bg-label-success' : (data.status === 'pending' ? 'bg-label-warning' : 'bg-label-danger')} btn-sm rounded-pill px-2 py-0">${data.status.toUpperCase()}</span></td></tr>
                         </table>
                     </div>` : `
                     <div class="text-center py-3">
-                        <p class="text-muted mb-0 small">Tidak ada detail informasi yang dapat dimuat untuk kode ini.</p>
+                        <p class="text-muted mb-0 small">{{ __('messages.no_detail_info') }}</p>
                     </div>`;
 
                 resultContainer.innerHTML = `
@@ -527,7 +531,7 @@
 
                 if (!file.type.startsWith('image/')) {
                     displayResult(null, 'error',
-                        'File yang dipilih harus berupa format gambar (PNG, JPG, JPEG).');
+                        '{{ __('messages.file_must_be_image') }}');
                     return;
                 }
 
@@ -535,13 +539,13 @@
                     <div class="card h-100 min-vh-25 d-flex align-items-center justify-content-center p-5 text-center bg-white border">
                         <div class="text-muted">
                             <div class="spinner-border text-info mb-3" role="status"></div>
-                            <h5>Membaca Gambar...</h5>
-                            <p class="mb-0 small">Mengekstrak baris kode QR dari file gambar terpilih.</p>
+                            <h5>{{ __('messages.reading_image') }}</h5>
+                            <p class="mb-0 small">{{ __('messages.extracting_qr_from_image') }}</p>
                         </div>
                     </div>`;
 
                 if (typeof html5QrCodeFile.scanFile !== 'function') {
-                    displayResult(null, 'error', 'Fitur decode file tidak didukung oleh browser Anda.');
+                    displayResult(null, 'error', '{{ __('messages.file_decode_not_supported') }}');
                     return;
                 }
 
@@ -554,13 +558,13 @@
                             lastScannedCode = decodedText.trim();
                             callVerifyAPI(decodedText.trim());
                         } else {
-                            throw new Error('Hasil scan mengembalikan data kosong.');
+                            throw new Error('{{ __('messages.empty_scan_data') }}');
                         }
                     })
                     .catch(err => {
                         console.error(err);
                         displayResult(null, 'error',
-                            'Gagal membaca QR Code dari file tersebut. Pastikan gambar tajam, terang, dan QR terlihat penuh.'
+                            '{{ __('messages.failed_read_qr') }}'
                             );
                     });
             });

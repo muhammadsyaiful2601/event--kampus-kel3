@@ -20,6 +20,8 @@ class Registration extends Model
         'status',
         'verified_at',
         'verified_by',
+        'attended_at',
+        'is_late',
     ];
 
     /**
@@ -27,6 +29,8 @@ class Registration extends Model
      */
     protected $casts = [
         'verified_at' => 'datetime',
+        'attended_at' => 'datetime',
+        'is_late' => 'boolean',
     ];
 
     // ✅ Relasi belongsTo User

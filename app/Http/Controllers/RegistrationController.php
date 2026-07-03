@@ -290,6 +290,15 @@ class RegistrationController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Kode QR atau tiket tidak valid.'], 404);
         }
 
+        // Check if attendance session is open for this event
+        $event = $registration->event;
+        $isLate = false;
+
+        if ($event && !$event->is_attendance_open) {
+            // Session is closed - mark as late
+            $isLate = true;
+        }
+
         $responseData = [
             'name' => $registration->participant_name ?? $registration->user->name,
             'event' => $registration->event->title,
@@ -297,6 +306,7 @@ class RegistrationController extends Controller
             'department' => $registration->department ?? '-',
             'team_name' => $registration->team_name ?? '-',
             'status' => $registration->status,
+            'is_late' => $isLate,
         ];
 
         if ($registration->status === 'ditolak') {
@@ -318,6 +328,8 @@ class RegistrationController extends Controller
         $updateData = [
             'verified_at' => now(),
             'verified_by' => Auth::user()->name,
+            'attended_at' => now(),
+            'is_late' => $isLate,
         ];
 
         if ($registration->status === 'pending') {
@@ -327,17 +339,24 @@ class RegistrationController extends Controller
 
         $registration->update($updateData);
 
+        // Determine message based on late status
+        if ($isLate) {
+            $message = '⚠️ TERLAMBAT! Sesi absen sudah ditutup. Peserta tetap dicatat hadir namun dengan status TERLAMBAT.';
+        } else {
+            $message = 'Verifikasi Berhasil! Silakan dipersilakan masuk.';
+        }
+
         // Log the scan verification
         AdminActivityLogger::log(
             'registration.scan_verified',
-            'Memverifikasi tiket via QR scan: kode "' . $code . '" — peserta "' . ($registration->participant_name ?? $registration->user->name ?? '-') . '"',
+            'Memverifikasi tiket via QR scan: kode "' . $code . '" — peserta "' . ($registration->participant_name ?? $registration->user->name ?? '-') . '"' . ($isLate ? ' (TERLAMBAT)' : ''),
             'Registration',
             $registration->id
         );
 
         return response()->json([
-            'status'  => 'success',
-            'message' => 'Verifikasi Berhasil! Silakan dipersilakan masuk.',
+            'status'  => $isLate ? 'warning' : 'success',
+            'message' => $message,
             'data'    => $responseData,
         ]);
     }

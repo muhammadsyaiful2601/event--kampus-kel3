@@ -44,6 +44,12 @@
                     <div data-i18n="Layouts">{{ __('messages.registration_verification') }}</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->routeIs('admin.attendance.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.attendance.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-check-double"></i>
+                    <div data-i18n="Layouts">{{ __('messages.attendance_management') }}</div>
+                </a>
+            </li>
             <li class="menu-item {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.admins.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-user-check"></i>

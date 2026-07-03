@@ -9,10 +9,18 @@
                 <div class="card shadow border-0">
                     <div class="card-body p-5">
                         <div class="text-end mb-2">
-                            <a href="{{ route('lang.switch', app()->getLocale() == 'en' ? 'id' : 'en') }}"
-                                class="text-decoration-none small">
-                                <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? 'Indonesian' : 'English' }}
-                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class='bx bx-globe'></i> {{ app()->getLocale() == 'en' ? __('messages.indonesian') : __('messages.english') }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if(app()->getLocale() == 'en')
+                                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'id') }}">🌐 Bahasa Indonesia</a></li>
+                                    @else
+                                        <li><a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">🌐 English</a></li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
                         <div class="text-center mb-4">
                             <h3 class="fw-bold">{{ __('messages.verify_email') }}</h3>

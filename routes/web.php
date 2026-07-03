@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\AdminLogController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LocaleController;
 use App\Models\Event;
 use App\Models\Registration;
@@ -89,6 +90,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin Activity Log (read-only — no DELETE/POST routes)
     Route::get('/admin/logs', [AdminLogController::class, 'index'])->name('admin.logs.index');
+
+    // Admin Attendance Management (Buka/Tutup Sesi Absen)
+    Route::get('/admin/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::patch('/admin/attendance/{event}/open', [AttendanceController::class, 'openSession'])->name('admin.attendance.open');
+    Route::patch('/admin/attendance/{event}/close', [AttendanceController::class, 'closeSession'])->name('admin.attendance.close');
 
     // Participant Dashboard
     Route::get('/peserta/dashboard', [EventController::class, 'pesertaIndex'])->name('peserta.dashboard');

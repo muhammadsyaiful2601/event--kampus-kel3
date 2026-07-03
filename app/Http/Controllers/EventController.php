@@ -159,6 +159,9 @@ class EventController extends Controller
             $data['image'] = $request->file('image')->store('events', 'public');
         }
 
+        // Default: sesi absen selalu ditutup saat event baru dibuat
+        $data['is_attendance_open'] = false;
+
         Event::create($data);
 
         AdminActivityLogger::log(

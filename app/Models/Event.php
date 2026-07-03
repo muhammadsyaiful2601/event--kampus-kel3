@@ -16,6 +16,7 @@ class Event extends Model
         'status',
         'type',
         'is_registration_open',
+        'is_attendance_open',
     ];
 
     public function registrations()

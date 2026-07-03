@@ -12,9 +12,16 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <!-- Header -->
-                        <div class="mb-4">
-                            <h4 class="fw-bold py-3 mb-2">{{ __('messages.registration_title') }}</h4>
-                            <p class="text-muted">{{ __('messages.registration_description') }}</p>
+                        <div class="d-flex align-items-center gap-2 mb-4">
+                            <button type="button"
+                                class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                aria-label="Toggle menu">
+                                <i class="bx bx-menu"></i>
+                            </button>
+                            <div>
+                                <h4 class="fw-bold py-3 mb-2">{{ __('messages.registration_title') }}</h4>
+                                <p class="text-muted">{{ __('messages.registration_description') }}</p>
+                            </div>
                         </div>
 
                         <!-- Alert Errors -->
@@ -212,6 +219,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 

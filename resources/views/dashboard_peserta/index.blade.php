@@ -321,50 +321,50 @@
 
                                             <div class="row g-3 mb-3">
                                                 <div class="col-md-6">
-                                                    <label for="participant_name" class="form-label">Nama Peserta
+                                                    <label for="participant_name" class="form-label">{{ __('messages.participant_name') }}
                                                         <span class="text-danger">*</span></label>
                                                     <div id="participant_name_error" class="text-danger small mb-2"
                                                         style="display: none;"></div>
                                                     <input type="text" class="form-control" id="participant_name"
-                                                        name="participant_name" placeholder="Masukkan nama peserta"
+                                                        name="participant_name" placeholder="{{ __('messages.enter_your_name') }}"
                                                         required>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="department" class="form-label">Jurusan <span
+                                                    <label for="department" class="form-label">{{ __('messages.department') }} <span
                                                             class="text-danger">*</span></label>
                                                     <div id="department_error" class="text-danger small mb-2"
                                                         style="display: none;"></div>
                                                     <input type="text" class="form-control" id="department"
-                                                        name="department" placeholder="Masukkan jurusan" required>
+                                                        name="department" placeholder="{{ __('messages.department') }}" required>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="year" class="form-label">Angkatan <span
+                                                    <label for="year" class="form-label">{{ __('messages.year') }} <span
                                                             class="text-danger">*</span></label>
                                                     <div id="year_error" class="text-danger small mb-2"
                                                         style="display: none;"></div>
                                                     <input type="text" class="form-control" id="year"
-                                                        name="year" placeholder="Masukkan angkatan" required>
+                                                        name="year" placeholder="{{ __('messages.year') }}" required>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="age" class="form-label">Umur <span
+                                                    <label for="age" class="form-label">{{ __('messages.age') }} <span
                                                             class="text-danger">*</span></label>
                                                     <div id="age_error" class="text-danger small mb-2"
                                                         style="display: none;"></div>
                                                     <input type="number" class="form-control" id="age"
-                                                        name="age" placeholder="Masukkan umur" min="10"
+                                                        name="age" placeholder="{{ __('messages.age') }}" min="10"
                                                         max="120" required>
                                                 </div>
                                             </div>
 
                                             <div id="teamFields" style="display: none;" class="mb-3">
-                                                <label for="team_name" class="form-label">Nama Tim</label>
+                                                <label for="team_name" class="form-label">{{ __('messages.team_name') }}</label>
                                                 <div id="team_name_error" class="text-danger small mb-2"
                                                     style="display: none;"></div>
                                                 <input type="text" class="form-control" id="team_name"
-                                                    name="team_name" placeholder="Masukkan nama tim">
+                                                        name="team_name" placeholder="{{ __('messages.team_name') }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="participant_photo_modal" class="form-label">Foto Peserta
+                                                <label for="participant_photo_modal" class="form-label">{{ __('messages.participant_photo') }}
                                                     <span class="text-danger">*</span></label>
                                                 <div id="participant_photo_error" class="text-danger small mb-2"
                                                     style="display: none;"></div>

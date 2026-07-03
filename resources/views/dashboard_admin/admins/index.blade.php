@@ -18,11 +18,11 @@
                                     aria-label="Toggle menu">
                                     <i class="bx bx-menu"></i>
                                 </button>
-                                <h4 class="fw-bold py-3 mb-0">Manajemen Admin</h4>
+                                <h4 class="fw-bold py-3 mb-0">{{ __('messages.admin_management') }}</h4>
                             </div>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addAdminModal">
-                                Tambah Admin
+                                {{ __('messages.add_event') }}
                             </button>
                         </div>
 
@@ -47,10 +47,10 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>Aksi</th>
+                                            <th>{{ __('messages.name') }}</th>
+                                            <th>{{ __('messages.email') }}</th>
+                                            <th>{{ __('messages.role') }}</th>
+                                            <th>{{ __('messages.actions') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
@@ -65,16 +65,15 @@
                                                     @if (auth()->id() === $admin->id)
                                                         <form action="{{ route('admin.admins.destroy', $admin->id) }}"
                                                             method="POST"
-                                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun Anda sendiri? Anda akan otomatis logout.')">
+                                                            onsubmit="return confirm('{{ __('messages.delete_own_account_confirm') }}')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-sm btn-danger">
-                                                                <i class="bx bx-trash me-1"></i> Hapus Akun Saya
+                                                                <i class="bx bx-trash me-1"></i> {{ __('messages.delete') }}
                                                             </button>
                                                         </form>
                                                     @else
-                                                        <span class="text-muted small">Tidak dapat menghapus admin
-                                                            lain</span>
+                                                        <span class="text-muted small">{{ __('messages.confirm_delete_other_admin') }}</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -92,36 +91,35 @@
                                 <form action="{{ route('admin.admins.store') }}" method="POST">
                                     @csrf
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Tambah Admin Baru</h5>
+                                        <h5 class="modal-title">{{ __('messages.add_event') }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="name" class="form-label">Nama Lengkap</label>
+                                                <label for="name" class="form-label">{{ __('messages.name') }}</label>
                                                 <input type="text" id="name" name="name" class="form-control"
                                                     required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="email" class="form-label">Email</label>
+                                                <label for="email" class="form-label">{{ __('messages.email') }}</label>
                                                 <input type="email" id="email" name="email" class="form-control"
                                                     required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="password" class="form-label">Password</label>
+                                                <label for="password" class="form-label">{{ __('messages.password') }}</label>
                                                 <input type="password" id="password" name="password"
                                                     class="form-control" required minlength="8">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-3">
-                                                <label for="password_confirmation" class="form-label">Konfirmasi
-                                                    Password</label>
+                                                <label for="password_confirmation" class="form-label">{{ __('messages.confirm_password') }}</label>
                                                 <input type="password" id="password_confirmation"
                                                     name="password_confirmation" class="form-control" required
                                                     minlength="8">
@@ -130,8 +128,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                            data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('messages.save') }}</button>
                                     </div>
                                 </form>
                             </div>

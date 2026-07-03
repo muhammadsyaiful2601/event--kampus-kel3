@@ -14,22 +14,26 @@
                         <!-- Header Section -->
                         <div
                             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-                            <div>
-                                <h4 class="fw-bold py-3 mb-2">Daftar Peserta Event</h4>
-                                <p class="text-muted mb-0">Kelola pendaftaran peserta dan ubah status verifikasi dengan
-                                    mudah.</p>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="btn btn-primary btn-icon layout-menu-toggle d-inline-flex d-xl-none"
+                                    aria-label="Toggle menu">
+                                    <i class="bx bx-menu"></i>
+                                </button>
+                                <h4 class="fw-bold py-3 mb-2">{{ __('messages.participant_event_list') }}</h4>
+                                <p class="text-muted mb-0">{{ __('messages.dashboard_home_desc') }}</p>
                             </div>
                             <div class="d-flex gap-2">
                                 @if (Auth::user()->role === 'admin')
                                     <a href="{{ route('admin.registrations.scan') }}"
                                         class="btn btn-info btn-lg mt-3 mt-md-0">
-                                        <i class="bx bx-qr me-1"></i>Scan QR Peserta
+                                        <i class="bx bx-qr me-1"></i>{{ __('messages.scan_qr_participant') }}
                                     </a>
                                 @endif
                                 @if (Auth::user()->role !== 'admin')
                                     <a href="{{ route('pendaftaran.create') }}"
                                         class="btn btn-primary btn-lg mt-3 mt-md-0">
-                                        <i class="bx bx-plus me-1"></i>Daftar Event Baru
+                                        <i class="bx bx-plus me-1"></i>{{ __('messages.add_event') }}
                                     </a>
                                 @endif
                             </div>
@@ -64,7 +68,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <p class="mb-1 text-muted small">Total Pendaftar</p>
+                                                <p class="mb-1 text-muted small">{{ __('messages.total_registrations') }}</p>
                                                 <h3 class="mb-0 fw-bold">{{ $stats['total'] }}</h3>
                                             </div>
                                             <div class="avatar bg-primary rounded">
@@ -79,7 +83,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <p class="mb-1 text-muted small">Pending</p>
+                                                <p class="mb-1 text-muted small">{{ __('messages.pending') }}</p>
                                                 <h3 class="mb-0 fw-bold">{{ $stats['pending'] }}</h3>
                                             </div>
                                             <div class="avatar bg-warning rounded">
@@ -94,7 +98,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <p class="mb-1 text-muted small">Diterima</p>
+                                                <p class="mb-1 text-muted small">{{ __('messages.accepted') }}</p>
                                                 <h3 class="mb-0 fw-bold">{{ $stats['diterima'] }}</h3>
                                             </div>
                                             <div class="avatar bg-success rounded">
@@ -109,7 +113,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <p class="mb-1 text-muted small">Ditolak</p>
+                                                <p class="mb-1 text-muted small">{{ __('messages.rejected') }}</p>
                                                 <h3 class="mb-0 fw-bold">{{ $stats['ditolak'] }}</h3>
                                             </div>
                                             <div class="avatar bg-danger rounded">
@@ -126,31 +130,30 @@
                             <div class="card-body">
                                 <form action="{{ route('pendaftaran.index') }}" method="GET" class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="search" class="form-label">Cari</label>
+                                        <label for="search" class="form-label">{{ __('messages.search_placeholder') }}</label>
                                         <input type="text" class="form-control" id="search" name="search"
                                             placeholder="Nama peserta, email, atau nama event..."
                                             value="{{ request('search') }}">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="status" class="form-label">Filter Status</label>
+                                        <label for="status" class="form-label">{{ __('messages.status') }}</label>
                                         <select class="form-select" id="status" name="status">
                                             <option value="semua"
-                                                {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>Semua
-                                                Status</option>
+                                                {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>{{ __('messages.all_types') }}</option>
                                             <option value="pending"
-                                                {{ request('status') === 'pending' ? 'selected' : '' }}>Pending
+                                                {{ request('status') === 'pending' ? 'selected' : '' }}>{{ __('messages.pending') }}
                                             </option>
                                             <option value="diterima"
-                                                {{ request('status') === 'diterima' ? 'selected' : '' }}>Diterima
+                                                {{ request('status') === 'diterima' ? 'selected' : '' }}>{{ __('messages.accepted') }}
                                             </option>
                                             <option value="ditolak"
-                                                {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak
+                                                {{ request('status') === 'ditolak' ? 'selected' : '' }}>{{ __('messages.rejected') }}
                                             </option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 d-flex align-items-end">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="bx bx-search me-1"></i>Cari
+                                            <button type="submit" class="btn btn-primary w-100">
+                                            <i class="bx bx-search me-1"></i>{{ __('messages.search_placeholder') }}
                                         </button>
                                     </div>
                                 </form>
@@ -162,9 +165,9 @@
                             <div class="card-header bg-light">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="mb-0">
-                                        <i class="bx bx-list-ul me-2"></i>Data Pendaftaran
+                                        <i class="bx bx-list-ul me-2"></i>{{ __('messages.my_registrations_title') }}
                                     </h5>
-                                    <span class="badge bg-primary">{{ $registrations->total() }} Pendaftaran</span>
+                                    <span class="badge bg-primary">{{ $registrations->total() }} {{ __('messages.registration') }}</span>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -172,24 +175,24 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col" class="fw-semibold">
-                                                <i class="bx bx-user me-1"></i>Nama Peserta
+                                                <i class="bx bx-user me-1"></i>{{ __('messages.participant_name_table') }}
                                             </th>
                                             <th scope="col" class="fw-semibold">
-                                                <i class="bx bx-calendar me-1"></i>Nama Event
+                                                <i class="bx bx-calendar me-1"></i>{{ __('messages.event_name_table') }}
                                             </th>
                                             <th scope="col" class="fw-semibold">
-                                                <i class="bx bx-info-circle me-1"></i>Status
+                                                <i class="bx bx-info-circle me-1"></i>{{ __('messages.status') }}
                                             </th>
                                             @if (Auth::user()->role === 'admin')
-                                                <th scope="col" class="fw-semibold">
-                                                    <i class="bx bx-check-double me-1"></i>Verifikasi Kehadiran
-                                                </th>
+                                            <th scope="col" class="fw-semibold">
+                                                <i class="bx bx-check-double me-1"></i>{{ __('messages.attendance_verification') }}
+                                            </th>
                                             @endif
                                             <th scope="col" class="fw-semibold">
-                                                <i class="bx bx-time-five me-1"></i>Tanggal Daftar
+                                                <i class="bx bx-time-five me-1"></i>{{ __('messages.registration_date') }}
                                             </th>
                                             <th scope="col" class="fw-semibold">
-                                                <i class="bx bx-cog me-1"></i>Aksi
+                                                <i class="bx bx-cog me-1"></i>{{ __('messages.actions') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -232,16 +235,16 @@
                                                     @if ($registration->status === 'pending')
                                                         <span
                                                             class="badge bg-warning text-dark d-inline-flex align-items-center">
-                                                            <i class="bx bx-time me-1"></i>Pending
+                                                            <i class="bx bx-time me-1"></i>{{ __('messages.pending') }}
                                                         </span>
                                                     @elseif($registration->status === 'diterima')
                                                         <span
                                                             class="badge bg-success d-inline-flex align-items-center">
-                                                            <i class="bx bx-check-circle me-1"></i>Diterima
+                                                            <i class="bx bx-check-circle me-1"></i>{{ __('messages.accepted') }}
                                                         </span>
                                                     @else
                                                         <span class="badge bg-danger d-inline-flex align-items-center">
-                                                            <i class="bx bx-x-circle me-1"></i>Ditolak
+                                                            <i class="bx bx-x-circle me-1"></i>{{ __('messages.rejected') }}
                                                         </span>
                                                     @endif
                                                 </td>
@@ -254,7 +257,7 @@
                                                                 <span
                                                                     class="badge bg-info d-inline-flex align-items-center w-fit">
                                                                     <i
-                                                                        class="bx bx-check-double me-1"></i>Terverifikasi
+                                                                    class="bx bx-check-double me-1"></i>{{ __('messages.already_verified') }}
                                                                 </span>
                                                                 <small
                                                                     class="text-muted mt-1">{{ $registration->verified_at->format('d M Y H:i') }}</small>
@@ -262,7 +265,7 @@
                                                                     class="text-muted">{{ $registration->verified_by }}</small>
                                                             </div>
                                                         @else
-                                                            <span class="badge bg-secondary">Belum Verifikasi</span>
+                                                                <span class="badge bg-secondary">{{ __('messages.waiting_verification') }}</span>
                                                         @endif
                                                     </td>
                                                 @endif
@@ -374,8 +377,7 @@
                                                     <div class="text-muted">
                                                         <i class="bx bx-inbox" style="font-size: 3rem;"></i>
                                                         <p class="mt-2 fw-semibold">Belum ada pendaftaran</p>
-                                                        <small>Mulai daftar event baru untuk melihat data di
-                                                            sini.</small>
+                                                        <small>{{ __('messages.no_registrations_description') }}</small>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -396,19 +398,19 @@
                         <div class="row mt-4">
                             <div class="col-12">
                                 <div class="alert alert-light border">
-                                    <h6 class="fw-bold mb-2">Keterangan Status:</h6>
+                                    <h6 class="fw-bold mb-2">{{ __('messages.registration_summary') }}</h6>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                            <small class="ms-2">Menunggu verifikasi admin</small>
+                                            <span class="badge bg-warning text-dark">{{ __('messages.pending') }}</span>
+                                            <small class="ms-2">{{ __('messages.waiting_verification') }}</small>
                                         </div>
                                         <div class="col-md-4">
-                                            <span class="badge bg-success">Diterima</span>
-                                            <small class="ms-2">Pendaftaran telah disetujui</small>
+                                            <span class="badge bg-success">{{ __('messages.accepted') }}</span>
+                                            <small class="ms-2">{{ __('messages.registration_approved') }}</small>
                                         </div>
                                         <div class="col-md-4">
-                                            <span class="badge bg-danger">Ditolak</span>
-                                            <small class="ms-2">Pendaftaran ditolak oleh admin</small>
+                                            <span class="badge bg-danger">{{ __('messages.rejected') }}</span>
+                                            <small class="ms-2">{{ __('messages.registration_rejected') }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -421,6 +423,7 @@
                 </div>
             </div>
         </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     @include('components.scripts')
 
