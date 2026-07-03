@@ -30,12 +30,6 @@
                                         <i class="bx bx-qr me-1"></i>{{ __('messages.scan_qr_participant') }}
                                     </a>
                                 @endif
-                                @if (Auth::user()->role !== 'admin')
-                                    <a href="{{ route('pendaftaran.create') }}"
-                                        class="btn btn-primary btn-lg mt-3 mt-md-0">
-                                        <i class="bx bx-plus me-1"></i>{{ __('messages.add_event') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
 
@@ -352,6 +346,19 @@
                                                             </a>
                                                         @endif
 
+                                                                @if (Auth::user()->role !== 'admin' && Auth::id() === $registration->user_id && $registration->status === 'pending')
+                                                            <!-- Cancel Registration Button -->
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-warning btn-cancel-reg-table"
+                                                                data-bs-toggle="modal" data-bs-target="#cancelModalTable"
+                                                                data-reg-id="{{ $registration->id }}"
+                                                                data-event-title="{{ $registration->event->title }}"
+                                                                data-cancel-url="{{ route('pendaftaran.cancel', $registration->id) }}"
+                                                                title="Batalkan Pendaftaran">
+                                                                <i class="bx bx-x-circle"></i>
+                                                            </button>
+                                                        @endif
+
                                                         @if (Auth::user()->role === 'admin' || Auth::id() === $registration->user_id)
                                                             <!-- Delete Button -->
                                                             <form
@@ -416,6 +423,35 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Cancel Modal for Table -->
+                        <div class="modal fade" id="cancelModalTable" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title text-danger"><i
+                                                class='bx bx-error-circle me-1'></i>{{ __('messages.cancel_registration_title') }}
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>{{ __('messages.cancel_confirmation_text') }}</p>
+                                        <p class="fw-bold" id="cancelEventTitleTable"></p>
+                                        <p class="text-muted small">{{ __('messages.cancel_note_text') }}</p>
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">{{ __('messages.no_cancel_button') }}</button>
+                                        <form id="cancelFormTable" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="btn btn-danger">{{ __('messages.yes_cancel_button') }}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     @include('components.footer')
@@ -434,6 +470,18 @@
             tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
+
+            // Cancel modal handler for table
+            var cancelModalTable = document.getElementById('cancelModalTable');
+            if (cancelModalTable) {
+                cancelModalTable.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var eventTitle = button.getAttribute('data-event-title');
+                    var cancelUrl = button.getAttribute('data-cancel-url');
+                    document.getElementById('cancelEventTitleTable').textContent = eventTitle;
+                    document.getElementById('cancelFormTable').setAttribute('action', cancelUrl);
+                });
+            }
         });
     </script>
 </body>
