@@ -28,6 +28,7 @@ return [
     'english' => 'Bahasa Inggris',
     'dashboard' => 'Dasbor',
     'logout' => 'Keluar',
+    'event' => 'Event',
     'event_management' => 'Manajemen Event',
     'registration_verification' => 'Verifikasi Pendaftaran',
     'admin_management' => 'Manajemen Admin',

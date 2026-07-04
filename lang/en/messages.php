@@ -28,6 +28,7 @@ return [
     'english' => 'English',
     'dashboard' => 'Dashboard',
     'logout' => 'Logout',
+    'event' => 'Event',
     'event_management' => 'Event Management',
     'registration_verification' => 'Registration Verification',
     'admin_management' => 'Admin Management',
