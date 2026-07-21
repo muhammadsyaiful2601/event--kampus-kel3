@@ -43,6 +43,7 @@ class AdminLog extends Model
             'registration' => 'bg-label-success',
             'admin'        => 'bg-label-warning',
             'scan'         => 'bg-label-info',
+            'attendance'   => 'bg-label-warning',
             default        => 'bg-label-secondary',
         };
     }
@@ -63,6 +64,8 @@ class AdminLog extends Model
             'registration.scan_verified' => '📷 Tiket Scan Diverifikasi',
             'admin.created'            => '👤 Admin Ditambahkan',
             'admin.deleted'            => '🗑️ Admin Dihapus',
+            'attendance.opened'        => '🔓 Sesi Absen Dibuka',
+            'attendance.closed'        => '🔒 Sesi Absen Ditutup',
             default                    => $this->action,
         };
     }

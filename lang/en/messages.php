@@ -133,7 +133,7 @@ return [
     'insufficient_data' => 'Data is insufficient or does not meet criteria.',
     'waiting_admin_verification' => 'Waiting for admin verification.',
     // Search and filter
-    'search_placeholder' => 'Search event name or location...',
+    'search_placeholder' => 'Search',
     'all_types' => 'All Types',
     'solo' => 'Solo',
     'duo' => 'Duo',
@@ -314,7 +314,7 @@ return [
     'activity_log' => 'Activity Log',
     'error_stopping_camera' => 'Error stopping camera',
     'loading_cameras' => 'Loading cameras...',
-    
+
     // Status labels used in views
     'diterima' => 'Accepted',
     'ditolak' => 'Rejected',
@@ -383,4 +383,5 @@ return [
     'log_read_only' => 'This log is read-only and cannot be deleted or modified by anyone in the application. Every admin action is automatically recorded along with name, time, and IP address.',
     'confirm_delete_other_admin' => 'Cannot delete other admin',
     'delete_own_account_confirm' => 'Are you sure you want to delete your own account? You will be automatically logged out.',
+    'all_actions' => 'All Actions',
 ];

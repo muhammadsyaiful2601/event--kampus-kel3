@@ -78,13 +78,14 @@
                                                             alt="Event Image" class="rounded" width="50"
                                                             height="50" style="object-fit: cover;">
                                                     @else
-                                                        <span class="badge bg-label-secondary">{{ __('messages.no_image') }}</span>
+                                                        <span
+                                                            class="badge bg-label-secondary">{{ __('messages.no_image') }}</span>
                                                     @endif
                                                 </td>
                                                 <td><strong>{{ $event->title }}</strong></td>
                                                 <td>{{ $event->date }}</td>
                                                 <td>{{ $event->location }}</td>
-                                                <td>{{ $event->quota ?? 'Unlimited' }}</td>
+                                                <td>{{ $event->quota ?? __('messages.unlimited') }}</td>
                                                 <td>{{ $event->quota ? $event->quota - $event->registrations()->count() : '-' }}
                                                 </td>
                                                 <td>
@@ -97,8 +98,17 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="badge bg-label-info">{{ ucfirst($event->type ?? 'solo') }}</span>
+                                                    <span class="badge bg-label-info">
+                                                        @if ($event->type === 'solo')
+                                                            {{ __('messages.solo') }}
+                                                        @elseif($event->type === 'duo')
+                                                            {{ __('messages.duo') }}
+                                                        @elseif($event->type === 'tim')
+                                                            {{ __('messages.team') }}
+                                                        @else
+                                                            {{ ucfirst($event->type) }}
+                                                        @endif
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     @if ($event->is_registration_open)
@@ -149,7 +159,7 @@
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title">
                                                                             {{ __('messages.edit') }}
-                                                                            Event</h5>
+                                                                            {{ __('messages.event') }}</h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Close"></button>
@@ -248,13 +258,16 @@
                                                                                     required>
                                                                                     <option value="solo"
                                                                                         {{ old('type', $event->type) === 'solo' ? 'selected' : '' }}>
-                                                                                        Solo</option>
+                                                                                        {{ __('messages.solo') }}
+                                                                                    </option>
                                                                                     <option value="duo"
                                                                                         {{ old('type', $event->type) === 'duo' ? 'selected' : '' }}>
-                                                                                        Duo</option>
+                                                                                        {{ __('messages.duo') }}
+                                                                                    </option>
                                                                                     <option value="tim"
                                                                                         {{ old('type', $event->type) === 'tim' ? 'selected' : '' }}>
-                                                                                        Tim</option>
+                                                                                        {{ __('messages.team') }}
+                                                                                    </option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -352,7 +365,8 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="10" class="text-center">{{ __('messages.no_events') }}
+                                                <td colspan="10" class="text-center">
+                                                    {{ __('messages.no_events') }}
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -440,9 +454,10 @@
                                                     </div>
                                                 @enderror
                                                 <select id="type" name="type" class="form-select" required>
-                                                        <option value="solo" selected>{{ __('messages.solo') }}</option>
-                                                        <option value="duo">{{ __('messages.duo') }}</option>
-                                                        <option value="tim">{{ __('messages.team') }}</option>
+                                                    <option value="solo" selected>{{ __('messages.solo') }}
+                                                    </option>
+                                                    <option value="duo">{{ __('messages.duo') }}</option>
+                                                    <option value="tim">{{ __('messages.team') }}</option>
                                                 </select>
                                             </div>
                                         </div>

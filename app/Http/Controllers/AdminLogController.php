@@ -44,10 +44,11 @@ class AdminLogController extends Controller
 
         // Distinct action prefixes for filter dropdown
         $actionCategories = [
-            'semua'        => 'Semua Tindakan',
-            'event'        => '📅 Event',
-            'registration' => '📋 Pendaftaran',
-            'admin'        => '👤 Admin',
+            'semua'        => __('messages.all_actions'),
+            'event'        => '📅 ' . __('messages.event'),
+            'registration' => '📋 ' . __('messages.registration_verification'),
+            'admin'        => '👤 ' . __('messages.admin'),
+            'attendance'   => '🔐 ' . __('messages.attendance_management'),
         ];
 
         return view('dashboard_admin.logs.index', compact('logs', 'admins', 'actionCategories'));

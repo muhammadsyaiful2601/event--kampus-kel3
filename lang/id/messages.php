@@ -136,7 +136,7 @@ return [
     'insufficient_data' => 'Data kurang atau tidak masuk kategori.',
     'waiting_admin_verification' => 'Menunggu verifikasi admin.',
     // Search and filter
-    'search_placeholder' => 'Cari nama atau lokasi event...',
+    'search_placeholder' => 'Cari',
     'all_types' => 'Semua Tipe',
     'solo' => 'Solo',
     'duo' => 'Duo',
@@ -382,4 +382,5 @@ return [
     'log_read_only' => 'Log ini bersifat hanya-baca dan tidak dapat dihapus atau dimodifikasi oleh siapapun melalui aplikasi. Setiap tindakan admin dicatat secara otomatis beserta nama, waktu, dan alamat IP.',
     'confirm_delete_other_admin' => 'Tidak dapat menghapus admin lain',
     'delete_own_account_confirm' => 'Apakah Anda yakin ingin menghapus akun Anda sendiri? Anda akan otomatis logout.',
+    'all_actions' => 'Semua Tindakan',
 ];
